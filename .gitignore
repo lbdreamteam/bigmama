@@ -1,5 +1,8 @@
 node_modules/
 .gitignore
-.elasticbeanstalk/
 .DS_Store
 .c9/
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
