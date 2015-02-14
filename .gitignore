@@ -2,3 +2,4 @@ node_modules/
 .gitignore
 .elasticbeanstalk/
 .DS_Store
+.c9/
