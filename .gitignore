@@ -3,6 +3,7 @@ node_modules/
 .DS_Store
 .c9/
 credentials.csv
+.credentials.csv.swp
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
