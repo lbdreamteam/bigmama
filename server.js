@@ -1,4 +1,4 @@
-﻿var express = require('express')
+var express = require('express')
   , app = express(app)
   , server = require('http').createServer(app);
 
@@ -106,4 +106,4 @@ eurecaServer.exports.ClientManagement = (function () {
     };
 }());
 
-server.listen(8001);
+server.listen(process.env.PORT);
