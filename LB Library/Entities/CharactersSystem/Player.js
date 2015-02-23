@@ -13,6 +13,8 @@
     gameInstance.phaserGame.add.existing(this);
     this.gameInstance.phaserGame.time.advancedTiming = true;
 
+    this.gameInstance.playerInstance = this;
+
     coordinatesText = this.gameInstance.phaserGame.add.text(15, 30, "X: Y:", { font: "18px Arial", fill: "#333333" });
     fpsText = this.gameInstance.phaserGame.add.text(15, 60, 'FPS: ', { font: '18px Arial', fill: '#333333' });
 }
@@ -24,6 +26,7 @@ Player.prototype = Object.create(BaseCharacter.prototype);
 Player.prototype.constructor = Player;
 
 Player.prototype.update = function () {
+
     fpsText.setText('FPS: ' + this.gameInstance.phaserGame.time.fps);
     coordinatesText.setText('X: ' + this.x + ' Y: ' + this.y);
     if (!this.isMoving) {

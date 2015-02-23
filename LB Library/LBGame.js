@@ -16,7 +16,8 @@
     //Proprietà
     this.phaserGame = new Phaser.Game(width, height, renderer, parent, state, transparent, antialias, physicsConfig);
     this.movementGridSize = movementGridSize;
+    this.playerInstance;
 }
 
-LBGame.prototype = Object.create(Phaser.Game);
+LBGame.prototype = Object.create();
 LBGame.prototype.constructor = LBGame;

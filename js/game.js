@@ -88,4 +88,3 @@ function create(x, y) {
     clientsList[myId] = player;
 }
 
-
