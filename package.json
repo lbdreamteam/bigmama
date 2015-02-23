@@ -4,6 +4,9 @@
   "description": "Starter Template for Phaser games using Javascript in VS 2013",
   "author": "Hover Craftie",
   "devDependencies": {
+    "express": "*",
+    "engine.io": "*",
+    "eureca.io": "*",
     "phaser": "*"
   }
 }
