@@ -1,5 +1,5 @@
 ﻿Player = function (gameInstance, x, y, graph, id, eurecaServer, eurecaClient) {
-    BaseCharacter.call(this, gameInstance, x, y, graph);
+    BaseCharacter.call(this, gameInstance, x, y, graph, id, true);
 
     //Proprietà
     this.id = id;
@@ -59,6 +59,9 @@ Player.prototype.update = function () {
                 Phaser.Easing.Linear.None
             );                
         }
+    }
+    else {
+        this.updateDisplayedName();
     }
 }
 

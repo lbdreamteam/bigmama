@@ -1,9 +1,19 @@
-﻿BaseCharacter = function (gameInstance, x, y, graph) {
+BaseCharacter = function (gameInstance, x, y, graph, displayedName, nameVisible) {
     BaseEntity.call(this, gameInstance, x, y, graph);
 
     //Proprietà
     this.isMoving = false;
     this.currentTile = { x: (x + (this.gameInstance.movementGridSize / 2)) / this.gameInstance.movementGridSize, y: (y + (this.gameInstance.movementGridSize / 2)) / this.gameInstance.movementGridSize };
+    
+    if (typeof displayedName === 'undefined') { }
+    else {
+        if (typeof nameVisible === 'undefined' || false) {this.nameVisible = false}
+        else {
+            this.displayedName = this.gameInstance.phaserGame.add.text(15, 60, displayedName, { font: '18px Arial', fill: '#333333' });
+            positionDisplayedName(this);
+            this.nameVisible = true;
+        }
+    }
 }
 
 BaseCharacter.prototype = Object.create(BaseEntity.prototype);
@@ -47,4 +57,15 @@ BaseCharacter.prototype.createTween = function (character, target, onStartFuncti
     });
 
     tween.start();
+}
+
+BaseCharacter.prototype.updateDisplayedName = function () {
+    if (this.nameVisible) {
+        positionDisplayedName(this);
+    }
+}
+
+function positionDisplayedName (player) {
+    player.displayedName.x = player.x - (player.displayedName.width - player.width) / 2;
+    player.displayedName.y = player.y - 32;
 }
