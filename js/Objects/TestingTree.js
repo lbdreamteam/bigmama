@@ -3,6 +3,7 @@
     //Proprietà
 
     game.phaserGame.add.existing(this);
+    game.depthGroup.add(this);
 }
 
 TestingTree.prototype = Object.create(BaseStaticObject.prototype);

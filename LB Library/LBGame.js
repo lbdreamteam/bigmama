@@ -17,6 +17,8 @@
     this.phaserGame = new Phaser.Game(width, height, renderer, parent, state, transparent, antialias, physicsConfig);
     this.movementGridSize = movementGridSize;
     this.playerInstance;
+    this.depthGroup/* = this.phaserGame.add.group()*/;
+    //
 }
 
 LBGame.prototype = Object.create();

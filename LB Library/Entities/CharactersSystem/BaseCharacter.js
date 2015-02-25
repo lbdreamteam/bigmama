@@ -36,9 +36,10 @@ BaseCharacter.prototype.createTween = function (character, target, onStartFuncti
     );
 
     tween.onStart.add(function () {
-        console.log('tween partito: ' + character.id);
+        //console.log('tween partito: ' + character.id);
         character.isMoving = true;
         onStartFunction(character, input);
+        depthSort(gameInstance,input);
     });
 
     tween.onComplete.add(function () {

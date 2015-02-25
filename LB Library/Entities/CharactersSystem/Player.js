@@ -6,6 +6,7 @@
     this.connections = { server: eurecaServer, client: eurecaClient };
     this.calls = { counter: 0, calls: new HashTable() };
     this.cursors = gameInstance.phaserGame.input.keyboard.createCursorKeys();
+    this.zDepth = 0.5;
     
     //Problemi da fixare: this.serverCalls = { calls: new HashTable(), callCounter: 0 };
 
@@ -14,6 +15,8 @@
     this.gameInstance.phaserGame.time.advancedTiming = true;
 
     this.gameInstance.playerInstance = this;
+    this.gameInstance.depthGroup.add(this);
+
 
     coordinatesText = this.gameInstance.phaserGame.add.text(15, 30, "X: Y:", { font: "18px Arial", fill: "#333333" });
     fpsText = this.gameInstance.phaserGame.add.text(15, 60, 'FPS: ', { font: '18px Arial', fill: '#333333' });

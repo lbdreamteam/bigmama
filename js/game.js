@@ -74,17 +74,19 @@ var gameInstance = new LBGame(800, 600, 32, true, Phaser.AUTO, '', { preload: pr
     player;
 
 function preload() {
-    gameInstance.phaserGame.load.image('player', 'assets/bullet.png');
-    gameInstance.phaserGame.load.image('tree', 'assets/tree.png');
+    loadImage(gameInstance, 'player', 'assets/bullet.png');
+    loadImage(gameInstance, 'tree', 'assets/tree.png');
 }
 
 function create(x, y) {
     clientsList = {};
 
+    gameInstance.depthGroup = gameInstance.phaserGame.add.group();
+
     tree = new TestingTree(gameInstance, 70, 120, 'tree');
     tree2 = new TestingTree(gameInstance, 600, 310, 'tree');
+    tree3 = new TestingTree(gameInstance, 70, 160, 'player');
     player = new Player(gameInstance, x, y, 'player', myId, eurecaServer, eurecaClient);
    
     clientsList[myId] = player;
 }
-
