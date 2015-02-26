@@ -4,6 +4,8 @@
     //Proprietà
     this.isMoving = false;
     this.currentTile = { x: (x + (this.gameInstance.movementGridSize / 2)) / this.gameInstance.movementGridSize, y: (y + (this.gameInstance.movementGridSize / 2)) / this.gameInstance.movementGridSize };
+
+    this.zDepth = 0.5;
 }
 
 BaseCharacter.prototype = Object.create(BaseEntity.prototype);
@@ -39,7 +41,7 @@ BaseCharacter.prototype.createTween = function (character, target, onStartFuncti
         //console.log('tween partito: ' + character.id);
         character.isMoving = true;
         onStartFunction(character, input);
-        depthSort(gameInstance,input);
+        depthSort(gameInstance, character, target);
     });
 
     tween.onComplete.add(function () {

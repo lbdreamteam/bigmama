@@ -6,7 +6,6 @@
     this.connections = { server: eurecaServer, client: eurecaClient };
     this.calls = { counter: 0, calls: new HashTable() };
     this.cursors = gameInstance.phaserGame.input.keyboard.createCursorKeys();
-    this.zDepth = 0.5;
     
     //Problemi da fixare: this.serverCalls = { calls: new HashTable(), callCounter: 0 };
 
