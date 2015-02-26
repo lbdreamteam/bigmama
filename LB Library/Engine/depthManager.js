@@ -4,23 +4,17 @@ var maxZ = 100,				//da sistemare
 	maxSpriteHeight = 0,
 	maxSpriteWidth = 0;
 
-function depthSort(game, input){
-    if (input === 'down' || input === 'down-right' || input === 'down-left')
-    	game.depthGroup.customSort(downDepthSortHandler);		//ordina il group spostando un oggetto mobile in basso
-    else if (input === 'up' || input === 'up-right' || input === 'up-left')
-    	game.depthGroup.customSort(upDepthSortHandler);			//ordina il group spostando un oggetto mobile in alto
-    else
-       	game.depthGroup.customSort(depthSortHandler);			//ordina il group secondo un ordine preciso
+function depthSort(game, character, target){
+    if (target.y > character.y) game.depthGroup.customSort(downDepthSortHandler);
+    else if (target.y < character.y) game.depthGroup.customSort(upDepthSortHandler);
+    else game.depthGroup.customSort(depthSortHandler);
 }
 
 //Calcola se un oggetto è maggiore di un altro nell'ordine della profondità
 function depthSortHandler(a,b){
-	if (totalDepth(a) > totalDepth(b))
-		return 1;
-	else if (totalDepth(a) === totalDepth(b))
-		return 0;
-	else
-		return -1;
+	if (totalDepth(a) > totalDepth(b)) return 1;
+	else if (totalDepth(a) === totalDepth(b)) return 0;
+	else return -1;
 }
 
 function downDepthSortHandler(a,b){	
@@ -33,20 +27,17 @@ function upDepthSortHandler(a,b){
 
 //direction: 1 down, -1 up
 function moveDepth(a,direction){
-	var result = {
-		y: a.isMoving? a.y+32*direction : a.y,
+	return result = {
+		y: a.isMoving ? a.y + 32 * direction : a.y,
 		zDepth: a.zDepth,
 		height: a.height
 	}
-	return result;
 }
 
 //Calcola la profondità(con cui va ordinato) di un generico oggetto con una coordinata y ed eventualmente una zDepth
 function totalDepth(a){
-	if (a.zDepth === undefined)
-		return (a.y+a.height)*maxZ;			//a.y+a.height serve solo per considerare la base di un oggetto e non la sua cima
-	else
-		return (a.y+a.height)*maxZ+a.zDepth;
+	if (a.zDepth === undefined) return (a.y + a.height) * maxZ;
+	else return (a.y + a.height) * maxZ + a.zDepth;
 }
 
 //Carica una imagine e controlla che maxSpriteHeight e maxSpriteWidth siano ancora max
@@ -54,10 +45,8 @@ function loadImage(LBgame, cacheName, path){
 	LBgame.phaserGame.load.image(cacheName, path);
 	LBgame.phaserGame.load.onLoadComplete.add(function (){
 		var image = LBgame.phaserGame.cache.getImage(cacheName);
-		if (image.height > maxSpriteHeight)
-			maxSpriteHeight = image.height;
-		if (image.width > maxSpriteWidth)
-			maxSpriteWidth = image.width;
+		if (image.height > maxSpriteHeight) maxSpriteHeight = image.height;
+		if (image.width > maxSpriteWidth) maxSpriteWidth = image.width;
 	});
 }
 

@@ -92,7 +92,6 @@ function create(x, y) {
 
     tree = new TestingTree(gameInstance, 70, 120, 'tree');
     tree2 = new TestingTree(gameInstance, 600, 310, 'tree');
-    tree3 = new TestingTree(gameInstance, 70, 160, 'player');
     player = new Player(gameInstance, x, y, 'player', myId, eurecaServer, eurecaClient);
     depthSort(gameInstance);
 
