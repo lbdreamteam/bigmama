@@ -74,8 +74,8 @@ var gameInstance = new LBGame(800, 600, 32, true, Phaser.AUTO, '', { preload: pr
     player;
 
 function preload() {
-    loadImage(gameInstance, 'player', 'assets/player.png');
-    loadImage(gameInstance, 'tree', 'assets/tree.png');
+    gameInstance.loadImage('player', 'assets/player.png');
+    gameInstance.loadImage('tree', 'assets/tree.png');
 }
 
 function create(x, y) {

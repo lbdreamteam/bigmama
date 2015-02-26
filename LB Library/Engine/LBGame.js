@@ -19,7 +19,19 @@
     this.movementGridSize = movementGridSize;
     this.movementInEightDirections = movementInEightDirections;
     this.depthGroup/* = this.phaserGame.add.group()*/;
+    this.maxSpriteHeight;
+    this.maxSpriteWidth;
 }
 
 LBGame.prototype = Object.create(Phaser.Game);
 LBGame.prototype.constructor = LBGame;
+
+LBGame.prototype.loadImage = function (cacheName, path) {
+    var gameInstance = this;
+    gameInstance.phaserGame.load.image(cacheName, path);
+    gameInstance.phaserGame.load.onLoadComplete.add(function () {
+        var image = gameInstance.phaserGame.cache.checkImageKey(cacheName);
+        if (image.height > gameInstance.maxSpriteHeight) gameInstance.maxSpriteHeight = image.height;
+        if (image.width > gameInstance.maxSpriteWidth) gameInstance.maxSpriteWidth = image.width;
+    });
+}

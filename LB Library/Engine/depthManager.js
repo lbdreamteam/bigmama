@@ -1,8 +1,6 @@
 //var map;
 //var objectmap;
-var maxZ = 100,
-	maxSpriteHeight = 0,
-	maxSpriteWidth = 0;
+var maxZ = 100;
 
 function depthSort(game, character, target){
     if (target.y > character.y) game.depthGroup.customSort(downDepthSortHandler);
@@ -36,15 +34,6 @@ function moveDepth(a,direction){
 function totalDepth(a){
 	if (a.zDepth === undefined) return (a.y + a.height) * maxZ;
 	else return (a.y + a.height) * maxZ + a.zDepth;
-}
-
-function loadImage(LBgame, cacheName, path){
-	LBgame.phaserGame.load.image(cacheName, path);
-	LBgame.phaserGame.load.onLoadComplete.add(function (){
-		var image = LBgame.phaserGame.cache.getImage(cacheName);
-		if (image.height > maxSpriteHeight) maxSpriteHeight = image.height;
-		if (image.width > maxSpriteWidth) maxSpriteWidth = image.width;
-	});
 }
 
 /* 	if (zDepth===undefined)
