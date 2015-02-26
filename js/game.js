@@ -82,11 +82,19 @@ function create(x, y) {
     clientsList = {};
 
     gameInstance.depthGroup = gameInstance.phaserGame.add.group();
+    objectmap = [];
+    for (var i=0;i<gameInstance.phaserGame.width/32;i++)
+    {
+        objectmap[i]=[];
+        for (var j=0; j<gameInstance.phaserGame.height/32; j++)
+            objectmap[i][j]=[];
+    }
 
     tree = new TestingTree(gameInstance, 70, 120, 'tree');
     tree2 = new TestingTree(gameInstance, 600, 310, 'tree');
     tree3 = new TestingTree(gameInstance, 70, 160, 'player');
     player = new Player(gameInstance, x, y, 'player', myId, eurecaServer, eurecaClient);
-   
+    depthSort(gameInstance);
+
     clientsList[myId] = player;
 }

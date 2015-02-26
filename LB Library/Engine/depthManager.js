@@ -1,18 +1,19 @@
 //var map;
-//var objectmap;
-var maxZ = 100,
+var objectmap;
+var maxZ = 100,				//da sistemare
 	maxSpriteHeight = 0,
 	maxSpriteWidth = 0;
 
 function depthSort(game, input){
     if (input === 'down' || input === 'down-right' || input === 'down-left')
-    	game.depthGroup.customSort(downDepthSortHandler);
+    	game.depthGroup.customSort(downDepthSortHandler);		//ordina il group spostando un oggetto mobile in basso
     else if (input === 'up' || input === 'up-right' || input === 'up-left')
-    	game.depthGroup.customSort(upDepthSortHandler);
+    	game.depthGroup.customSort(upDepthSortHandler);			//ordina il group spostando un oggetto mobile in alto
     else
-       	game.depthGroup.customSort(depthSortHandler);
+       	game.depthGroup.customSort(depthSortHandler);			//ordina il group secondo un ordine preciso
 }
 
+//Calcola se un oggetto è maggiore di un altro nell'ordine della profondità
 function depthSortHandler(a,b){
 	if (totalDepth(a) > totalDepth(b))
 		return 1;
@@ -40,13 +41,15 @@ function moveDepth(a,direction){
 	return result;
 }
 
+//Calcola la profondità(con cui va ordinato) di un generico oggetto con una coordinata y ed eventualmente una zDepth
 function totalDepth(a){
 	if (a.zDepth === undefined)
-		return (a.y+a.height)*maxZ;
+		return (a.y+a.height)*maxZ;			//a.y+a.height serve solo per considerare la base di un oggetto e non la sua cima
 	else
 		return (a.y+a.height)*maxZ+a.zDepth;
 }
 
+//Carica una imagine e controlla che maxSpriteHeight e maxSpriteWidth siano ancora max
 function loadImage(LBgame, cacheName, path){
 	LBgame.phaserGame.load.image(cacheName, path);
 	LBgame.phaserGame.load.onLoadComplete.add(function (){
@@ -63,19 +66,39 @@ function loadImage(LBgame, cacheName, path){
    	else
    		this.zDepth=zDepth; */
 
-/*
-//Finire la funzione che rende trasparenti gli oggetti
+//Ottimizzazione: controllare solo gli oggetti che sono nel rettangolo di direzione opposta al movimento
+function leaveOverlap(player){
+	var maxTileDownCheck = Math.floor(maxSpriteHeight/player.gameInstance.movementGridSize)+2;
+	var maxTileSideCheck = Math.floor(maxSpriteWidth/player.gameInstance.movementGridSize)+1;
+	var xTile = player.x/player.gameInstance.movementGridSize;
+	var yTile = player.y/player.gameInstance.movementGridSize-1;
+	for (var i = (yTile===-1?1:0); i < (yTile+maxTileDownCheck > objectmap[0].length? objectmap[0].length-yTile:maxTileDownCheck); i++)
+		for (var j = (xTile-maxTileSideCheck < 0? -xTile: -maxTileSideCheck); j < (xTile+maxTileSideCheck > objectmap.length? objectmap.length-xTile:maxTileSideCheck); j++)
+			if (objectmap[xTile+j][yTile+i][0] !== undefined)
+			{
+				var actualTile = objectmap[xTile+j][yTile+i];
+				for (var t=0; t < actualTile.length; t++)
+				{
+					if (!player.overlap(actualTile[t]))
+						actualTile[t].alpha = 1;
+				}
+			}
+}
 
-//Aggiungere la funzione che fa riapparire gli oggetti traspraenti qundo mi muovo
 
-function checkOverlap(x,y){
-	var maxTileDownCheck = Math.floor(maxSpriteHeight/gameIstance.movementGridSize)+1;
-	var maxTileSideCheck = Math.floor(maxSpriteWidth/(gameIstance.movementGridSize*2))+1;
-	var xTile = x/gameIstance.movementGridSize;
-	var yTile = y/gameIstance.movementGridSize;
-	for (var i = 0; i > -maxTileDownCheck; i--)
-		for (var j=-maxTileSideCheck; j < maxTileSideCheck; j++)
-			if (objectmap[x+i][y+j][0] !== null)
-				for (var t=0; t < objectmap[x+i][y+j].count; t++)
-
-}*/
+//Ottimizzazione: controllare solo gli oggetti che entrano nel rettangolo di apparizione
+function checkOverlap(player){
+	var maxTileDownCheck = Math.floor(maxSpriteHeight/player.gameInstance.movementGridSize);
+	var maxTileSideCheck = Math.floor(maxSpriteWidth/player.gameInstance.movementGridSize);
+	var xTile = player.x/player.gameInstance.movementGridSize;
+	var yTile = player.y/player.gameInstance.movementGridSize;
+	for (var i = 0; i < (yTile+maxTileDownCheck > objectmap[0].length? objectmap[0].length-yTile:maxTileDownCheck); i++)
+		for (var j = (xTile-maxTileSideCheck < 0? -xTile: -maxTileSideCheck); j < (xTile+maxTileSideCheck > objectmap.length? objectmap.length-xTile:maxTileSideCheck); j++)
+			if (objectmap[xTile+j][yTile+i][0] !== undefined)
+			{
+				var actualTile = objectmap[xTile+j][yTile+i];
+				for (var t=0; t < actualTile.length; t++)
+					if ((player.overlap(actualTile[t]))&&(totalDepth(player) < totalDepth (actualTile[t])))
+						actualTile[t].alpha = 0.5;
+			}
+}

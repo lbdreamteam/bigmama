@@ -56,7 +56,10 @@ Player.prototype.update = function () {
                     character.calls.calls.setItem(character.calls.counter, { id: character.calls.counter, input: input });
                     character.connections.server.ClientManagement.Player.SendInput(input, character.id, character.calls.counter);
                 },
-                null,
+                function (character){
+                    checkOverlap(character);
+                    leaveOverlap(character);
+                },
                 input,
                 175,
                 Phaser.Easing.Linear.None

@@ -18,7 +18,6 @@
     this.movementGridSize = movementGridSize;
     this.playerInstance;
     this.depthGroup/* = this.phaserGame.add.group()*/;
-    //
 }
 
 LBGame.prototype = Object.create();
