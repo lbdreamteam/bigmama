@@ -1,5 +1,5 @@
 ﻿OtherPlayer = function (gameInstance, x, y, graph, id) {
-    BaseCharacter.call(this, gameInstance, x, y, graph);
+    BaseCharacter.call(this, gameInstance, x, y, graph, id, true);
 
     //Proprietà
     this.gameInstance = gameInstance; //Istanza del LBGame
@@ -13,3 +13,7 @@
 
 OtherPlayer.prototype = Object.create(BaseCharacter.prototype);
 OtherPlayer.prototype.constructor = OtherPlayer;
+
+OtherPlayer.prototype.update = function () {
+    this.updateDisplayedName();
+}

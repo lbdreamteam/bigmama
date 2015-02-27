@@ -1,5 +1,5 @@
 ﻿Player = function (gameInstance, x, y, graph, id, eurecaServer, eurecaClient) {
-    BaseCharacter.call(this, gameInstance, x, y, graph);
+    BaseCharacter.call(this, gameInstance, x, y, graph, id, true);
 
     //Proprietà
     this.id = id;
@@ -12,11 +12,11 @@
     //Aggiunta dell'istanza al gioco
     this.gameInstance.phaserGame.add.existing(this);
     this.gameInstance.phaserGame.time.advancedTiming = true;
+
     this.zDepth = 0.6;      //Così il player è sopra gli altri giocatori
 
     this.gameInstance.playerInstance = this;
     this.gameInstance.depthGroup.add(this);
-
 
     coordinatesText = this.gameInstance.phaserGame.add.text(15, 30, "X: Y:", { font: "18px Arial", fill: "#333333" });
     fpsText = this.gameInstance.phaserGame.add.text(15, 60, 'FPS: ', { font: '18px Arial', fill: '#333333' });
@@ -63,8 +63,11 @@ Player.prototype.update = function () {
                 input,
                 175,
                 Phaser.Easing.Linear.None
-            );                
+            );               
         }
+    }
+    else {
+        this.updateDisplayedName();
     }
 }
 
@@ -160,4 +163,3 @@ function switchFunction(input) {
     }
     return increment;
 }
-
