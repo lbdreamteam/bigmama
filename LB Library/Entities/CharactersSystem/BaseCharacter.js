@@ -72,5 +72,4 @@ BaseCharacter.prototype.updateDisplayedName = function () {
 function positionDisplayedName (player) {
     player.displayedName.x = player.x - (player.displayedName.width - player.width) / 2;
     player.displayedName.y = player.y - 32;
->>>>>>> master
 }
