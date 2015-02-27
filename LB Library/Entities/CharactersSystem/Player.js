@@ -10,7 +10,7 @@
     //Problemi da fixare: this.serverCalls = { calls: new HashTable(), callCounter: 0 };
 
     //Aggiunta dell'istanza al gioco
-    gameInstance.phaserGame.add.existing(this);
+    this.gameInstance.phaserGame.add.existing(this);
     this.gameInstance.phaserGame.time.advancedTiming = true;
     this.zDepth = 0.6;      //Così il player è sopra gli altri giocatori
 

@@ -6,3 +6,7 @@
 
 BaseStaticObject.prototype = Object.create(BaseWorldObject.prototype);
 BaseStaticObject.prototype.constructor = BaseStaticObject;
+
+BaseStaticObject.prototype.update = function () {
+
+}

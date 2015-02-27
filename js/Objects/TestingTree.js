@@ -9,3 +9,7 @@
 
 TestingTree.prototype = Object.create(BaseStaticObject.prototype);
 TestingTree.prototype.constructor = TestingTree;
+
+TestingTree.prototype.update = function () {
+    BaseStaticObject.prototype.update.call(this);
+}

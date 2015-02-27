@@ -6,6 +6,7 @@
     this.currentTile = { x: (x + (this.gameInstance.movementGridSize / 2)) / this.gameInstance.movementGridSize, y: (y + (this.gameInstance.movementGridSize / 2)) / this.gameInstance.movementGridSize };
 
     this.zDepth = 0.5;
+    this.gameInstance.depthGroup.add(this);
 }
 
 BaseCharacter.prototype = Object.create(BaseEntity.prototype);

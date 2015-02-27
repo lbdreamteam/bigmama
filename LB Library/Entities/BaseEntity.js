@@ -4,6 +4,7 @@
     //Proprietà
     this.gameInstance = gameInstance;
     this.movementGridSize = gameInstance.movementGridSize;
+    this.gameInstance.depthGroup.add(this);
 }
 
 BaseEntity.prototype = Object.create(Phaser.Sprite.prototype);
