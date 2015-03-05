@@ -1,14 +1,14 @@
-﻿BaseInteractableObject = function (game, x, y, graph, callback) {
-    BaseWorldObject.call(this, game, x, y, graph);
+LBBaseInteractableObject = function (game, x, y, graph, callback) {
+    LBBaseWorldObject.call(this, game, x, y, graph);
 
     //Proprietà
     this.callback = callback;
 }
 
-BaseInteractableObject.prototype = Object.create(BaseWorldObject.prototype);
-BaseInteractableObject.prototype.constructor = BaseInteractableObject;
+LBBaseInteractableObject.prototype = Object.create(LBBaseWorldObject.prototype);
+LBBaseInteractableObject.prototype.constructor = LBBaseInteractableObject;
 
-BaseInteractableObject.prototype.update = function () {
+LBBaseInteractableObject.prototype.update = function () {
 	if (this.overlap(this.gameInstance.playerInstance)) {
 		console.log('touched');
 		this.callback();

@@ -1,5 +1,5 @@
-﻿OtherPlayer = function (gameInstance, x, y, graph, id) {
-    BaseCharacter.call(this, gameInstance, x, y, graph, id, true);
+LBOtherPlayer = function (gameInstance, x, y, graph, id) {
+    LBBaseCharacter.call(this, gameInstance, x, y, graph, id, true);
 
     //Proprietà
     this.gameInstance = gameInstance; //Istanza del LBGame
@@ -11,9 +11,9 @@
     this.gameInstance.phaserGame.add.existing(this);
 }
 
-OtherPlayer.prototype = Object.create(BaseCharacter.prototype);
-OtherPlayer.prototype.constructor = OtherPlayer;
+LBOtherPlayer.prototype = Object.create(LBBaseCharacter.prototype);
+LBOtherPlayer.prototype.constructor = LBOtherPlayer;
 
-OtherPlayer.prototype.update = function () {
+LBOtherPlayer.prototype.update = function () {
     this.updateDisplayedName();
 }

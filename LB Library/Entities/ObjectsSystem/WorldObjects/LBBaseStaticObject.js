@@ -1,12 +1,12 @@
-﻿BaseStaticObject = function (game, x, y, graph) {
-    BaseWorldObject.call(this, game, x, y, graph);
+LBBaseStaticObject = function (game, x, y, graph) {
+    LBBaseWorldObject.call(this, game, x, y, graph);
 
     //Proprietà
 }
 
-BaseStaticObject.prototype = Object.create(BaseWorldObject.prototype);
-BaseStaticObject.prototype.constructor = BaseStaticObject;
+LBBaseStaticObject.prototype = Object.create(LBBaseWorldObject.prototype);
+LBBaseStaticObject.prototype.constructor = LBBaseStaticObject;
 
-BaseStaticObject.prototype.update = function () {
+LBBaseStaticObject.prototype.update = function () {
 
 }

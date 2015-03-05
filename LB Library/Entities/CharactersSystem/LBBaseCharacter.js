@@ -1,5 +1,5 @@
-﻿BaseCharacter = function (gameInstance, x, y, graph, displayedName, nameVisible) {
-    BaseEntity.call(this, gameInstance, x, y, graph);
+LBBaseCharacter = function (gameInstance, x, y, graph, displayedName, nameVisible) {
+    LBBaseEntity.call(this, gameInstance, x, y, graph);
 
     //Proprietà
     this.isMoving = false;
@@ -19,11 +19,11 @@
     }
 }
 
-BaseCharacter.prototype = Object.create(BaseEntity.prototype);
-BaseCharacter.prototype.constructor = BaseCharacter;
+LBBaseCharacter.prototype = Object.create(LBBaseEntity.prototype);
+LBBaseCharacter.prototype.constructor = LBBaseCharacter;
 
 
-BaseCharacter.prototype.createTween = function (character, target, onStartFunction, onCompleteFunction, input, duration, ease, autoStart, delay, repeat, yoyo) {
+LBBaseCharacter.prototype.createTween = function (character, target, onStartFunction, onCompleteFunction, input, duration, ease, autoStart, delay, repeat, yoyo) {
 
     //Definizione parametri opzionali
     if (typeof onStartFunction === 'undefined' || !onStartFunction) { onStartFunction = function () { } }
@@ -63,7 +63,7 @@ BaseCharacter.prototype.createTween = function (character, target, onStartFuncti
     tween.start();
 }
 
-BaseCharacter.prototype.updateDisplayedName = function () {
+LBBaseCharacter.prototype.updateDisplayedName = function () {
     if (this.nameVisible) {
         positionDisplayedName(this);
     }

@@ -6,7 +6,7 @@ var eurecaServer,
     clientsList,
     time,
     eurecaClient,
-    otherPlayers = new HashTable();
+    otherPlayers = new LBHashTable();
 
 var eurecaClientSetup = function () { //funzione richiamata dal create del gioco
     eurecaClient = new Eureca.Client();
@@ -93,7 +93,7 @@ function create(x, y) {
     tree7 = new TestingTree(gameInstance, 140, 20, 'tree');
     tree8 = new TestingTree(gameInstance, 230, 200, 'tree');
     tree9 = new TestingTree(gameInstance, 400, 280, 'tree');
-    player = new Player(gameInstance, x, y, 'player', myId, eurecaServer, eurecaClient);
+    player = new LBPlayer(gameInstance, x, y, 'player', myId, eurecaServer, eurecaClient);
     depthSort(gameInstance);       
 
     clientsList[myId] = player;

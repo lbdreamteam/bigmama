@@ -1,10 +1,10 @@
-﻿Player = function (gameInstance, x, y, graph, id, eurecaServer, eurecaClient) {
-    BaseCharacter.call(this, gameInstance, x, y, graph, id, true);
+LBPlayer = function (gameInstance, x, y, graph, id, eurecaServer, eurecaClient) {
+    LBBaseCharacter.call(this, gameInstance, x, y, graph, id, true);
 
     //Proprietà
     this.id = id;
     this.connections = { server: eurecaServer, client: eurecaClient };
-    this.calls = { counter: 0, calls: new HashTable() };
+    this.calls = { counter: 0, calls: new LBHashTable() };
     this.cursors = gameInstance.phaserGame.input.keyboard.createCursorKeys();
     
     //Problemi da fixare: this.serverCalls = { calls: new HashTable(), callCounter: 0 };
@@ -25,10 +25,10 @@
 var coordinatesText,
     fpsText;
 
-Player.prototype = Object.create(BaseCharacter.prototype);
-Player.prototype.constructor = Player;
+LBPlayer.prototype = Object.create(LBBaseCharacter.prototype);
+LBPlayer.prototype.constructor = LBPlayer;
 
-Player.prototype.update = function () {
+LBPlayer.prototype.update = function () {
 
     fpsText.setText('FPS: ' + this.gameInstance.phaserGame.time.fps);
     coordinatesText.setText('X: ' + this.x + ' Y: ' + this.y);
@@ -71,7 +71,7 @@ Player.prototype.update = function () {
     }
 }
 
-Player.prototype.updatePosition = function (x, y, callId) {
+LBPlayer.prototype.updatePosition = function (x, y, callId) {
     
     var increment = { x: 0, y: 0 };
 

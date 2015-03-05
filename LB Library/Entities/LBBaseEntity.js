@@ -1,4 +1,4 @@
-﻿BaseEntity = function (gameInstance, x, y, graph) {
+LBBaseEntity = function (gameInstance, x, y, graph) {
     Phaser.Sprite.call(this, gameInstance.phaserGame, x, y, graph);
 
     //Proprietà
@@ -7,5 +7,5 @@
     this.gameInstance.depthGroup.add(this);
 }
 
-BaseEntity.prototype = Object.create(Phaser.Sprite.prototype);
-BaseEntity.prototype.constructor = BaseEntity;
+LBBaseEntity.prototype = Object.create(Phaser.Sprite.prototype);
+LBBaseEntity.prototype.constructor = LBBaseEntity;

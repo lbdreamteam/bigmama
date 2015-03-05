@@ -1,9 +1,9 @@
-﻿var OtherPlayersManager = (function () {
+var OtherPlayersManager = (function () {
 
     var positions = {};
 
     var onConnect = function (id, x, y) {
-        clientsList[id] = new OtherPlayer(gameInstance, x, y, 'player', id);
+        clientsList[id] = new LBOtherPlayer(gameInstance, x, y, 'player', id);
         positions[id] = { counter: 0, isPending: false, pendingPositions: {}, lastPosition: { x: x, y: y } };
     };
 
