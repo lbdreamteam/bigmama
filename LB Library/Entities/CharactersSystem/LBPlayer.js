@@ -20,6 +20,8 @@ LBPlayer = function (gameInstance, x, y, graph, id, eurecaServer, eurecaClient) 
 
     coordinatesText = this.gameInstance.phaserGame.add.text(15, 30, "X: Y:", { font: "18px Arial", fill: "#333333" });
     fpsText = this.gameInstance.phaserGame.add.text(15, 60, 'FPS: ', { font: '18px Arial', fill: '#333333' });
+
+    this.cKeyboardInput = new LBKeyboardInputComponent(this);
 }
 
 var coordinatesText,
@@ -32,39 +34,28 @@ LBPlayer.prototype.update = function () {
 
     fpsText.setText('FPS: ' + this.gameInstance.phaserGame.time.fps);
     coordinatesText.setText('X: ' + this.x + ' Y: ' + this.y);
-    if (!this.isMoving) {
+    if (!this.cMovement.isMoving) {
 
-        var input = createInputString(this, this.cursors);
+        //Controllare la funzione per vedere se é premuto un tasto qualsiasi
 
-        if (input != 'null') {
+        this.cKeyboardInput.update(this.cursors);
 
-            var increment = switchFunction(input);
-
-            
-            if (increment.x) this.currentTile.x += increment.x;
-            if (increment.y) this.currentTile.y += increment.y;
-
-
-            var pointer = { x: (this.currentTile.x * this.gameInstance.movementGridSize) - (this.gameInstance.movementGridSize / 2), y: (this.currentTile.y * this.gameInstance.movementGridSize) - (this.gameInstance.movementGridSize / 2) }; // il punto di arrivo
-
-            this.createTween(
-                this,
-                pointer,
-                function (character, input) {
-                    if (character.calls.counter >= 2500) character.calls.counter = 0;
-                    character.calls.counter++;
-                    character.calls.calls.setItem(character.calls.counter, { id: character.calls.counter, input: input });
-                    character.connections.server.ClientManagement.Player.SendInput(input, character.id, character.calls.counter);
-                },
-                function (character){
-                    checkOverlap(character, gameInstance, increment);
-                    leaveOverlap(character, gameInstance, increment);
-                },
-                input,
-                175,
-                Phaser.Easing.Linear.None
-            );               
-        }
+        this.cMovement.update(
+            { x: this.cKeyboardInput.targetPointX, y: this.cKeyboardInput.targetPointY },
+            function (character, input) {
+                if (character.calls.counter >= 2500) character.calls.counter = 0;
+                character.calls.counter++;
+                character.calls.calls.setItem(character.calls.counter, { id: character.calls.counter, input: input });
+                character.connections.server.ClientManagement.Player.SendInput(input, character.id, character.calls.counter);
+            },
+            function (character) {
+                checkOverlap(character, gameInstance, character.cKeyboardInput.increment);
+                leaveOverlap(character, gameInstance, character.cKeyboardInput.increment);
+            },
+            this.cKeyboardInput.inputString,
+            175,
+            Phaser.Easing.Linear.None
+        );
     }
     else {
         this.updateDisplayedName();
@@ -89,77 +80,4 @@ LBPlayer.prototype.updatePosition = function (x, y, callId) {
 }
 
 
-function createInputString(player, cursors) {
-    var input;
 
-    if (cursors.up.isDown && !cursors.down.isDown && !cursors.right.isDown && !cursors.left.isDown) {
-        input = 'up';
-    }
-    else if (!cursors.up.isDown && cursors.down.isDown && !cursors.right.isDown && !cursors.left.isDown) {
-        input = 'down';
-    }
-    else if (!cursors.up.isDown && !cursors.down.isDown && cursors.right.isDown && !cursors.left.isDown) {
-        input = 'right';
-    }
-    else if (!cursors.up.isDown && !cursors.down.isDown && !cursors.right.isDown && cursors.left.isDown) {
-        input = 'left';
-    }
-    else if (player.gameInstance.movementInEightDirections && cursors.up.isDown && !cursors.down.isDown && cursors.right.isDown && !cursors.left.isDown) {
-        input = 'up-right';
-    }
-    else if (player.gameInstance.movementInEightDirections && cursors.up.isDown && !cursors.down.isDown && !cursors.right.isDown && cursors.left.isDown) {
-        input = 'up-left';
-    }
-    else if (player.gameInstance.movementInEightDirections && !cursors.up.isDown && cursors.down.isDown && cursors.right.isDown && !cursors.left.isDown) {
-        input = 'down-right';
-    }
-    else if (player.gameInstance.movementInEightDirections && !cursors.up.isDown && cursors.down.isDown && !cursors.right.isDown && cursors.left.isDown) {
-        input = 'down-left';
-    }
-    else {
-        input = 'null';
-    }
-
-    return input;
-}
-function switchFunction(input) {
-
-    var increment = { x: 0, y: 0 };
-
-    switch (input) {
-        case 'up':
-            increment.y--;
-            break;
-        case 'down':
-            increment.y++;
-            break;
-        case 'right':
-            increment.x++;
-            break;
-        case 'left':
-            increment.x--;
-            break;
-        case 'up-right':
-            increment.x++;
-            increment.y--;
-            break;
-        case 'up-left':
-            increment.x--;
-            increment.y--;
-            break;
-        case 'down-right':
-            increment.x++;
-            increment.y++;
-            break;
-        case 'down-left':
-            increment.x--;
-            increment.y++;
-            break;
-        case 'null':
-            break;
-        default:
-            alert('Qualcosa non ha funzionato nel rilevare l input');
-            break;
-    }
-    return increment;
-}

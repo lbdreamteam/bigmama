@@ -18,8 +18,8 @@ var OtherPlayersManager = (function () {
                 //otherPlayers.setItem(client, positionsTable[client]);
                 //var tween = clientsList[client].game.add.tween(clientsList[client]).to({ x: positionsTable[client].state.x, y: positionsTable[client].state.y }, 100, Phaser.Easing.Linear.None, false, 0, 0, false);
                 //tween.start();
-                if (!clientsList[client].isMoving) {
-                    clientsList[client].createTween(clientsList[client], { x: positionsTable[client].state.x, y: positionsTable[client].state.y }, null, null, null, 175, Phaser.Easing.Linear.None);
+                if (!clientsList[client].cMovement.isMoving) {
+                    clientsList[client].cMovement.update({ x: positionsTable[client].state.x, y: positionsTable[client].state.y }, null, null, null, 175, Phaser.Easing.Linear.None);
                 }
                 else {
 
@@ -35,7 +35,7 @@ var OtherPlayersManager = (function () {
             if (client != myId) {
                 console.log('Connected: ' + client);
                 //otherPlayers.setItem(client, positionsTable[client]);
-                clientsList[client] = new OtherPlayer(gameInstance, positionsTable[client].state.x, positionsTable[client].state.y, 'player', client);
+                clientsList[client] = new LBOtherPlayer(gameInstance, positionsTable[client].state.x, positionsTable[client].state.y, 'player', client);
             }
         }
     }

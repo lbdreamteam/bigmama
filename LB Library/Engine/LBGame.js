@@ -30,7 +30,7 @@
     this.maxSpriteWidth = 0;
 }
 
-LBGame.prototype = Object.create(Phaser.Game);
+LBGame.prototype = Object.create(Object);
 LBGame.prototype.constructor = LBGame;
 
 LBGame.prototype.loadImage = function (cacheName, path) {
