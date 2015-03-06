@@ -34,7 +34,7 @@
 
 //Worker
     this.clientsList = {};
-    this.otherPlayersW = new Worker('LB Library/Engine/Connections/OtherPlayersWorker.js');
+    this.otherPlayersW = new Worker('LB Library/Engine/Connections/LBOtherPlayersWorker.js');
     this.otherPlayersW.addEventListener('message', function (e) {
         if (e.data.event) {
             switch (e.data.event) {
@@ -62,8 +62,7 @@ LBGame.prototype.loadImage = function (cacheName, path) {
 var onPushPosition = function (params) {
     if (!params.client || !params.pointer) console.log('ERROR at onPushPosition: params are not set correctly.')
     else {
-        gameInstance.clientsList[params.client].createTween(
-            gameInstance.clientsList[params.client],
+        gameInstance.clientsList[params.client].cMovement.update(
             params.pointer,
             function () {
                 gameInstance.otherPlayersW.postMessage({ event: 'startMoving', params: params.client });
