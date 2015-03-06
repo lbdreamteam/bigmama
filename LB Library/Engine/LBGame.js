@@ -18,6 +18,9 @@
     this.phaserGame = new Phaser.Game(width, height, renderer, parent, state, transparent, antialias, physicsConfig);
     this.movementGridSize = movementGridSize;
     this.movementInEightDirections = movementInEightDirections;
+    
+
+//Depth
     this.depthGroup/* = this.phaserGame.add.group()*/;
     this.objectmap = [];
     for (var i=0;i<width/32;i++)
@@ -28,6 +31,19 @@
     }
     this.maxSpriteHeight = 0;
     this.maxSpriteWidth = 0;
+
+//Worker
+    this.clientsList = {};
+    this.otherPlayersW = new Worker('LB Library/Engine/Connections/OtherPlayersWorker.js');
+    this.otherPlayersW.addEventListener('message', function (e) {
+        if (e.data.event) {
+            switch (e.data.event) {
+                case 'pushPosition': onPushPosition(e.data.params); break;
+                //case 'connect': onOtherPlayerConnect(e.data.params); break;
+            }
+        }
+        else console.log('Worker said: ' + e.data);
+    }, false);
 }
 
 LBGame.prototype = Object.create(Object);
@@ -42,3 +58,22 @@ LBGame.prototype.loadImage = function (cacheName, path) {
         if (image.width > gameInstance.maxSpriteWidth) gameInstance.maxSpriteWidth = image.width;
     });
 }
+
+var onPushPosition = function (params) {
+    if (!params.client || !params.pointer) console.log('ERROR at onPushPosition: params are not set correctly.')
+    else {
+        gameInstance.clientsList[params.client].createTween(
+            gameInstance.clientsList[params.client],
+            params.pointer,
+            function () {
+                gameInstance.otherPlayersW.postMessage({ event: 'startMoving', params: params.client });
+            },
+            function () {
+                gameInstance.otherPlayersW.postMessage({ event: 'requestPosition', params: params.client });
+            },
+            null,
+            175,
+            Phaser.Easing.Linear.None,
+            false);
+    }
+};
