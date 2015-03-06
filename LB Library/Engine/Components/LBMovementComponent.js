@@ -35,8 +35,6 @@ LBMovementComponent.prototype.update = function (target, onStartFunction, onComp
     );
 
     tween.onStart.add(function () {
-        //console.log('tween partito: ' + component.agent.id);
-        console.log(input);
         component.isMoving = true;
         onStartFunction(component.agent, input);
         depthSort(gameInstance, component.agent, target);

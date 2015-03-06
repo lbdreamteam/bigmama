@@ -1,8 +1,8 @@
 LBKeyboardInputComponent = function (agent) {
     LBBaseComponent.call(this, agent);
 
-    this.targetPointX = null;
-    this.targetPointY = null;
+    this.targetPointX = agent.x;
+    this.targetPointY = agent.y;
     this.inputString = null;
     this.increment = { x: 0, y: 0 };
 }

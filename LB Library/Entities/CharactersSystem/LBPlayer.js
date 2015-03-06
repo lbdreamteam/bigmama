@@ -36,8 +36,6 @@ LBPlayer.prototype.update = function () {
     coordinatesText.setText('X: ' + this.x + ' Y: ' + this.y);
     if (!this.cMovement.isMoving) {
 
-        //Controllare la funzione per vedere se é premuto un tasto qualsiasi
-
         this.cKeyboardInput.update(this.cursors);
 
         this.cMovement.update(
