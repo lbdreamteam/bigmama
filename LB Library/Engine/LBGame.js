@@ -7,7 +7,7 @@
     if (typeof movementInEightDirections === 'undefined') { movementInEightDirections = false }
     if (typeof renderer === 'undefined') { renderer = Phaser.AUTO }
     if (typeof parent === 'undefined') { parent = '' }
-    if (typeof state === 'undefined') { state = null }
+    if (typeof state === 'undefined') { state = {preload: preload, create: this.eurecaClientSetup} }
     if (typeof transparent === 'undefined') { transparent = false }
     if (typeof antialias === 'undefined') { antialias = true }
     if (typeof physicsConfig === 'undefined') { physicsConfig = null }
@@ -57,6 +57,41 @@ LBGame.prototype.loadImage = function (cacheName, path) {
         if (image.height > gameInstance.maxSpriteHeight) gameInstance.maxSpriteHeight = image.height;
         if (image.width > gameInstance.maxSpriteWidth) gameInstance.maxSpriteWidth = image.width;
     });
+}
+
+LBGame.prototype.eurecaClientSetup = function () { //funzione richiamata dal create del gioco
+    eurecaClient = new Eureca.Client();
+
+    eurecaClient.ready(function (proxy) {
+        eurecaServer = proxy;
+    });
+
+    /************ FUNZIONI DISPONIBILI LATO SERVER ************/
+    eurecaClient.exports.createGame = function (id, x, y) {
+        myId = id;
+        create(x, y);
+        gameInstance.otherPlayersW.postMessage({ event: 'init', params: myId }); //inizializza il worker
+    }
+
+    eurecaClient.exports.updatePlayer = function (x, y, callId) {
+        player.updatePosition(x, y, callId);
+    };
+
+    eurecaClient.exports.updateOtherPlayers = function (posTable) {
+        OtherPlayersManager.Update(posTable);
+    };
+
+    eurecaClient.exports.onOtherPlayerConnect = function (id, x, y) {
+        OtherPlayersManager.OnConnect(id, x, y);
+    };
+
+    eurecaClient.exports.onOtherPlayerDisconnect = function (id) {
+        OtherPlayersManager.OnDisconnect(id);
+    };
+
+    eurecaClient.exports.spawnOtherPlayers = function (posTable) {
+        OtherPlayersManager.Spawn(posTable);
+    };
 }
 
 var onPushPosition = function (params) {

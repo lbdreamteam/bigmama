@@ -1,49 +1,11 @@
 ﻿/************ CLIENT ************/
 /************ VARIABILI GLOBALI ************/
 var myId = 0,
-    ready = false,
-    time,
     player;
-
-var eurecaClientSetup = function () { //funzione richiamata dal create del gioco
-    eurecaClient = new Eureca.Client();
-
-    eurecaClient.ready(function (proxy) {
-        eurecaServer = proxy;
-    });
-
-    /************ FUNZIONI DISPONIBILI LATO SERVER ************/
-    eurecaClient.exports.createGame = function (id, x, y) {
-        myId = id;
-        create(x, y);
-        ready = true;
-        gameInstance.otherPlayersW.postMessage({ event: 'init', params: myId }); //inizializza il worker
-    }
-
-    eurecaClient.exports.updatePlayer = function (x, y, callId) {
-        player.updatePosition(x, y, callId);
-    };
-
-    eurecaClient.exports.updateOtherPlayers = function (posTable) {
-        OtherPlayersManager.Update(posTable);
-    };
-
-    eurecaClient.exports.onOtherPlayerConnect = function (id, x, y) {
-        OtherPlayersManager.OnConnect(id, x, y);
-    };
-
-    eurecaClient.exports.onOtherPlayerDisconnect = function (id) {
-        OtherPlayersManager.OnDisconnect(id);
-    };
-
-    eurecaClient.exports.spawnOtherPlayers = function (posTable) {
-        OtherPlayersManager.Spawn(posTable);
-    };
-}
 
 
 //GIOCO
- gameInstance = new LBGame(800, 600, 32, true, Phaser.AUTO, '', { preload: preload, create: eurecaClientSetup });
+ gameInstance = new LBGame(800, 600, 32, true, Phaser.AUTO, '');
 
 function preload() {
     gameInstance.loadImage('player', 'assets/player.png');
