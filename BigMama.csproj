@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <ProjectGuid>{A1DF7ECC-E122-4F42-A95B-E7141112F2B5}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <OutputPath>bin</OutputPath>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <TypeScriptToolsVersion>1.1</TypeScriptToolsVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="assets\bullet.png" />
+    <Content Include="assets\player.png" />
+    <Content Include="assets\tree.png" />
+    <Content Include="index.html" />
+    <Content Include="js\game.js" />
+    <Content Include="js\Objects\TestingTree.js" />
+    <Content Include="LB Library\Engine\Components\LBBaseComponent.js" />
+    <Content Include="LB Library\Engine\Components\LBKeyboardInputComponent.js" />
+    <Content Include="LB Library\Engine\Components\LBMovementComponent.js" />
+    <Content Include="LB Library\Engine\Connections\LBOtherPlayersManager.js" />
+    <Content Include="LB Library\Engine\Connections\LBOtherPlayersWorker.js" />
+    <Content Include="LB Library\Engine\GlobalVariables.js" />
+    <Content Include="LB Library\Engine\LBDepthManager.js" />
+    <Content Include="LB Library\Engine\LBGame.js" />
+    <Content Include="LB Library\Entities\CharactersSystem\LBBaseCharacter.js" />
+    <Content Include="LB Library\Entities\CharactersSystem\LBOtherPlayer.js" />
+    <Content Include="LB Library\Entities\CharactersSystem\LBPlayer.js" />
+    <Content Include="LB Library\Entities\LBBaseEntity.js" />
+    <Content Include="LB Library\Entities\ObjectsSystem\LBBaseInventoryObject.js" />
+    <Content Include="LB Library\Entities\ObjectsSystem\LBBaseObject.js" />
+    <Content Include="LB Library\Entities\ObjectsSystem\LBBaseWorldObject.js" />
+    <Content Include="LB Library\Entities\ObjectsSystem\WorldObjects\LBBaseInteractableObject.js" />
+    <Content Include="LB Library\Entities\ObjectsSystem\WorldObjects\LBBaseStaticObject.js" />
+    <Content Include="LB Library\Utility\Elements\LBHashTable.js" />
+    <Content Include="LB Library\Utility\phaser.js" />
+    <Content Include="server.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="package.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="web.config" />
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="LB Library\Entities\ObjectsSystem\InventoryObjects\" />
+    <Folder Include="LB Library\UI\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>BigMama</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets')" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>25225</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:25225/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptRemoveComments>false</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>true</TypeScriptSourceMap>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <TypeScriptRemoveComments>true</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>false</TypeScriptSourceMap>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+</Project>
