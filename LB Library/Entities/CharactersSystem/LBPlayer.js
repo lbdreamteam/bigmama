@@ -36,9 +36,9 @@ LBPlayer.prototype.update = function () {
     coordinatesText.setText('X: ' + this.x + ' Y: ' + this.y);
     if (!this.cMovement.isMoving) {
 
-        this.cKeyboardInput.update(this.cursors);
+        this.cKeyboardInput.detectInput(this.cursors);
 
-        this.cMovement.update(
+        this.cMovement.move(
             { x: this.cKeyboardInput.targetPointX, y: this.cKeyboardInput.targetPointY },
             function (character, input) {
                 if (character.calls.counter >= 2500) character.calls.counter = 0;

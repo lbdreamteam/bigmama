@@ -23,9 +23,9 @@
     <Content Include="index.html" />
     <Content Include="js\game.js" />
     <Content Include="js\Objects\TestingTree.js" />
-    <Content Include="LB Library\Engine\Components\LBBaseComponent.js" />
-    <Content Include="LB Library\Engine\Components\LBKeyboardInputComponent.js" />
-    <Content Include="LB Library\Engine\Components\LBMovementComponent.js" />
+    <Content Include="LB Library\Engine\ComponentsSystem\LBBaseComponent.js" />
+    <Content Include="LB Library\Engine\ComponentsSystem\Components\LBKeyboardInputComponent.js" />
+    <Content Include="LB Library\Engine\ComponentsSystem\Components\LBMovementComponent.js" />
     <Content Include="LB Library\Engine\Connections\LBOtherPlayersManager.js" />
     <Content Include="LB Library\Engine\Connections\LBOtherPlayersWorker.js" />
     <Content Include="LB Library\Engine\GlobalVariables.js" />

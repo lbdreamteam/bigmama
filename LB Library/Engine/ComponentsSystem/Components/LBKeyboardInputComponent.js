@@ -10,7 +10,7 @@ LBKeyboardInputComponent = function (agent) {
 LBKeyboardInputComponent.prototype = Object.create(LBBaseComponent.prototype);
 LBKeyboardInputComponent.prototype.constructor = LBKeyboardInputComponent;
 
-LBKeyboardInputComponent.prototype.update = function (cursors) {
+LBKeyboardInputComponent.prototype.detectInput = function (cursors) {
 
     var component = this;
 

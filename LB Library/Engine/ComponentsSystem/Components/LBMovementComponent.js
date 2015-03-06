@@ -7,7 +7,7 @@ LBMovementComponent = function (agent) {
 LBMovementComponent.prototype = Object.create(LBBaseComponent.prototype);
 LBMovementComponent.prototype.constructor = LBMovementComponent;
 
-LBMovementComponent.prototype.update = function (target, onStartFunction, onCompleteFunction, input, duration, ease, autoStart, delay, repeat, yoyo) {
+LBMovementComponent.prototype.move = function (target, onStartFunction, onCompleteFunction, input, duration, ease, autoStart, delay, repeat, yoyo) {
 
     var component = this;
 
