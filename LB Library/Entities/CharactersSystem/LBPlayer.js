@@ -37,9 +37,8 @@ LBPlayer.prototype.update = function () {
     coordinatesText.setText('X: ' + this.x + ' Y: ' + this.y);
     if (!this.cMovement.isMoving) {
 
-        this.cKeyboardInput.detectInput(this.cursors);
-
-        this.cMovement.move(
+        if (this.cKeyboardInput.detectInput(this.cursors) != 'null') {
+            this.cMovement.move(
             { x: this.cKeyboardInput.targetPointX, y: this.cKeyboardInput.targetPointY },
             function (character, input) {
                 if (character.calls.counter >= 2500) character.calls.counter = 0;
@@ -54,7 +53,8 @@ LBPlayer.prototype.update = function () {
             this.cKeyboardInput.inputString,
             175,
             Phaser.Easing.Linear.None
-        );
+            );
+        };        
     }
     else {
         this.updateDisplayedName();

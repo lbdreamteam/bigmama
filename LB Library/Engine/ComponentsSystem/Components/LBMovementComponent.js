@@ -46,6 +46,5 @@ LBMovementComponent.prototype.move = function (target, onStartFunction, onComple
     });
 
     tween.start();
-
 }
 

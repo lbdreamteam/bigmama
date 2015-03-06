@@ -24,8 +24,8 @@ LBKeyboardInputComponent.prototype.detectInput = function (cursors) {
 
         this.targetPointX = (component.agent.currentTile.x * component.agent.gameInstance.movementGridSize) - (component.agent.gameInstance.movementGridSize / 2);
         this.targetPointY = (component.agent.currentTile.y * component.agent.gameInstance.movementGridSize) - (component.agent.gameInstance.movementGridSize / 2);
-
     }
+    return this.inputString;
 }
 
 function createInputString(agent, cursors) {
