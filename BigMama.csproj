@@ -28,7 +28,7 @@
     <Content Include="LB Library\Engine\ComponentsSystem\Components\LBMovementComponent.js" />
     <Content Include="LB Library\Engine\Connections\LBOtherPlayersManager.js" />
     <Content Include="LB Library\Engine\Connections\LBOtherPlayersWorker.js" />
-    <Content Include="LB Library\Engine\GlobalVariables.js" />
+    <Content Include="LB Library\Engine\LBGlobalVariables.js" />
     <Content Include="LB Library\Engine\LBDepthManager.js" />
     <Content Include="LB Library\Engine\LBGame.js" />
     <Content Include="LB Library\Entities\CharactersSystem\LBBaseCharacter.js" />
@@ -40,6 +40,7 @@
     <Content Include="LB Library\Entities\ObjectsSystem\LBBaseWorldObject.js" />
     <Content Include="LB Library\Entities\ObjectsSystem\WorldObjects\LBBaseInteractableObject.js" />
     <Content Include="LB Library\Entities\ObjectsSystem\WorldObjects\LBBaseStaticObject.js" />
+    <Content Include="LB Library\UI\LBButton.js" />
     <Content Include="LB Library\Utility\Elements\LBHashTable.js" />
     <Content Include="LB Library\Utility\phaser.js" />
     <Content Include="server.js" />
@@ -58,7 +59,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="LB Library\Entities\ObjectsSystem\InventoryObjects\" />
-    <Folder Include="LB Library\UI\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>

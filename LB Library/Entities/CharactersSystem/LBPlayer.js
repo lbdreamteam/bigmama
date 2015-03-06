@@ -22,6 +22,7 @@ LBPlayer = function (gameInstance, x, y, graph, id, eurecaServer, eurecaClient) 
     fpsText = this.gameInstance.phaserGame.add.text(15, 60, 'FPS: ', { font: '18px Arial', fill: '#333333' });
 
     this.cKeyboardInput = new LBKeyboardInputComponent(this);
+
 }
 
 var coordinatesText,

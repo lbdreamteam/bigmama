@@ -14,6 +14,8 @@ function preload() {
 
 function create(x, y) {
 
+    gameInstance.phaserGame.world.setBounds(0, 0, 2500, 600);
+
     gameInstance.phaserGame.stage.backgroundColor = '#1B7B0C';
     gameInstance.depthGroup = gameInstance.phaserGame.add.group();
 
@@ -28,6 +30,8 @@ function create(x, y) {
     tree9 = new TestingTree(gameInstance, 400, 280, 'tree');
     player = new LBPlayer(gameInstance, x, y, 'player', myId, eurecaServer, eurecaClient);
     depthSort(gameInstance);       
+
+    gameInstance.phaserGame.camera.follow(player);
 
     gameInstance.clientsList[myId] = player;
 }
