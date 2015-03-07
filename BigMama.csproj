@@ -28,6 +28,7 @@
     <Content Include="LB Library\Engine\ComponentsSystem\Components\LBMovementComponent.js" />
     <Content Include="LB Library\Engine\Connections\LBOtherPlayersManager.js" />
     <Content Include="LB Library\Engine\Connections\LBOtherPlayersWorker.js" />
+    <Content Include="LB Library\Engine\Connections\LBOtherPlayerWorkerClass.js" />
     <Content Include="LB Library\Engine\LBGlobalVariables.js" />
     <Content Include="LB Library\Engine\LBDepthManager.js" />
     <Content Include="LB Library\Engine\LBGame.js" />

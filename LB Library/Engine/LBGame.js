@@ -17,8 +17,7 @@
     //Proprietà
     this.phaserGame = new Phaser.Game(width, height, renderer, parent, state, transparent, antialias, physicsConfig);
     this.movementGridSize = movementGridSize;
-    this.movementInEightDirections = movementInEightDirections;
-    
+    this.movementInEightDirections = movementInEightDirections;    
 
     //Depth
     this.depthGroup/* = this.phaserGame.add.group()*/;
@@ -34,16 +33,7 @@
 
     //Worker
     this.clientsList = {};
-    this.otherPlayersW = new Worker('LB Library/Engine/Connections/LBOtherPlayersWorker.js');
-    this.otherPlayersW.addEventListener('message', function (e) {
-        if (e.data.event) {
-            switch (e.data.event) {
-                case 'pushPosition': onPushPosition(e.data.params); break;
-                //case 'connect': onOtherPlayerConnect(e.data.params); break;
-            }
-        }
-        else console.log('Worker said: ' + e.data);
-    }, false);
+    this.otherPlayersW = new LBOtherPlayerWorkerClass('LB Library/Engine/Connections/LBOtherPlayersWorker.js', null, null);
 }
 
 LBGame.prototype = Object.create(Object);
@@ -70,7 +60,7 @@ LBGame.prototype.eurecaClientSetup = function () { //funzione richiamata dal cre
     eurecaClient.exports.createGame = function (id, x, y) {
         myId = id;
         create(x, y);
-        gameInstance.otherPlayersW.postMessage({ event: 'init', params: myId }); //inizializza il worker
+        gameInstance.otherPlayersW.worker.postMessage({ event: 'init', params: myId }); //inizializza il worker
     }
 
     eurecaClient.exports.updatePlayer = function (x, y, callId) {
@@ -94,21 +84,8 @@ LBGame.prototype.eurecaClientSetup = function () { //funzione richiamata dal cre
     };
 }
 
-var onPushPosition = function (params) {
-    if (!params.client || !params.pointer) console.log('ERROR at onPushPosition: params are not set correctly.')
-    else {
-        //console.log('Started ' + params.pointer.x);
-        gameInstance.clientsList[params.client].cMovement.update(
-            params.pointer,
-            function (_agent, input) {
-                gameInstance.otherPlayersW.postMessage({ event: 'startMoving', params: params.client });
-            },
-            function (_agent) {
-                gameInstance.otherPlayersW.postMessage({ event: 'requestPosition', params: params.client });
-            },
-            null,
-            175,
-            Phaser.Easing.Linear.None,
-            false);
-    }
-};
+LBGame.prototype.setVisibilityChangeHandlers = function () {
+    var gameInstance = this;
+    gameInstance.phaserGame.onBlur.add(function () { console.log('Game blurred'); });
+    gameInstance.phaserGame.onFocus.add(function () { console.log('Game focused'); });
+}

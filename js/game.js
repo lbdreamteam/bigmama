@@ -7,9 +7,10 @@ var myId = 0,
 //GIOCO
  gameInstance = new LBGame(800, 600, 32, true, Phaser.AUTO, '');
 
-function preload() {
-    gameInstance.loadImage('player', 'assets/player.png');
-    gameInstance.loadImage('tree', 'assets/tree.png');
+ function preload() {
+     gameInstance.setVisibilityChangeHandlers();
+     gameInstance.loadImage('player', 'assets/player.png');
+     gameInstance.loadImage('tree', 'assets/tree.png');
 }
 
 function create(x, y) {

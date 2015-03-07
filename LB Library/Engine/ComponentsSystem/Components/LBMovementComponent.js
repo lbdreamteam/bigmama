@@ -10,7 +10,7 @@ LBMovementComponent.prototype.constructor = LBMovementComponent;
 LBMovementComponent.prototype.move = function (target, onStartFunction, onCompleteFunction, input, duration, ease, autoStart, delay, repeat, yoyo) {
 
     var component = this;
-
+    
     //Definizione parametri opzionali
     if (typeof onStartFunction === 'undefined' || !onStartFunction) { onStartFunction = function () { } }
     if (typeof onCompleteFunction === 'undefined' || !onCompleteFunction) { onCompleteFunction = function () { } }
