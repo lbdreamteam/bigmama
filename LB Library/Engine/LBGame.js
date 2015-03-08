@@ -1,4 +1,4 @@
-﻿LBGame = function (width, height, movementGridSize, movementInEightDirections, renderer, parent, state, transparent, antialias, physicsConfig) {
+﻿LBGame = function (width, height, worldWidth, worldHeight, movementGridSize, createFunction, movementInEightDirections, renderer, parent, state, transparent, antialias, physicsConfig) {
 
     //Definizione parametri opzionali
     if (typeof width === 'undefined') { width = 800 }
@@ -7,20 +7,19 @@
     if (typeof movementInEightDirections === 'undefined') { movementInEightDirections = false }
     if (typeof renderer === 'undefined') { renderer = Phaser.AUTO }
     if (typeof parent === 'undefined') { parent = '' }
-    if (typeof state === 'undefined') { state = {preload: preload, create: this.eurecaClientSetup} }
+    if (typeof state === 'undefined') { state = { preload: preload, create: this.gameSetup } }
     if (typeof transparent === 'undefined') { transparent = false }
     if (typeof antialias === 'undefined') { antialias = true }
     if (typeof physicsConfig === 'undefined') { physicsConfig = null }
 
-
-
     //Proprietà
     this.phaserGame = new Phaser.Game(width, height, renderer, parent, state, transparent, antialias, physicsConfig);
     this.movementGridSize = movementGridSize;
-    this.movementInEightDirections = movementInEightDirections;    
+    this.movementInEightDirections = movementInEightDirections;
+    this.createFunction = createFunction;
+    this.world = { width: worldWidth, height: worldHeight };
 
     //Depth
-    this.depthGroup/* = this.phaserGame.add.group()*/;
     this.objectmap = [];
     for (var i=0;i<width/32;i++)
     {
@@ -34,6 +33,8 @@
     //Worker
     this.clientsList = {};
     this.otherPlayersW = new LBOtherPlayerWorkerClass('LB Library/Engine/Connections/LBOtherPlayersWorker.js', null, null);
+
+    this.depthGroup;
 }
 
 LBGame.prototype = Object.create(Object);
@@ -49,7 +50,19 @@ LBGame.prototype.loadImage = function (cacheName, path) {
     });
 }
 
-LBGame.prototype.eurecaClientSetup = function () { //funzione richiamata dal create del gioco
+//Funzione create privata del gioco, che richiamerà la funzione personale differente per ogni gioco
+LBGame.prototype.preCreate = function () {
+    gameInstance.phaserGame.world.setBounds(0, 0, gameInstance.world.width, gameInstance.world.height);
+    gameInstance.depthGroup = gameInstance.phaserGame.add.group();
+}
+
+LBGame.prototype.postCreate = function () {
+    depthSort(gameInstance);
+
+}
+
+LBGame.prototype.gameSetup = function () { //funzione richiamata dal create del gioco
+
     eurecaClient = new Eureca.Client();
 
     eurecaClient.ready(function (proxy) {
@@ -59,7 +72,9 @@ LBGame.prototype.eurecaClientSetup = function () { //funzione richiamata dal cre
     /************ FUNZIONI DISPONIBILI LATO SERVER ************/
     eurecaClient.exports.createGame = function (id, x, y) {
         myId = id;
-        create(x, y);
+        gameInstance.preCreate();
+        gameInstance.createFunction(x, y);
+        gameInstance.postCreate();
         gameInstance.otherPlayersW.worker.postMessage({ event: 'init', params: myId }); //inizializza il worker
     }
 
