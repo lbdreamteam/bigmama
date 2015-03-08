@@ -47,8 +47,7 @@ LBPlayer.prototype.update = function () {
                 character.connections.server.ClientManagement.Player.SendInput(input, character.id, character.calls.counter);
             },
             function (character) {
-                checkOverlap(character, gameInstance, character.cKeyboardInput.increment);
-                leaveOverlap(character, gameInstance, character.cKeyboardInput.increment);
+                overlapHandler(character, gameInstance, character.cKeyboardInput.increment);
             },
             this.cKeyboardInput.inputString,
             175,

@@ -30,7 +30,7 @@ function create(x, y) {
     tree8 = new TestingTree(gameInstance, 230, 200, 'tree');
     tree9 = new TestingTree(gameInstance, 400, 280, 'tree');
     player = new LBPlayer(gameInstance, x, y, 'player', myId, eurecaServer, eurecaClient);
-    depthSort(gameInstance);       
+    depthSort(gameInstance);
 
     gameInstance.phaserGame.camera.follow(player);
 

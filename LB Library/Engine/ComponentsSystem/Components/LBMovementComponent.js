@@ -37,7 +37,7 @@ LBMovementComponent.prototype.move = function (target, onStartFunction, onComple
     tween.onStart.add(function () {
         component.isMoving = true;
         onStartFunction(component.agent, input);
-        depthSort(gameInstance, component.agent, target);
+        depthSort(component.agent.gameInstance, component.agent, target);
     });
 
     tween.onComplete.add(function () {
