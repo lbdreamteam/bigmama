@@ -32,6 +32,7 @@
     <Content Include="LB Library\Engine\LBGlobalVariables.js" />
     <Content Include="LB Library\Engine\LBDepthManager.js" />
     <Content Include="LB Library\Engine\LBGame.js" />
+    <Content Include="LB Library\Engine\LBPixelPerfectCollision.js" />
     <Content Include="LB Library\Entities\CharactersSystem\LBBaseCharacter.js" />
     <Content Include="LB Library\Entities\CharactersSystem\LBOtherPlayer.js" />
     <Content Include="LB Library\Entities\CharactersSystem\LBPlayer.js" />

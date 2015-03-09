@@ -11,6 +11,7 @@ var clients = {},
     callsCounter = 0,
     calls = {},
     posTable = { oldPos: {}, nowPos: {} },
+    states = { counter: 0, times: {}, pos: {} };
     t = 0;
 
 eurecaServer.attach(server);
@@ -18,7 +19,12 @@ t = Date.now();
 
 var updateInterval = setInterval(function () {
     posTable.oldPos = JSON.parse(JSON.stringify(posTable.nowPos));
-    //console.log('UPDATE at: ' + (Date.now() - t));
+    if (JSON.stringify(posTable.nowPos) != '{}') {
+        states.times[states.counter] = Date.now() - t;
+        states.pos[states.times[states.counter]] = JSON.stringify(posTable.nowPos);
+        console.log(states.pos[states.times[states.counter]]);
+        states.counter++;
+    }    
     for (var client in clients) {
         clients[client].remote.updateOtherPlayers(posTable.nowPos);
     }
