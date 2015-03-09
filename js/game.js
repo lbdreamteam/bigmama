@@ -4,17 +4,17 @@ var myId = 0,
     player;
 
 //GIOCO
-gameInstance = new LBGame(800, 600, 2500, 600, 32, create, true, Phaser.AUTO, '');
+gameInstance = new LBGame(800, 600, 2500, 600, 32, create, true, true, Phaser.AUTO, '');
 
  function preload() {
      gameInstance.setVisibilityChangeHandlers();
      gameInstance.loadImage('player', 'assets/player.png');
-     gameInstance.loadImage('tree', 'assets/tree.png'); 
+     gameInstance.loadImage('tree', 'assets/tree.png');
 }
 
- function create(x, y) {
+function create(x, y) {
 
-     gameInstance.phaserGame.stage.backgroundColor = '#1B7B0C';
+    gameInstance.phaserGame.stage.backgroundColor = '#1B7B0C';
     
 
     tree = new TestingTree(gameInstance, 70, 120, 'tree');

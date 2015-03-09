@@ -1,10 +1,11 @@
-﻿LBGame = function (width, height, worldWidth, worldHeight, movementGridSize, createFunction, movementInEightDirections, renderer, parent, state, transparent, antialias, physicsConfig) {
+﻿LBGame = function (width, height, worldWidth, worldHeight, movementGridSize, createFunction, movementInEightDirections, overlap, renderer, parent, state, transparent, antialias, physicsConfig) {
 
     //Definizione parametri opzionali
     if (typeof width === 'undefined') { width = 800 }
     if (typeof height === 'undefined') { height = 600 }
     if (typeof movementGridSize === 'undefined') { movementGridSize = 32 }
     if (typeof movementInEightDirections === 'undefined') { movementInEightDirections = false }
+    if (typeof overlap === 'undefined') {overlap = true }
     if (typeof renderer === 'undefined') { renderer = Phaser.AUTO }
     if (typeof parent === 'undefined') { parent = '' }
     if (typeof state === 'undefined') { state = { preload: preload, create: this.gameSetup } }
@@ -20,21 +21,26 @@
     this.world = { width: worldWidth, height: worldHeight };
 
     //Depth
-    this.objectmap = [];
-    for (var i=0;i<width/32;i++)
-    {
-        this.objectmap[i]=[];
-        for (var j=0; j<height/32; j++)
-            this.objectmap[i][j]=[];
+    this.depthGroup;
+    this.overlap = overlap;
+    if (overlap){
+        this.objectmap = [];
+        for (var i=0;i<worldWidth/this.movementGridSize;i++)
+        {
+            this.objectmap[i]=[];
+            for (var j=0; j<worldHeight/this.movementGridSize; j++)
+                this.objectmap[i][j]=[];
+        }
     }
     this.maxSpriteHeight = 0;
     this.maxSpriteWidth = 0;
 
+    //Pixel-perfect collision
+    this.spriteCollisionMatrix = {};
+
     //Worker
     this.clientsList = {};
     this.otherPlayersW = new LBOtherPlayerWorkerClass('LB Library/Engine/Connections/LBOtherPlayersWorker.js', null, null);
-
-    this.depthGroup;
 }
 
 LBGame.prototype = Object.create(Object);
@@ -44,9 +50,12 @@ LBGame.prototype.loadImage = function (cacheName, path) {
     var gameInstance = this;
     gameInstance.phaserGame.load.image(cacheName, path);
     gameInstance.phaserGame.load.onLoadComplete.add(function () {
+        //Modifica le dimensioni di maxSpriteWidth e Heigth
         var image = gameInstance.phaserGame.cache.getImage(cacheName);
         if (image.height > gameInstance.maxSpriteHeight) gameInstance.maxSpriteHeight = image.height;
         if (image.width > gameInstance.maxSpriteWidth) gameInstance.maxSpriteWidth = image.width;
+        //Carica la matrice dei pixel, se non esiste ne crea una temporanea
+        loadPixelMatrix(gameInstance, cacheName, path);
     });
 }
 

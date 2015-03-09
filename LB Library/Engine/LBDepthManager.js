@@ -51,69 +51,71 @@ function totalDepth(a){
 //Scorre l'intera area in cui possono trovarsi oggetti in overlap con il palyer (l'area cambia a seconda della direzione del movimento)
 //Se trova un oggetto in quest'area, chiama checkTileOverlap
 function overlapHandler(character, gameInstance, direction){
-    var maxTileDown = Math.floor((gameInstance.maxSpriteHeight - 1) / gameInstance.movementGridSize) + 2;  //Massima distanza (in tile) da controllare verso il basso
-    var maxTileSide = Math.floor((gameInstance.maxSpriteWidth - 1) / gameInstance.movementGridSize) + 1;   //Massima distanza (in tile) da controllare lateralmente
-    var xLength = gameInstance.objectmap.length;                            //Dimensione x (in tile) della mappa
-    var yLength = gameInstance.objectmap[0].length;                         //Dimensione y (in tile) della mappa
-    var xTile                           //Coordinata x (in tile) in cui centrare l'esame
-    var yTile                           //Coordinata y (in tile) in cui centrare l'esame
-    
-    maxTileDown++; //Da togliere con la pixel-perfect collision
-    maxTileSide++; //Da togliere con la pixel-perfect collision
+    if (gameInstance.overlap){
+        var maxTileDown = Math.floor((gameInstance.maxSpriteHeight - 1) / gameInstance.movementGridSize) + 2;  //Massima distanza (in tile) da controllare verso il basso
+        var maxTileSide = Math.floor((gameInstance.maxSpriteWidth - 1) / gameInstance.movementGridSize) + 1;   //Massima distanza (in tile) da controllare lateralmente
+        var xLength = gameInstance.objectmap.length;                            //Dimensione x (in tile) della mappa
+        var yLength = gameInstance.objectmap[0].length;                         //Dimensione y (in tile) della mappa
+        var xTile                           //Coordinata x (in tile) in cui centrare l'esame
+        var yTile                           //Coordinata y (in tile) in cui centrare l'esame
 
-    //Contine le due coordinate più alte (y minore) e a sinistra (x minore) tra la posizione iniziale e finale del palyer
-    var altoSinistra = {
-        x: character.x + (direction.x <= 0 ? 0 : - direction.x * gameInstance.movementGridSize),
-        y: character.y + (direction.y <= 0 ? 0 : - direction.y * gameInstance.movementGridSize),
-        height: character.height
-    }
-    if (direction.x === 0){           //Movimento verticale
-        xTile = character.x / gameInstance.movementGridSize;
-        //Sposto la partenza alla posizione più alta
-        yTile = Math.floor((altoSinistra.y + character.height - 1) / gameInstance.movementGridSize);
-        for (var i = (yTile < 0 ? -yTile : 0) ; i < (yTile + maxTileDown + 1 > yLength ? yLength - yTile : maxTileDown + 1) ; i++)
-            for (var j = (xTile - maxTileSide < 0 ? -xTile : -maxTileSide) ; j < (xTile + maxTileSide > xLength ? xLength - xTile : maxTileSide) ; j++)
-                checkTileOverlap(character, gameInstance.objectmap[xTile + j][yTile + i]);
-    }
-    else if (direction.y === 0){       //Movimento orizzontale
-        yTile = Math.floor((character.y + character.height - 1) / gameInstance.movementGridSize);
-        //Prendo la posizione più a sinistra, poi allungo il controllo a destra di un tile
-        xTile = altoSinistra.x / gameInstance.movementGridSize;
-        for (var i = (yTile < 0 ? -yTile : 0) ; i < (yTile + maxTileDown > yLength ? yLength - yTile : maxTileDown) ; i++)
-            for (var j = (xTile - maxTileSide < 0 ? -xTile : -maxTileSide) ; j < (xTile + maxTileSide + 1 > xLength ? xLength - xTile : maxTileSide + 1) ; j++)
-                checkTileOverlap(character, gameInstance.objectmap[xTile + j][yTile + i]);
-    }
-    else if (direction.x * direction.y > 0){     //Movimento diagonale \ ({+1,+1},{-1,-1})
-        xTile = altoSinistra.x / gameInstance.movementGridSize;
-        yTile = Math.floor((altoSinistra.y + character.height - 1) / gameInstance.movementGridSize);
-        //Controllo la riga all'altezza massima (da -maxSide a +maxSide)
-        if (yTile >= 0 && yTile < yLength)
-            for (var j = (xTile - maxTileSide < 0 ? -xTile : -maxTileSide) ; j < (xTile + maxTileSide > xLength ? xLength - xTile : maxTileSide) ; j++)
-                checkTileOverlap(character, gameInstance.objectmap[xTile + j][yTile]);
-        //Controllo la riga più in basso, all'altezza bassa (alta + 1) più maxTileDown (da -maxSide+1 a +maxSide+1)
-        if (yTile + 1 + maxTileDown < yLength && yTile + 1 + maxTileDown >= 0)
-            for (var j = (xTile - maxTileSide + 1 < 0 ? -xTile : -maxTileSide + 1) ; j < (xTile + maxTileSide + 1 > xLength ? xLength - xTile : maxTileSide + 1) ; j++)
-                checkTileOverlap(character, gameInstance.objectmap[xTile + j][yTile + 1 + maxTileDown]);
-        //Controllo le righe in mezzo, tra la più alta e la più bassa escluse (da -maxSide a +maxSide+1)
-        for (var i = (yTile + 1 < 0 ? -yTile : 1) ; i < (yTile + maxTileDown > yLength ? yLength - yTile : maxTileDown) ; i++)
-            for (var j = (xTile - maxTileSide < 0 ? -xTile : -maxTileSide) ; j < (xTile + maxTileSide + 1 > xLength ? xLength - xTile : maxTileSide + 1) ; j++)
-                checkTileOverlap(character, gameInstance.objectmap[xTile + j][yTile + i]);
-    }
-    else{                                       //Movimento diagonale / ({+1,-1,{-1,+1}})
-        xTile = altoSinistra.x / gameInstance.movementGridSize;
-        yTile = Math.floor((altoSinistra.y + character.height - 1) / gameInstance.movementGridSize);
-        //Controllo la riga all'altezza massima (da -maxSide+1 a +maxSide+1)
-        if (yTile >= 0 && yTile < yLength)
-            for (var j = (xTile - maxTileSide + 1 < 0 ? -xTile : -maxTileSide + 1) ; j < (xTile + maxTileSide + 1 > xLength ? xLength - xTile : maxTileSide + 1) ; j++)
-                checkTileOverlap(character, gameInstance.objectmap[xTile + j][yTile]);
-        //Controllo la riga più in basso, all'altezza bassa (alta + 1) più maxTileDown (da -maxSide a +maxSide)
-        if (yTile + 1 + maxTileDown < yLength && yTile + 1 + maxTileDown >= 0)
-            for (var j = (xTile - maxTileSide < 0 ? -xTile : -maxTileSide) ; j < (xTile + maxTileSide > xLength ? xLength - xTile : maxTileSide) ; j++)
-                checkTileOverlap(character, gameInstance.objectmap[xTile + j][yTile + 1 + maxTileDown]);
-        //Controllo le righe in mezzo, tra la più alta e la più bassa escluse (da -maxSide a +maxSide+1)
-        for (var i = (yTile + 1 < 0 ? -yTile : 1) ; i < (yTile + maxTileDown > yLength ? yLength - yTile : maxTileDown) ; i++)
-            for (var j = (xTile - maxTileSide < 0 ? -xTile : -maxTileSide) ; j < (xTile + maxTileSide + 1 > xLength ? xLength - xTile : maxTileSide + 1) ; j++)
-                checkTileOverlap(character, gameInstance.objectmap[xTile + j][yTile + i]);
+        maxTileDown++; //Da togliere con la pixel-perfect collision
+        maxTileSide++; //Da togliere con la pixel-perfect collision
+
+        //Contine le due coordinate più alte (y minore) e a sinistra (x minore) tra la posizione iniziale e finale del palyer
+        var altoSinistra = {
+            x: character.x + (direction.x <= 0 ? 0 : - direction.x * gameInstance.movementGridSize),
+            y: character.y + (direction.y <= 0 ? 0 : - direction.y * gameInstance.movementGridSize),
+            //height: character.height
+        }
+        if (direction.x === 0){           //Movimento verticale
+            xTile = character.x / gameInstance.movementGridSize;
+            //Sposto la partenza alla posizione più alta
+            yTile = Math.floor((altoSinistra.y + character.height - 1) / gameInstance.movementGridSize);
+            for (var i = (yTile < 0 ? -yTile : 0) ; i < (yTile + maxTileDown + 1 > yLength ? yLength - yTile : maxTileDown + 1) ; i++)
+                for (var j = (xTile - maxTileSide < 0 ? -xTile : -maxTileSide) ; j < (xTile + maxTileSide > xLength ? xLength - xTile : maxTileSide) ; j++)
+                    checkTileOverlap(character, gameInstance.objectmap[xTile + j][yTile + i]);
+        }
+        else if (direction.y === 0){       //Movimento orizzontale
+            yTile = Math.floor((character.y + character.height - 1) / gameInstance.movementGridSize);
+            //Prendo la posizione più a sinistra, poi allungo il controllo a destra di un tile
+            xTile = altoSinistra.x / gameInstance.movementGridSize;
+            for (var i = (yTile < 0 ? -yTile : 0) ; i < (yTile + maxTileDown > yLength ? yLength - yTile : maxTileDown) ; i++)
+                for (var j = (xTile - maxTileSide < 0 ? -xTile : -maxTileSide) ; j < (xTile + maxTileSide + 1 > xLength ? xLength - xTile : maxTileSide + 1) ; j++)
+                    checkTileOverlap(character, gameInstance.objectmap[xTile + j][yTile + i]);
+        }
+        else if (direction.x * direction.y > 0){     //Movimento diagonale \ ({+1,+1},{-1,-1})
+            xTile = altoSinistra.x / gameInstance.movementGridSize;
+            yTile = Math.floor((altoSinistra.y + character.height - 1) / gameInstance.movementGridSize);
+            //Controllo la riga all'altezza massima (da -maxSide a +maxSide)
+            if (yTile >= 0 && yTile < yLength)
+                for (var j = (xTile - maxTileSide < 0 ? -xTile : -maxTileSide) ; j < (xTile + maxTileSide > xLength ? xLength - xTile : maxTileSide) ; j++)
+                    checkTileOverlap(character, gameInstance.objectmap[xTile + j][yTile]);
+            //Controllo la riga più in basso, all'altezza bassa (alta + 1) più maxTileDown (da -maxSide+1 a +maxSide+1)
+            if (yTile + 1 + maxTileDown < yLength && yTile + 1 + maxTileDown >= 0)
+                for (var j = (xTile - maxTileSide + 1 < 0 ? -xTile : -maxTileSide + 1) ; j < (xTile + maxTileSide + 1 > xLength ? xLength - xTile : maxTileSide + 1) ; j++)
+                    checkTileOverlap(character, gameInstance.objectmap[xTile + j][yTile + 1 + maxTileDown]);
+            //Controllo le righe in mezzo, tra la più alta e la più bassa escluse (da -maxSide a +maxSide+1)
+            for (var i = (yTile + 1 < 0 ? -yTile : 1) ; i < (yTile + maxTileDown > yLength ? yLength - yTile : maxTileDown) ; i++)
+                for (var j = (xTile - maxTileSide < 0 ? -xTile : -maxTileSide) ; j < (xTile + maxTileSide + 1 > xLength ? xLength - xTile : maxTileSide + 1) ; j++)
+                    checkTileOverlap(character, gameInstance.objectmap[xTile + j][yTile + i]);
+        }
+        else {                                       //Movimento diagonale / ({+1,-1,{-1,+1}})
+            xTile = altoSinistra.x / gameInstance.movementGridSize;
+            yTile = Math.floor((altoSinistra.y + character.height - 1) / gameInstance.movementGridSize);
+            //Controllo la riga all'altezza massima (da -maxSide+1 a +maxSide+1)
+            if (yTile >= 0 && yTile < yLength)
+                for (var j = (xTile - maxTileSide + 1 < 0 ? -xTile : -maxTileSide + 1) ; j < (xTile + maxTileSide + 1 > xLength ? xLength - xTile : maxTileSide + 1) ; j++)
+                    checkTileOverlap(character, gameInstance.objectmap[xTile + j][yTile]);
+            //Controllo la riga più in basso, all'altezza bassa (alta + 1) più maxTileDown (da -maxSide a +maxSide)
+            if (yTile + 1 + maxTileDown < yLength && yTile + 1 + maxTileDown >= 0)
+                for (var j = (xTile - maxTileSide < 0 ? -xTile : -maxTileSide) ; j < (xTile + maxTileSide > xLength ? xLength - xTile : maxTileSide) ; j++)
+                    checkTileOverlap(character, gameInstance.objectmap[xTile + j][yTile + 1 + maxTileDown]);
+            //Controllo le righe in mezzo, tra la più alta e la più bassa escluse (da -maxSide a +maxSide+1)
+            for (var i = (yTile + 1 < 0 ? -yTile : 1) ; i < (yTile + maxTileDown > yLength ? yLength - yTile : maxTileDown) ; i++)
+                for (var j = (xTile - maxTileSide < 0 ? -xTile : -maxTileSide) ; j < (xTile + maxTileSide + 1 > xLength ? xLength - xTile : maxTileSide + 1) ; j++)
+                    checkTileOverlap(character, gameInstance.objectmap[xTile + j][yTile + i]);
+        }
     }
 }
 
