@@ -18,6 +18,7 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="assets\placeholders\tileset.png" />
     <Content Include="assets\player.png" />
     <Content Include="assets\tree.png" />
     <Content Include="index.html" />
@@ -52,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="web.config" />
+    <Content Include="assets\treeMatrix.json" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
