@@ -47,7 +47,6 @@ function totalDepth(a){
 
 //TODO(prima o poi): mettere quei cicli in funzioni (non migliora la velocità del programma, solo per chiarezza e pulizia del codice)
 
-//Sistema più efficiente (in termini di pixel-perfect collision)
 //Scorre l'intera area in cui possono trovarsi oggetti in overlap con il palyer (l'area cambia a seconda della direzione del movimento)
 //Se trova un oggetto in quest'area, chiama checkTileOverlap
 function overlapHandler(character, gameInstance, direction){
@@ -58,9 +57,6 @@ function overlapHandler(character, gameInstance, direction){
         var yLength = gameInstance.objectmap[0].length;                         //Dimensione y (in tile) della mappa
         var xTile                           //Coordinata x (in tile) in cui centrare l'esame
         var yTile                           //Coordinata y (in tile) in cui centrare l'esame
-
-        maxTileDown++; //Da togliere con la pixel-perfect collision
-        maxTileSide++; //Da togliere con la pixel-perfect collision
 
         //Contine le due coordinate più alte (y minore) e a sinistra (x minore) tra la posizione iniziale e finale del palyer
         var altoSinistra = {
@@ -125,7 +121,7 @@ function checkTileOverlap(character, actualTile)
     if (actualTile[0] !== undefined)          //Controlla per tutti i tile nel rettangolo se contengono qualcosa
         for (var i = 0; i < actualTile.length; i++){
             var sprite = actualTile[i];
-            if ((totalDepth(character) < totalDepth(sprite)) && (character.overlap(sprite)))
+            if ((totalDepth(character) < totalDepth(sprite)) && CheckPixelPerfectCollision(character, sprite, character.gameInstance))
                 sprite.alpha = 0.5;
             else
                 sprite.alpha = 1;
