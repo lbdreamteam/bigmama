@@ -34,7 +34,7 @@ var updateInterval = setInterval(function () {
 eurecaServer.onConnect(function (conn) {
     console.log('New Client id=%s ', conn.id, conn.remoteAddress);
     var remote = eurecaServer.getClient(conn.id);
-    clients[conn.id] = { id: conn.id, remote: remote, state: { x: 64, y: 64 } };
+    clients[conn.id] = { id: conn.id, remote: remote, state: { x: 5, y: 5 } };
     posTable.oldPos[conn.id] = clients[conn.id].state;
     posTable.nowPos[conn.id] = clients[conn.id].state;
     remote.createGame(conn.id, clients[conn.id].state.x, clients[conn.id].state.y);
@@ -76,32 +76,32 @@ eurecaServer.exports.ClientManagement = (function () {
         function sendInput(input, clientId, callId) {
             switch (input) {
                 case 'up':
-                    clients[clientId].state.y -= tileSize;
+                    clients[clientId].state.y -= 1;
                     break;
                 case 'down':
-                    clients[clientId].state.y += tileSize;
+                    clients[clientId].state.y += 1;
                     break;
                 case 'right':
-                    clients[clientId].state.x += tileSize;
+                    clients[clientId].state.x += 1;
                     break;
                 case 'left':
-                    clients[clientId].state.x -= tileSize;
+                    clients[clientId].state.x -= 1;
                     break;
                 case 'up-right':
-                    clients[clientId].state.x += tileSize;
-                    clients[clientId].state.y -= tileSize;
+                    clients[clientId].state.x += 1;
+                    clients[clientId].state.y -= 1;
                     break;
                 case 'up-left':
-                    clients[clientId].state.x -= tileSize;
-                    clients[clientId].state.y -= tileSize;
+                    clients[clientId].state.x -= 1;
+                    clients[clientId].state.y -= 1;
                     break;
                 case 'down-right':
-                    clients[clientId].state.x += tileSize;
-                    clients[clientId].state.y += tileSize;
+                    clients[clientId].state.x += 1;
+                    clients[clientId].state.y += 1;
                     break;
                 case 'down-left':
-                    clients[clientId].state.x -= tileSize;
-                    clients[clientId].state.y += tileSize;
+                    clients[clientId].state.x -= 1;
+                    clients[clientId].state.y += 1;
                     break;
                 case 'null':
                     break;

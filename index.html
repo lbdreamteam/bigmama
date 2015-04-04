@@ -11,10 +11,18 @@
 
     <script src="/LB Library/Utility/phaser.js"></script>
 
+    <script src="LB Library/Engine/ComponentsSystem/LBSignal.js"></script>
+    <script src="LB Library/Engine/ComponentsSystem/LBComponentsManager.js"></script>
+
     <!--Componenti-->
     <script src="/LB Library/Engine/ComponentsSystem/LBBaseComponent.js"></script>
-    <script src="/LB Library/Engine/ComponentsSystem/Components/LBMovementComponent.js"></script>
-    <script src="/LB Library/Engine/ComponentsSystem/Components/LBKeyboardInputComponent.js"></script>
+    <script src="/LB Library/Engine/ComponentsSystem/Entity components/LBMovementComponent.js"></script>
+    <script src="/LB Library/Engine/ComponentsSystem/Entity components/LBKeyboardInputComponent.js"></script>
+    <script src="LB Library/Engine/ComponentsSystem/Entity components/LBSnappingComponent.js"></script>
+	<script src="LB Library/Engine/ComponentsSystem/LBGame components/LBDepthComponent.js"></script>
+    <script src="LB Library/Engine/ComponentsSystem/Entity components/LBCollidingMovementComponent.js"></script>	
+	<script src="LB Library/Engine/ComponentsSystem/LBGame components/LBPixelPerfectCollisionComponent.js"></script>
+	<script src="LB Library/Engine/ComponentsSystem/Entity components/LBOverlapComponent.js"></script>
 
     <!--UI-->
     <script src="/LB Library/UI/LBButton.js"></script>
@@ -24,8 +32,6 @@
     <script src="/LB Library/Engine/Connections/LBOtherPlayerWorkerClass.js"></script>
     <script src="/LB Library/Engine/Connections/LBOtherPlayersManager.js"></script>
     <script src="/LB Library/Engine/LBGame.js"></script>
-	<script src="/LB Library/Engine/LBDepthManager.js"></script>
-	<script src="/LB Library/Engine/LBPixelPerfectCollision.js"></script>
     <script src="/LB Library/Utility/Elements/LBHashTable.js"></script>
     <script src="/LB Library/Entities/LBBaseEntity.js"></script>
     <script src="/LB Library/Entities/CharactersSystem/LBBaseCharacter.js"></script>
@@ -35,12 +41,13 @@
     <script src="/LB Library/Entities/ObjectsSystem/LBBaseWorldObject.js"></script>
     <script src="/LB Library/Entities/ObjectsSystem/WorldObjects/LBBaseStaticObject.js"></script>
     <script src="/LB Library/Entities/ObjectsSystem/WorldObjects/LBBaseInteractableObject.js"></script>
+    <script src="LB Library/Engine/LBState.js"></script>
     <script src="/js/Objects/TestingTree.js"></script>
-
+    <script src="js/GameState.js"></script>
 
 
     <!--Questo import deve essere ultimo-->
-    <script src="js/game.js"></script>
+    <script src="js/main.js"></script>
 
 
     <div id="content"></div>

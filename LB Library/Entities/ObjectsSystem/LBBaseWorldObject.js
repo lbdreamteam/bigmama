@@ -1,5 +1,5 @@
-LBBaseWorldObject = function (game, x, y, graph) {
-    LBBaseObject.call(this, game, x, y, graph);
+LBBaseWorldObject = function (gameInstance, Tx, Ty, graph) {
+    LBBaseObject.call(this, gameInstance, Tx, Ty, graph);
 
     //Proprietà
 }

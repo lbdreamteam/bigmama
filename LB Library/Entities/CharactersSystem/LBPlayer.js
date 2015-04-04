@@ -1,9 +1,8 @@
-LBPlayer = function (gameInstance, x, y, graph, id, eurecaServer, eurecaClient) {
-    LBBaseCharacter.call(this, gameInstance, x, y, graph, id, true);
+LBPlayer = function (gameInstance, x, y, graph, id, eurecaServer, eurecaClient, width, height) {
+    LBBaseCharacter.call(this, gameInstance, x, y, graph, id, true, width, height);
 
     //Proprietà
     this.id = id;
-    this.connections = { server: eurecaServer, client: eurecaClient };
     this.calls = { counter: 0, calls: new LBHashTable() };
     this.cursors = gameInstance.phaserGame.input.keyboard.createCursorKeys();
     
@@ -16,7 +15,7 @@ LBPlayer = function (gameInstance, x, y, graph, id, eurecaServer, eurecaClient) 
     this.zDepth = 0.6;      //Così il player è sopra gli altri giocatori
 
     this.gameInstance.playerInstance = this;
-    this.gameInstance.depthGroup.add(this);
+    this.gameInstance.cDepth.depthGroup.add(this);
 
     coordinatesText = this.gameInstance.phaserGame.add.text(15, 30, "X: Y:", { font: "18px Arial", fill: "#333333" });
     fpsText = this.gameInstance.phaserGame.add.text(15, 60, 'FPS: ', { font: '18px Arial', fill: '#333333' });
@@ -26,6 +25,8 @@ LBPlayer = function (gameInstance, x, y, graph, id, eurecaServer, eurecaClient) 
 
     this.cKeyboardInput = new LBKeyboardInputComponent(this);
 
+    if (gameInstance.overlap)
+        this.cOverlap = new LBOverlapComponent(this);
 }
 
 var coordinatesText,
@@ -39,7 +40,6 @@ LBPlayer.prototype.update = function () {
     fpsText.setText('FPS: ' + this.gameInstance.phaserGame.time.fps);
     coordinatesText.setText('X: ' + this.x + ' Y: ' + this.y);
     if (!this.cMovement.isMoving) {
-
         if (this.cKeyboardInput.detectInput(this.cursors) != 'null') {
             this.cMovement.move(
             { x: this.cKeyboardInput.targetPointX, y: this.cKeyboardInput.targetPointY },
@@ -47,10 +47,13 @@ LBPlayer.prototype.update = function () {
                 if (character.calls.counter >= 2500) character.calls.counter = 0;
                 character.calls.counter++;
                 character.calls.calls.setItem(character.calls.counter, { id: character.calls.counter, input: input });
-                character.connections.server.ClientManagement.Player.SendInput(input, character.id, character.calls.counter);
+                eurecaServer.ClientManagement.Player.SendInput(input, character.id, character.calls.counter);
+                if (gameInstance.overlap)
+                    character.cOverlap.findCollidableObject(character.cKeyboardInput.increment);
             },
             function (character) {
-                overlapHandler(character, gameInstance, character.cKeyboardInput.increment);
+                if (character.gameInstance.overlap)
+                    character.cOverlap.checkOverlap(true);
             },
             this.cKeyboardInput.inputString,
             175,
@@ -60,6 +63,8 @@ LBPlayer.prototype.update = function () {
     }
     else {
         this.updateDisplayedName();
+        if (this.cMovement.isMoving)
+            this.cOverlap.checkOverlap(false);
     }
 }
 
@@ -72,9 +77,9 @@ LBPlayer.prototype.updatePosition = function (x, y, callId) {
         increment += switchFunction(item.input);
     });    
 
-    if (x + increment.x * this.gameInstance.movementGridSize != (this.currentTile.x * this.gameInstance.movementGridSize) - (this.gameInstance.movementGridSize / 2))
+    if (x + increment.x != this.currentTile.x)
         this.x = x + increment.x * this.gameInstance.movementGridSize;
-    if (y + increment.y * this.gameInstance.movementGridSize != (this.currentTile.y * this.gameInstance.movementGridSize) - (this.gameInstance.movementGridSize / 2))
+    if (y + increment.y != this.currentTile.y)
         this.y = y + increment.y * this.gameInstance.movementGridSize;
 
     coordinatesText.setText('X: ' + this.x + ' Y: ' + this.y);

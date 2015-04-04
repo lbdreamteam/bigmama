@@ -14,8 +14,9 @@ self.addEventListener('message', function (e) {
 }, false);
 
 var onInit = function (params) {
-    self.postMessage('Worker Initialized: ' + params);
+    self.postMessage('Worker Initialized: ' + params );
     myId = params;
+    movementGridSize = params.movementGridSize;
 };
 
 var onConnect = function (params) {
@@ -25,7 +26,7 @@ var onConnect = function (params) {
         positions[params.id].counter++;
         positions[params.id].isPending = true;
         positions[params.id].pendingPositions[1] = { id: 1, x: params.nowPos.x, y: params.nowPos.y };
-        self.postMessage('New Client: ' + params.id + ' -- OldPos: ' + params.oldPos.x + ';' + params.oldPos.y + ' -- NowPos: ' + params.nowPos.x + ';' + params.nowPos.y);
+        self.postMessage('New Client: ' + params.id + ' -- OldPos(tiled): ' + params.oldPos.x + ';' + params.oldPos.y + ' -- NowPos(tiled): ' + params.nowPos.x + ';' + params.nowPos.y);
         onRequestPosition(params.id); // forza l'inizio di un tween tra la posizione iniziale e quella già conosciuta;
     }
 };
@@ -47,7 +48,7 @@ var update = function (params) {
                         if (!positions[client].isMoving) {
                             positions[client].lastPosition = { id: positions[client].counter, x: positionsUpdateTable[client].x, y: positionsUpdateTable[client].y };
                             self.postMessage('Received new positions -- New counter: ' + positions[client].counter + ' -- New last positions: id: ' + positions[client].lastPosition.id + '; x: ' + positions[client].lastPosition.x + '; y: ' + positions[client].lastPosition.y);
-                            self.postMessage({ event: 'pushPosition', params: { client: client, pointer: { x: positionsUpdateTable[client].x, y: positionsUpdateTable[client].y } } });
+                            self.postMessage({ event: 'pushPosition', params: { client: client, pointer: { x: positionsUpdateTable[client].x , y: positionsUpdateTable[client].y } } });
                         }
                         else {
                             positions[client].pendingPositions[positions[client].counter] = { id: positions[client].counter, x: positionsUpdateTable[client].x, y: positionsUpdateTable[client].y };
@@ -76,7 +77,7 @@ var onRequestPosition = function (id) {
         var newPosCounter = positions[id].lastPosition.id + 1;
         self.postMessage({ event: 'pushPosition', params: { client: id, pointer: { x: positions[id].pendingPositions[newPosCounter].x, y: positions[id].pendingPositions[newPosCounter].y } } });
         positions[id].lastPosition.id++;
-        self.postMessage('Extracted new positions from pendings -- New last positions: id: ' + positions[id].lastPosition.id + '; x: ' + positions[id].lastPosition.x  + '; y: ' + positions[id].lastPosition.y);
+        self.postMessage('Extracted new positions from pendings -- New last positions: id: ' + positions[id].lastPosition.id + '; x: ' + positions[id].lastPosition.x + '; y: ' + positions[id].lastPosition.y);
         positions[id].lastPosition.x = positions[id].pendingPositions[positions[id].lastPosition.id].x;
         positions[id].lastPosition.y = positions[id].pendingPositions[positions[id].lastPosition.id].y;
         delete positions[id].pendingPositions[newPosCounter];

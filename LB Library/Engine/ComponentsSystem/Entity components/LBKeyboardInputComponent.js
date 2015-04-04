@@ -1,5 +1,5 @@
 LBKeyboardInputComponent = function (agent) {
-    LBBaseComponent.call(this, agent);
+    LBBaseComponent.call(this, agent, LBLibrary.ComponentsTypes.KeyboardInput);
 
     this.targetPointX = agent.x;
     this.targetPointY = agent.y;
@@ -19,6 +19,8 @@ LBKeyboardInputComponent.prototype.detectInput = function (cursors) {
     if (this.inputString != 'null') {
         this.increment = switchFunction(this.inputString);
 
+        //Non sono sicuro di aver capito bene a cosa servisse il controllo che le coordinate di aagent non fossero 0, ma questo bloccava il player perchè se le coordinate erano 0 (reale -16) il player non veniva spostato
+        //In realtà non mi è troppo chiara neanche l'utilità di questo if
         if (this.increment.x) component.agent.currentTile.x += this.increment.x;
         if (this.increment.y) component.agent.currentTile.y += this.increment.y;
 

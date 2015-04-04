@@ -1,5 +1,5 @@
 ﻿LBShootingComponent = function (agent) {
-    LBBaseComponent.call(this, agent);
+    LBBaseComponent.call(this, agent, LBLibrary.ComponentsTypes.Shooting);
     
     //PROPS
 }

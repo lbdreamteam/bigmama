@@ -2,10 +2,10 @@ LBBaseCharacter = function (gameInstance, x, y, graph, displayedName, nameVisibl
     LBBaseEntity.call(this, gameInstance, x, y, graph);
 
     //Proprietà
-    this.currentTile = { x: (x + (this.gameInstance.movementGridSize / 2)) / this.gameInstance.movementGridSize, y: (y + (this.gameInstance.movementGridSize / 2)) / this.gameInstance.movementGridSize };
-    
     this.zDepth = 0.5;
-    this.gameInstance.depthGroup.add(this);
+    this.gameInstance.cDepth.depthGroup.add(this);
+    this.graph = graph;
+    this.id = displayedName;
 
     if (typeof displayedName === 'undefined') { }
     else {
@@ -18,6 +18,8 @@ LBBaseCharacter = function (gameInstance, x, y, graph, displayedName, nameVisibl
     }
 
     this.cMovement = new LBMovementComponent(this);
+    this.cSnapping = new LBSnappingComponent(this);
+    this.cCollidingMovement = new LBCollidingMovementComponent(this);
 }
 
 LBBaseCharacter.prototype = Object.create(LBBaseEntity.prototype);
