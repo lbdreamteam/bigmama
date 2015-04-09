@@ -24,7 +24,6 @@
     <Content Include="index.html" />
     <Content Include="js\GameState.js" />
     <Content Include="js\main.js" />
-    <Content Include="js\Objects\TestingTree.js" />
     <Content Include="LB Library\Engine\ComponentsSystem\Entity components\LBCollidingMovementComponent.js" />
     <Content Include="LB Library\Engine\ComponentsSystem\Entity components\LBKeyboardInputComponent.js" />
     <Content Include="LB Library\Engine\ComponentsSystem\Entity components\LBMovementComponent.js" />
@@ -42,15 +41,9 @@
     <Content Include="LB Library\Engine\LBGlobalVariables.js" />
     <Content Include="LB Library\Engine\LBGame.js" />
     <Content Include="LB Library\Engine\LBState.js" />
-    <Content Include="LB Library\Entities\CharactersSystem\LBBaseCharacter.js" />
-    <Content Include="LB Library\Entities\CharactersSystem\LBOtherPlayer.js" />
-    <Content Include="LB Library\Entities\CharactersSystem\LBPlayer.js" />
-    <Content Include="LB Library\Entities\LBBaseEntity.js" />
-    <Content Include="LB Library\Entities\ObjectsSystem\LBBaseInventoryObject.js" />
-    <Content Include="LB Library\Entities\ObjectsSystem\LBBaseObject.js" />
-    <Content Include="LB Library\Entities\ObjectsSystem\LBBaseWorldObject.js" />
-    <Content Include="LB Library\Entities\ObjectsSystem\WorldObjects\LBBaseInteractableObject.js" />
-    <Content Include="LB Library\Entities\ObjectsSystem\WorldObjects\LBBaseStaticObject.js" />
+    <Content Include="LB Library\Engine\LBSprite.js" />
+    <Content Include="LB Library\Entities\LBOtherPlayer.js" />
+    <Content Include="LB Library\Entities\LBPlayer.js" />
     <Content Include="LB Library\UI\LBButton.js" />
     <Content Include="LB Library\Utility\Elements\LBHashTable.js" />
     <Content Include="LB Library\Utility\phaser.js" />
@@ -62,6 +55,7 @@
   <ItemGroup>
     <Content Include="web.config" />
     <Content Include="assets\treeMatrix.json" />
+    <Content Include="assets\playerMatrix.json" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -70,7 +64,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="LB Library\Entities\ObjectsSystem\InventoryObjects\" />
+    <Folder Include="js\Characters\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>

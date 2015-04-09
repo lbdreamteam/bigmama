@@ -22,7 +22,6 @@ var updateInterval = setInterval(function () {
     if (JSON.stringify(posTable.nowPos) != '{}') {
         states.times[states.counter] = Date.now() - t;
         states.pos[states.times[states.counter]] = JSON.stringify(posTable.nowPos);
-        console.log(states.pos[states.times[states.counter]]);
         states.counter++;
     }    
     for (var client in clients) {
@@ -34,12 +33,12 @@ var updateInterval = setInterval(function () {
 eurecaServer.onConnect(function (conn) {
     console.log('New Client id=%s ', conn.id, conn.remoteAddress);
     var remote = eurecaServer.getClient(conn.id);
-    clients[conn.id] = { id: conn.id, remote: remote, state: { x: 5, y: 5 } };
+    clients[conn.id] = { id: conn.id, remote: remote, state: { x: 1, y: 1 } };
     posTable.oldPos[conn.id] = clients[conn.id].state;
     posTable.nowPos[conn.id] = clients[conn.id].state;
     remote.createGame(conn.id, clients[conn.id].state.x, clients[conn.id].state.y);
     remote.spawnOtherPlayers(posTable);
-    //remote.spawnOtherPlayers(clients);
+    remote.spawnOtherPlayers(clients);
     for (var client in clients) {
         console.log(clients[client].state.x);
         if (client != conn.id) {
@@ -73,48 +72,12 @@ eurecaServer.exports.ClientManagement = (function () {
 
         var tileSize = 32;
         /************ PLAYER MANAGEMENT - SEND INPUT ************/
-        function sendInput(input, clientId, callId) {
-            switch (input) {
-                case 'up':
-                    clients[clientId].state.y -= 1;
-                    break;
-                case 'down':
-                    clients[clientId].state.y += 1;
-                    break;
-                case 'right':
-                    clients[clientId].state.x += 1;
-                    break;
-                case 'left':
-                    clients[clientId].state.x -= 1;
-                    break;
-                case 'up-right':
-                    clients[clientId].state.x += 1;
-                    clients[clientId].state.y -= 1;
-                    break;
-                case 'up-left':
-                    clients[clientId].state.x -= 1;
-                    clients[clientId].state.y -= 1;
-                    break;
-                case 'down-right':
-                    clients[clientId].state.x += 1;
-                    clients[clientId].state.y += 1;
-                    break;
-                case 'down-left':
-                    clients[clientId].state.x -= 1;
-                    clients[clientId].state.y += 1;
-                    break;
-                case 'null':
-                    break;
-                default:
-                    console.log('Qualcosa non ha funzionato nel rilevare l input');
-                    break;
-            }
+        function sendInput(increment, clientId, callId) {
+            console.log(increment);
+            clients[clientId].state.x += increment.x;
+            clients[clientId].state.y += increment.y;
             calls[callsCounter] = clients[clientId].state;
             posTable.nowPos[clientId] = clients[clientId].state;
-            //for (var i = 0; i < Object.keys(posTable.nowPos).length; i++) {
-            //    var c = Object.keys(posTable.nowPos)[i];
-            //    console.log('Old Pos: ' + posTable.oldPos[c].x + ';' + posTable.oldPos[c].y + ' NowPos: ' + posTable.nowPos[c].x + ';' + posTable.nowPos[c].y + ' --At: ' + (Date.now() - t));
-            //};
             callsCounter++;
             clients[clientId].remote.updatePlayer(clients[clientId].state.x, clients[clientId].state.y, callId);
 

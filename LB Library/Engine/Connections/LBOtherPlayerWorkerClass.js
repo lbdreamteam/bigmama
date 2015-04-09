@@ -1,12 +1,14 @@
 ﻿LBOtherPlayerWorkerClass = function (path, listener, handlers) {
+    //Creazione del worker
     this.worker = new Worker(path);
 
+    //Definizione degli handler dei messaggi
     if (typeof handlers === 'undefined' || !handlers) handlers = (function () {
         var onPushPositions = function (params) {
             if (!params.client || !params.pointer) console.log('ERROR at onPushPosition: params are not set correctly.')
             else {
                 gameInstance.clientsList[params.client].cMovement.move(
-                    { x: params.pointer.x * gameInstance.movementGridSize - gameInstance.movementGridSize / 2, y: params.pointer.y * gameInstance.movementGridSize - gameInstance.movementGridSize / 2},
+                    { x: params.pointer.x, y: params.pointer.y},
                     function (_agent, input) {
                         gameInstance.clientsList[params.client].currentTile = params.pointer;
                         console.log('Worker Class said: New currentTile for ' + params.client + ' --Values: ' + params.pointer.x + ';' + params.pointer.y + ' --Pixels: ' + gameInstance.clientsList[params.client].x + ';' + gameInstance.clientsList[params.client].y);
@@ -27,6 +29,7 @@
         };
     }());
 
+    //Definizione del listener ai messaggi
     if (typeof listener === 'undefined' || !listener) listener = function (e) {
         if (e.data.event) {
             switch (e.data.event) {
@@ -42,6 +45,7 @@
         else console.log('Worker said: ' + e.data);
     };
 
+    //Ascolto del worker
     this.worker.addEventListener('message', listener, false);
 };
 

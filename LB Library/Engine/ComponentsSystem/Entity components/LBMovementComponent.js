@@ -9,14 +9,15 @@ LBMovementComponent = function (agent) {
 LBMovementComponent.prototype = Object.create(LBBaseComponent.prototype);
 LBMovementComponent.prototype.constructor = LBMovementComponent;
 
-LBMovementComponent.prototype.move = function (target, onStartFunction, onCompleteFunction, input, duration, ease, autoStart, delay, repeat, yoyo) {
+LBMovementComponent.prototype.move = function (target, onStartFunction, onCompleteFunction, increment, duration, ease, autoStart, delay, repeat, yoyo) {
 
-    var component = this;
+    var component = this,
+        pixelTarget = gameInstance.mapMovementMatrix[target.x][target.y];
     
     //Definizione parametri opzionali
     if (typeof onStartFunction === 'undefined' || !onStartFunction) { onStartFunction = function () { } }
     if (typeof onCompleteFunction === 'undefined' || !onCompleteFunction) { onCompleteFunction = function () { } }
-    if (typeof input === 'undefined' || !input) { input = 'null' }
+    //if (typeof increment === 'undefined' || !input) { input = 'null' }
     if (typeof duration === 'undefined') { duration = 100; }
     if (typeof ease === 'undefined') { ease = Phaser.Easing.Default; }
     if (typeof autoStart === 'undefined') { autoStart = false; }
@@ -24,10 +25,10 @@ LBMovementComponent.prototype.move = function (target, onStartFunction, onComple
     if (typeof repeat === 'undefined') { repeat = 0; }
     if (typeof yoyo === 'undefined') { yoyo = false; }
 
-    var tween = component.agent.gameInstance.phaserGame.add.tween(component.agent);
+    var tween = gameInstance.phaserGame.add.tween(component.agent);
 
     tween.to(
-        target,
+        pixelTarget,
         duration,
         ease,
         autoStart,
@@ -38,9 +39,9 @@ LBMovementComponent.prototype.move = function (target, onStartFunction, onComple
 
     tween.onStart.add(function () {
         component.isMoving = true;
-        onStartFunction(component.agent, input);
+        onStartFunction(component.agent, increment);
         component.fireSignal('startMoving');
-        component.agent.gameInstance.cDepth.depthSort(component.agent, target);
+        gameInstance.cDepth.depthSort(component.agent, target);
     });
 
     tween.onComplete.add(function () {

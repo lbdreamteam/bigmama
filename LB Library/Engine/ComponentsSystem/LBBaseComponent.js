@@ -25,7 +25,6 @@ LBBaseComponent.prototype.fireSignal = function (signalName) {
 
 //funzione che dichiara un nuovo delegate tramite il manager
 LBBaseComponent.prototype.sendDelegate = function (parentType, signalName, callback) {
-    console.log(LBLibrary);
     if(!parentType) {
         console.error('ERROR at sendDelegate: callingType: ' + this.type + ' --Check parentType.');
         return;

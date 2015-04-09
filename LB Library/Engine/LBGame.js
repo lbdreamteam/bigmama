@@ -1,4 +1,4 @@
-﻿LBGame = function (width, height, worldWidth, worldHeight, movementGridSize, movementInEightDirections, overlap, renderer, parent, state, transparent, antialias, physicsConfig) {
+﻿LBGame = function (width, height, worldWidth, worldHeight, movementGridSize, movementInEightDirections, overlap, renderer, mapMovementH, mapMovementH0, parent, state, transparent, antialias, physicsConfig) {
 
     //Definizione parametri opzionali
     width = width || 800;
@@ -12,12 +12,15 @@
     transparent = transparent || false;
     if (antialias === undefined) { antialias = true }
     physicsConfig = physicsConfig || null;
+    mapMovementH = mapMovementH || 0;
+    mapMovementH0 = mapMovementH0 || 0;
 
     //Proprietà
     this.phaserGame = new Phaser.Game(width, height, renderer, parent, state, transparent, antialias, physicsConfig);
     this.movementGridSize = movementGridSize;
     this.movementInEightDirections = movementInEightDirections;
     this.world = { width: worldWidth, height: worldHeight };
+    this.playerSpawnPoint = {};
 
     //Depth
     this.cDepth = new LBDepthComponent(this);
@@ -49,16 +52,33 @@
     //Worker
     this.clientsList = {};
     this.otherPlayersW = new LBOtherPlayerWorkerClass('LB Library/Engine/Connections/LBOtherPlayersWorker.js', null, null);
+
+    //Griglia per lo spostamento
+    this.mapMovementMatrix = mapMovementH ? this.createMovementMap(mapMovementH, mapMovementH0) : null;
+    console.log('MAP: ');
+    console.log(this.mapMovementMatrix);
 }
 
 LBGame.prototype = Object.create(Object);
 LBGame.prototype.constructor = LBGame;
 
+//Crea la mappa dei punti di snap per i baricentri degli oggetti nel modo tile-based
+
+//ISSUE: MapMovementH0 non funziona, anche cambiandolo il risultato è sempre lo stesso!
+//ISSUE: Problema con il corretto posizionamento degli oggetti e dei personaggi. Non deve dipendere dalla zona del movimento!
+LBGame.prototype.createMovementMap = function (h, h0) {
+    var map = {},
+        zeroY = this.phaserGame.height - h0 - (h * this.movementGridSize);
+    for (var column = 1; column <= Math.floor(this.phaserGame.width / this.movementGridSize) ; column++) {
+        map[column] = {};
+        for (var row = 1; row <= h; row++) map[column][row] = { x: (column * this.movementGridSize) - (this.movementGridSize / 2), y: zeroY + (row * this.movementGridSize) - (this.movementGridSize / 2) };
+    }
+    return map;
+}
+
 //Carica un'immagine, con tutto ciò che ne consegue
 LBGame.prototype.loadImage = function (cacheName, path) {
-    console.log(cacheName);
     gameInstance.phaserGame.load.image(cacheName, path);
-    console.log('loading...' + cacheName);
     gameInstance.phaserGame.load.onLoadStart.add(function () { console.log('Partito'); });
     gameInstance.phaserGame.load.onLoadComplete.add(function () {
         if (gameInstance.overlap) {
@@ -142,14 +162,15 @@ LBGame.prototype.gameSetup = function () { //funzione richiamata dal create del 
     });
 
     /************ FUNZIONI DISPONIBILI LATO SERVER ************/
-    eurecaClient.exports.createGame = function (id, x, y) {
+    eurecaClient.exports.createGame = function (id, Tx, Ty) {
         myId = id;
+        gameInstance.playerSpawnPoint = { x: Tx, y: Ty };
         create();
-        gameInstance.otherPlayersW.worker.postMessage({ event: 'init', params: myId}); //inizializza il worker
+        gameInstance.otherPlayersW.worker.postMessage({ event: 'init', params: myId }); //inizializza il worker
     }
 
     eurecaClient.exports.updatePlayer = function (x, y, callId) {
-        player.updatePosition(x, y, callId);
+        gameInstance.clientsList[myId].updatePosition(x, y, callId);
     };
 
     eurecaClient.exports.updateOtherPlayers = function (posTable) {

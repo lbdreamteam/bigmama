@@ -53,8 +53,10 @@
     //    maxT = (euristic % gameInstance.movementGridSize == 0) ? Math.floor(euristic / gameInstance.movementGridSize) : Math.floor(euristic / gameInstance.movementGridSize) + 1,
     //    deltaT = maxT - minT + 1;
     agent.body.setSize(deltaT * gameInstance.movementGridSize, h * gameInstance.movementGridSize);
-    agent.body.x = (minT - 1) * gameInstance.movementGridSize;
-    agent.body.y = (agent.currentTile.y - h) * gameInstance.movementGridSize;
+    //agent.body.position = gameInstance.mapMovementMatrix[minT][agent.currentTile.y - h];
+    var pos = gameInstance.mapMovementMatrix[minT][agent.currentTile.y - h + 1];
+    agent.body.x = pos.x - (gameInstance.movementGridSize / 2);
+    agent.body.y = pos.y - (gameInstance.movementGridSize / 2);
     agent.body.immovable = true;
     gameInstance.phaserGame.debug.body(agent);
     console.log('Result from cCollidingMovement for ' + agent.id + ' --Pos:' + agent.currentTile.x + ';' + agent.currentTile.y + ' --MinT: ' + minT + ' --MaxT: ' + maxT + ' --DeltaT: ' + deltaT);
