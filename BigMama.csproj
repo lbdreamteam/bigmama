@@ -57,7 +57,7 @@
     <Content Include="web.config" />
     <Content Include="assets\treeMatrix.json" />
     <Content Include="assets\playerMatrix.json" />
-    <Content Include="assets\font.fnt" />
+    <Content Include="assets\font.xml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
