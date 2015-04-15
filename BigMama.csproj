@@ -47,7 +47,8 @@
     <Content Include="LB Library\UI\LBButton.js" />
     <Content Include="LB Library\Utility\Elements\LBHashTable.js" />
     <Content Include="LB Library\Utility\phaser.js" />
-    <Content Include="server.js" />
+    <Content Include="Server Side\LBServerModule.js" />
+    <Content Include="Server Side\server.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="package.json" />

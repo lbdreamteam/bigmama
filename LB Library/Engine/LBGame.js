@@ -161,6 +161,17 @@ LBGame.prototype.gameSetup = function () { //funzione richiamata dal create del 
         eurecaServer = proxy;
     });
 
+    eurecaClient.exports.serverHandler = function (args) {
+        switch (args.event) {
+            case 'createGame': break;
+            case 'updatePlayer': break;
+            case 'updateOtherPlayers': break;
+            case 'onOtherPlayerConnect': break;
+            case 'onOtherPlayerDisconnect': break;
+            case 'spawnOtherPlayers': break;
+        }
+    }
+
     /************ FUNZIONI DISPONIBILI LATO SERVER ************/
     eurecaClient.exports.createGame = function (id, Tx, Ty) {
         myId = id;
