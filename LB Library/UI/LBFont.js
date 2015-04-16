@@ -32,6 +32,7 @@ LBFont.prototype.create = function () {
 }
 
 LBFont.prototype.fillArray = function (arr, attribute) {
+
     //Viene caricato il documento XML del font
     xml = new XMLHttpRequest;
     xml.open("GET", "assets/font.xml", false);
@@ -46,4 +47,10 @@ LBFont.prototype.fillArray = function (arr, attribute) {
         //console.log(arr[i]);
     }
 }
-//TODO: creare funzione per ritaglio immagine lettera e associare l'immagine al carattere
+
+LBFont.prototype.imageHandler = function () {
+
+    var fontImage = new Image();
+    img.src = "assets/font.png";
+    //Guardare questo http://dev.vizuina.com/cropper/
+}
