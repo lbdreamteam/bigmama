@@ -2,8 +2,9 @@
     LBServer: LBServer
 }
 
-LBServer = function (extraPackages, onInit) {
+LBServer = function (port, extraPackages, onInit) {
 
+    port = port || 8001;
     extraPackages = extraPackages || {};
     onInit = onInit || null;
 
@@ -15,7 +16,7 @@ LBServer = function (extraPackages, onInit) {
     this.init(extraPackages, onInit);
 
     //AVVIO
-    this.start(allows);
+    this.start(allows, port);
 }
 
 LBServer.prototype = Object.create(Object);
@@ -33,8 +34,10 @@ LBServer.prototype.init = function (extraPackages, onInit) {
     if (onInit) onInit();
 };
 
-LBServer.prototype.start = function (allows) {
+LBServer.prototype.start = function (allows, port) {
     var eurecaServer = require('eureca.io').eurecaServer;
     this.serverInstance = new eurecaServer({ allow: 'serverHandler' });
-    //this.serverInstance = new eurecaServer({ allow: allows });
+
+    eurecaServer.attach(this.serverInstance);
+    this.serverInstance.listen(process.env.PORT || port);
 };

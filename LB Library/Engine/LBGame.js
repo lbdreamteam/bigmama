@@ -155,6 +155,8 @@ LBGame.prototype.loadSpritePixelMatrix = function (cacheName) {
 
 LBGame.prototype.gameSetup = function () { //funzione richiamata dal create del gioco
 
+    JSON.get('https://ide.c9.io/apoteneggi/consequentiae/api/auth', function () { });
+
     eurecaClient = new Eureca.Client();
 
     eurecaClient.ready(function (proxy) {

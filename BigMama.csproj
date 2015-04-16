@@ -21,6 +21,7 @@
     <Content Include="assets\placeholders\tileset.png" />
     <Content Include="assets\player.png" />
     <Content Include="assets\tree.png" />
+    <Content Include="CentralAPI\Central.js" />
     <Content Include="index.html" />
     <Content Include="js\GameState.js" />
     <Content Include="js\main.js" />
