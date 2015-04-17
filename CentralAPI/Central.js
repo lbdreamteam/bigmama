@@ -3,7 +3,7 @@
     mysql = require('mysql');
     app = express(),
     connection = mysql.createConnection({
-        host: 'host3trialcode.ddns.net',
+        host: 'host1trialcode.ddns.net',
         port: '3306',
         database: 'trialcode_test',
         user: 'test',
