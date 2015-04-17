@@ -22,6 +22,7 @@
     <Content Include="assets\player.png" />
     <Content Include="assets\tree.png" />
     <Content Include="CentralAPI\Central.js" />
+    <Content Include="CentralAPI\TestView.html" />
     <Content Include="index.html" />
     <Content Include="js\GameState.js" />
     <Content Include="js\main.js" />
@@ -48,6 +49,8 @@
     <Content Include="LB Library\UI\LBButton.js" />
     <Content Include="LB Library\Utility\Elements\LBHashTable.js" />
     <Content Include="LB Library\Utility\phaser.js" />
+    <Content Include="packages.config" />
+    <Content Include="CentralAPI\Scripts\jquery-2.1.3.min.js" />
     <Content Include="Server Side\LBServerModule.js" />
     <Content Include="Server Side\server.js" />
   </ItemGroup>
@@ -55,9 +58,11 @@
     <Content Include="package.json" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="server.js" />
     <Content Include="web.config" />
     <Content Include="assets\treeMatrix.json" />
     <Content Include="assets\playerMatrix.json" />
+    <Content Include="CentralAPI\Scripts\jquery-2.1.3.min.map" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
