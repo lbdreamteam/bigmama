@@ -50,7 +50,6 @@ LBFont.prototype.fillArray = function (arr, attribute) {
 
 LBFont.prototype.imageHandler = function () {
 
-    var fontImage = new Image();
-    img.src = "assets/font.png";
+
     //Guardare questo http://dev.vizuina.com/cropper/
 }
