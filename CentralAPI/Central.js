@@ -1,14 +1,16 @@
 ﻿var express = require("express"),
     bodyparser = require("body-parser"),
-    mysql = require('mysql');
+    mysql = require('mysql'),
     app = express(),
+    LBServerInstance = require('./ServerSide/LBServerModule.js'),
     connection = mysql.createConnection({
         host: 'host1trialcode.ddns.net',
         port: '3306',
         database: 'trialcode_test',
         user: 'test',
         password: 'Spallanzani1'
-    });
+    }),
+    instances = {};
 
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
@@ -20,6 +22,43 @@ router.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
+});
+
+router.get('/', function (req, res) {
+    connection.connect(function (err) {
+        if (err) {
+            console.log('Error while connecting to database: ' + err.stack);
+            return
+        }
+        console.log('Connessione aperta --ID: ' + connection.threadId);
+    });
+    //connection.query('INSERT INTO test(Nome, Token) VALUES("abc", "def");', function (error, results, fields) {
+    //    if (error) {
+    //        console.log('ERROR at query: ' + error.stack);
+    //        return
+    //    }
+    //    console.log('Inserted!');
+    //});
+    connection.query('SELECT * FROM test;', function (err, results, fieds) {
+        if (err) {
+            console.log('ERROR at SELECT ' + err.stack);
+            return
+        }
+        for (var result in results) console.log(result);
+        res.json({ response: { resuilts: results, fieds: fieds } });
+    })
+    //try {
+    //    connection.connect();
+    //    console.log('Connessione aperta..');
+    //    connection.end();
+    //}
+    //catch (ex) {
+    //    console.log('Exception: ' + ex);
+    //}
+    //console.log('Redirecting --Req ' + req);
+    //res.redirect('http://localhost:8001');
+
+    ////res.json({ response: 'Ciao' });
 });
 
 router.get('/redirect/:uId/:iId', function (req, res) {
@@ -57,42 +96,10 @@ router.get('/auth/:uId/:iId', function (req, res) {
     });
 });
 
-router.get('/', function (req, res) {
-        connection.connect(function(err) {
-            if(err) {
-                console.log('Error while connecting to database: ' + err.stack);
-                return
-            }
-            console.log('Connessione aperta --ID: ' + connection.threadId);
-        });
-        //connection.query('INSERT INTO test(Nome, Token) VALUES("abc", "def");', function (error, results, fields) {
-        //    if (error) {
-        //        console.log('ERROR at query: ' + error.stack);
-        //        return
-        //    }
-        //    console.log('Inserted!');
-        //});
-        connection.query('SELECT * FROM test;', function (err, results, fieds) {
-            if (err) {
-                console.log('ERROR at SELECT ' + err.stack);
-                return
-            }
-            for (var result in results) console.log(result);
-            res.json({ response: { resuilts: results, fieds: fieds } });
-        })
-    //try {
-    //    connection.connect();
-    //    console.log('Connessione aperta..');
-    //    connection.end();
-    //}
-    //catch (ex) {
-    //    console.log('Exception: ' + ex);
-    //}
-    //console.log('Redirecting --Req ' + req);
-    //res.redirect('http://localhost:8001');
-
-    ////res.json({ response: 'Ciao' });
-});
+router.get('/createNew', function (req, res) {
+    var response = LBServerInstance.create();
+    res.json({ response: response });
+})
 
 app.use('/api', router);
 

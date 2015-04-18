@@ -1,4 +1,4 @@
-﻿var OtherPlayersManager = (function () {
+﻿var otherPlayersManager = (function () {
 
     var onConnect = function (id, oldPos, nowPos) {
         gameInstance.clientsList[id] = new LBOtherPlayer(gameInstance, oldPos.x, oldPos.y, 'player', id);
@@ -26,9 +26,9 @@
     };
 
     return {
-        OnConnect: onConnect,
-        OnDisconnect: onDisconnect,
-        Update: update,
-        Spawn: spawn
+        onConnect: onConnect,
+        onDisconnect: onDisconnect,
+        update: update,
+        spawn: spawn
     };
 }());

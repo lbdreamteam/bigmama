@@ -21,6 +21,7 @@
     this.movementInEightDirections = movementInEightDirections;
     this.world = { width: worldWidth, height: worldHeight };
     this.playerSpawnPoint = {};
+    this.privateHandlers = new LBPrivateHandlers();
 
     //Depth
     this.cDepth = new LBDepthComponent(this);
@@ -167,44 +168,70 @@ LBGame.prototype.gameSetup = function () { //funzione richiamata dal create del 
         eurecaServer = proxy;
     });
 
+    //nuova funzione per gestire dialogo client-server
     eurecaClient.exports.serverHandler = function (args) {
-        switch (args.event) {
-            case 'createGame': break;
-            case 'updatePlayer': break;
-            case 'updateOtherPlayers': break;
-            case 'onOtherPlayerConnect': break;
-            case 'onOtherPlayerDisconnect': break;
-            case 'spawnOtherPlayers': break;
-        }
-    }
+        gameInstance.privateHandlers.callHandler(args.event, args.params);
 
-    /************ FUNZIONI DISPONIBILI LATO SERVER ************/
-    eurecaClient.exports.createGame = function (id, Tx, Ty) {
-        myId = id;
-        gameInstance.playerSpawnPoint = { x: Tx, y: Ty };
+    };
+
+    gameInstance.privateHandlers.addHandler('createGame', ['id', 'Tx', 'Ty'], function (params) {
+        myId = params.id;
+        gameInstance.playerSpawnPoint = { x: params.Tx, y: params.Ty };
         create();
         gameInstance.otherPlayersW.worker.postMessage({ event: 'init', params: myId }); //inizializza il worker
-    }
+    });
 
-    eurecaClient.exports.updatePlayer = function (x, y, callId) {
-        gameInstance.clientsList[myId].updatePosition(x, y, callId);
-    };
+    gameInstance.privateHandlers.addHandler('updatePlayer', ['x', 'y', 'callId'], function (params) {
+        gameInstance.clientsList[myId].updatePosition(params.x, params.y, params.callId);
+    });
 
-    eurecaClient.exports.updateOtherPlayers = function (posTable) {
-        OtherPlayersManager.Update(posTable);
-    };
+    gameInstance.privateHandlers.addHandler('updateOtherPlayers', ['posTable'], function (params) {
+        otherPlayersManager.update(params.posTable);
+    });
 
-    eurecaClient.exports.onOtherPlayerConnect = function (id, x, y) {
-        OtherPlayersManager.OnConnect(id, x, y);
-    };
+    gameInstance.privateHandlers.addHandler('onOtherPlayerConnect', ['id', 'oldPos', 'nowPos'], function (params) {
+        otherPlayersManager.onConnect(params.id, params.oldPos, params.nowPos);
+    });
 
-    eurecaClient.exports.onOtherPlayerDisconnect = function (id) {
-        OtherPlayersManager.OnDisconnect(id);
-    };
+    gameInstance.privateHandlers.addHandler('onOtherPlayerDisconnect', ['id'], function (params) {
+        otherPlayersManager.onDisconnect(params.id);
+    });
 
-    eurecaClient.exports.spawnOtherPlayers = function (posTable) {
-        OtherPlayersManager.Spawn(posTable);
-    };
+    gameInstance.privateHandlers.addHandler('spawnOtherPlayers', ['posTable'], function (params) {
+        otherPlayersManager.spawn(params.posTable);
+    })
+
+    //this.privateHandlers['updatePlayer'] = function (params) {
+    //    if (!params.x || !params.y || params.callId) {
+    //        console.error('ERROR --UpdatePlayer: params are not correct.');
+    //        return;
+    //    }
+    //}
+
+    /************ FUNZIONI DISPONIBILI LATO SERVER ************/
+    //eurecaClient.exports.createGame = function (id, Tx, Ty) {
+        
+    //}
+
+    //eurecaClient.exports.updatePlayer = function (x, y, callId) {
+    //    gameInstance.clientsList[myId].updatePosition(x, y, callId);
+    //};
+
+    //eurecaClient.exports.updateOtherPlayers = function (posTable) {
+    //    otherPlayersManager.Update(posTable);
+    //};
+
+    //eurecaClient.exports.onOtherPlayerConnect = function (id, x, y) {
+    //    otherPlayersManager.OnConnect(id, x, y);
+    //};
+
+    //eurecaClient.exports.onOtherPlayerDisconnect = function (id) {
+    //    otherPlayersManager.OnDisconnect(id);
+    //};
+
+    //eurecaClient.exports.spawnOtherPlayers = function (posTable) {
+    //    otherPlayersManager.Spawn(posTable);
+    //};
 }
 
 LBGame.prototype.setVisibilityChangeHandlers = function () {

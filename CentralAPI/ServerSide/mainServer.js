@@ -5,22 +5,9 @@ var express = require('express')
 app.use(express.static(__dirname));
 
 /************ VARIABILI GLOBALI ************/
-LBServer = function () {
-    //var eurecaServer = require('eureca.io').EurecaServer;
-    this.serverInstance;
-}
-
-LBServer.prototype = Object.create(Object);
-LBServer.prototype.constructor = LBServer;
-
-LBServer.prototype.init = function () {
-    var eurecaServer = require('eureca.io').EurecaServer;
-    this.serverInstance = eurecaServer;
-}
-
 var clients = {},
     EurecaServer = require('eureca.io').EurecaServer,
-    eurecaServer = new EurecaServer({ allow: ['createGame', 'updatePlayer', 'updateOtherPlayers', 'onOtherPlayerConnect', 'onOtherPlayerDisconnect', 'spawnOtherPlayers'] }),
+    eurecaServer = new EurecaServer({ allow: 'serverHandler' }),
     callsCounter = 0,
     calls = {},
     posTable = { oldPos: {}, nowPos: {} },
@@ -55,10 +42,16 @@ var getUpdatingPos = function () {
 /************ EURECA - ON CONNECT ************/
 eurecaServer.onConnect(function (conn) {
     console.log('New Client id=%s ', conn.id, conn.remoteAddress);
+    console.log('ciao');
     var remote = eurecaServer.getClient(conn.id);
+    console.log(remote);
+    for (var p in remote) {
+        console.log(remote[p]);
+    }
     clients[conn.id] = { id: conn.id, remote: remote, state: { x: 1, y: 1 } };
     posTable.nowPos[conn.id] = clients[conn.id].state;
-    remote.createGame(conn.id, clients[conn.id].state.x, clients[conn.id].state.y);
+    remote.serverHandler({ event: 'createGame', params: { id: conn.id, Tx: clients[conn.id].state.x, Ty: clients[conn.id].state.y } });
+    //remote.createGame(conn.id, clients[conn.id].state.x, clients[conn.id].state.y);
     nowConnected[conn.id] = Date.now();
     delete nowUpdating[conn.id];
 });

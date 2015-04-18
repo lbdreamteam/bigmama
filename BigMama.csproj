@@ -48,11 +48,13 @@
     <Content Include="LB Library\Entities\LBPlayer.js" />
     <Content Include="LB Library\UI\LBButton.js" />
     <Content Include="LB Library\Utility\Elements\LBHashTable.js" />
+    <Content Include="LB Library\Utility\Elements\LBPrivateHandlers.js" />
     <Content Include="LB Library\Utility\phaser.js" />
     <Content Include="packages.config" />
     <Content Include="CentralAPI\Scripts\jquery-2.1.3.min.js" />
-    <Content Include="Server Side\LBServerModule.js" />
-    <Content Include="Server Side\server.js" />
+    <Content Include="CentralAPI\ServerSide\LBClientsManagerModule.js" />
+    <Content Include="CentralAPI\ServerSide\LBServerModule.js" />
+    <Content Include="CentralAPI\ServerSide\mainServer.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="package.json" />
