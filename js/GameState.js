@@ -17,6 +17,8 @@ GameState.prototype.create = function () {
     this.add.existing(gameInstance.cDepth.depthGroup);
 
     gameInstance.clientsList[myId] = new LBPlayer(gameInstance, gameInstance.playerSpawnPoint.x, gameInstance.playerSpawnPoint.y, 'player');
+    var tree = new LBTestingTree (gameInstance, 1, 1, 'tree');
+    this.add.existing(tree);
 
     gameInstance.phaserGame.camera.follow(gameInstance.clientsList[myId]);
 }

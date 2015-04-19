@@ -14,20 +14,21 @@ LBBaseComponent.prototype.constructor = LBBaseComponent;
 LBBaseComponent.prototype.createSignal = function (signalName) {
     console.log('Creating ' + signalName + '...');
     var signal = new LBSignal(signalName, this);
-    this.componentsManager.addSignal(this.type, signal);
+    this.componentsManager.addSignal(signal);
+}
+
+LBBaseComponent.prototype.createParameters = function (parameters) {
+    console.log('Adding parameters...');
+    this.componentsManager.addParameters(parameters);
 }
 
 //funzione che genera l'evento
 LBBaseComponent.prototype.fireSignal = function (signalName) {
     console.log(signalName + ' Fired');
-    this.componentsManager.signalCallback(this.type, signalName);
+    this.componentsManager.signalCallback(signalName);
 }
 
 //funzione che dichiara un nuovo delegate tramite il manager
-LBBaseComponent.prototype.sendDelegate = function (parentType, signalName, callback) {
-    if(!parentType) {
-        console.error('ERROR at sendDelegate: callingType: ' + this.type + ' --Check parentType.');
-        return;
-    }
-    this.componentsManager.loadDelegate(parentType, this.type, signalName, callback);
+LBBaseComponent.prototype.sendDelegate = function (signalName, callback) {
+    this.componentsManager.loadDelegate(this.type, signalName, callback);
 } 

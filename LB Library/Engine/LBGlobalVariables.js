@@ -14,12 +14,14 @@ var eurecaClient,
                     CollidingMovement = 2,
                     Shooting = 3,
                     Snapping = 4;
+                    Overlap = 6
             return {
                 Movement: Movement,
                 KeyboardInput: KeyboardInput,
                 CollidingMovement: CollidingMovement,
                 Shooting: Shooting,
-                Snapping : Snapping
+                Snapping : Snapping,
+                Overlap : Overlap
             }
         }())
         return {

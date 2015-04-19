@@ -99,7 +99,7 @@ LBGame.prototype.loadImage = function (cacheName, path) {
         if (!gameInstance.cPpc.spriteCollisionMatrix[cacheName])
             gameInstance.loadCollisionPixelMatrix(cacheName, path);
     });
-    console.log('done ' + cacheName);
+    console.log('loaded asset ' + cacheName);
 }
 
 //Crea una matrice dei pixel dell'immagine chiamata cacheName

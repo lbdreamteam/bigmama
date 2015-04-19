@@ -7,7 +7,7 @@
     
     //Proprietà
     this.currentTile = { x: Tx, y: Ty };
-    this.zDepth = 0.6;
+    this.zDepth = 0;
     this.graph = graph;
     this.componentsManager = new LBComponentsManager();
 
