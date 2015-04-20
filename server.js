@@ -1,13 +1,20 @@
-var express = require('express')
-  , app = express(app)
-  , server = require('http').createServer(app);
+var express = require('express'),
+    app = express(app),
+    http = require('http'),
+    server = http.createServer(app),
+    clc = require('cli-color');
 
 app.use(express.static(__dirname));
+app.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+});
 
 /************ VARIABILI GLOBALI ************/
 var clients = {},
     EurecaServer = require('eureca.io').EurecaServer,
-    eurecaServer = new EurecaServer({ allow: ['serverHandler'] }),
+    eurecaServer = new EurecaServer({ allow: ['serverHandler', 'authentication'] }),
     callsCounter = 0,
     calls = {},
     posTable = { oldPos: {}, nowPos: {} },
@@ -41,15 +48,33 @@ var getUpdatingPos = function () {
 
 /************ EURECA - ON CONNECT ************/
 eurecaServer.onConnect(function (conn) {
-    console.log('New Client id=%s ', conn.id, conn.remoteAddress);
+    console.log('New Client asking for connection... --Id=%s ', conn.id, conn.remoteAddress);
     var remote = eurecaServer.getClient(conn.id);
-    clients[conn.id] = { id: conn.id, remote: remote, state: { x: 1, y: 1 } };
-    posTable.nowPos[conn.id] = clients[conn.id].state;
-    remote.serverHandler({ event: 'createGame', params: { id: conn.id, Tx: clients[conn.id].state.x, Ty: clients[conn.id].state.y } });
-    nowConnected[conn.id] = Date.now();
-    console.log(nowUpdating[conn.id]);
-    delete nowUpdating[conn.id]; //Questa riga credo sia inutile
+    remote.authentication();
+    console.log('Requiring authentication to ' + conn.id +'...');
+    //clients[conn.id] = { id: conn.id, remote: remote, state: { x: 1, y: 1 } };
+    //posTable.nowPos[conn.id] = clients[conn.id].state;
+    //remote.serverHandler({ event: 'createGame', params: { id: conn.id, Tx: clients[conn.id].state.x, Ty: clients[conn.id].state.y } });
+    //nowConnected[conn.id] = Date.now();
+    //console.log(nowUpdating[conn.id]);
+    //delete nowUpdating[conn.id]; //Questa riga credo sia inutile
 });
+
+eurecaServer.exports.sendAuth = function (uId) {
+    console.log('Received authentication for player ' + uId + ' at ' + Date.now() + '...verifing...');
+    var req = http.request({
+        host: '127.0.0.1',
+        port: '8000',
+        path: '/api/auth/' + uId + '/istanza',
+        method: 'GET'
+    }, function (res) {
+        res.on('data', function (chunk) {
+            if (JSON.parse(chunk).response) console.log(clc.green(uId + ' Authorized'))
+            else console.log(clc.red(uId + ' failed authentication!'));
+        });
+    });
+    req.end();
+}
 
 /************ EURECA - ON DISCONNECT ************/
 eurecaServer.onDisconnect(function (conn) {

@@ -1,4 +1,13 @@
-﻿console.log('Creating game ' + Date.now());
+﻿eurecaClient = new Eureca.Client();
+eurecaClient.ready(function (proxy) {
+    eurecaServer = proxy;
+});
+eurecaClient.exports.authentication = function () {
+    //console.warn(URL_params);
+    eurecaServer.sendAuth(URL_params['uId']);
+}
+
+
 gameInstance = new LBGame(800, 600, 2500, 600, 32, true, true, Phaser.AUTO, 5)
 
 function preload() {

@@ -2,13 +2,15 @@
     bodyparser = require("body-parser"),
     mysql = require('mysql'),
     app = express(),
-    LBServerInstance = require('./ServerSide/LBServerModule.js'),
+    crypto = require('crypto'),
+    //LBModules
+    LBServerInstance = require('./ServerModules/LBServerModule.js'),
     connection = mysql.createConnection({
-        host: 'host1trialcode.ddns.net',
+        host: '192.168.1.83',
         port: '3306',
         database: 'trialcode_test',
         user: 'test',
-        password: 'Spallanzani1'
+        //password: 'Spallanzani1'
     }),
     instances = {};
 
@@ -24,29 +26,31 @@ router.use(function (req, res, next) {
     next();
 });
 
-router.get('/', function (req, res) {
-    connection.connect(function (err) {
-        if (err) {
-            console.log('Error while connecting to database: ' + err.stack);
-            return
-        }
-        console.log('Connessione aperta --ID: ' + connection.threadId);
-    });
-    //connection.query('INSERT INTO test(Nome, Token) VALUES("abc", "def");', function (error, results, fields) {
-    //    if (error) {
-    //        console.log('ERROR at query: ' + error.stack);
+router.get('/:param', function (req, res) {
+    console.log(req.params.param);
+    res.json({ response: req.params.param });
+    //connection.connect(function (err) {
+    //    if (err) {
+    //        console.log('Error while connecting to database: ' + err.stack);
     //        return
     //    }
-    //    console.log('Inserted!');
+    //    console.log('Connessione aperta --ID: ' + connection.threadId);
     //});
-    connection.query('SELECT * FROM test;', function (err, results, fieds) {
-        if (err) {
-            console.log('ERROR at SELECT ' + err.stack);
-            return
-        }
-        for (var result in results) console.log(result);
-        res.json({ response: { resuilts: results, fieds: fieds } });
-    })
+    ////connection.query('INSERT INTO test(Nome, Token) VALUES("abc", "def");', function (error, results, fields) {
+    ////    if (error) {
+    ////        console.log('ERROR at query: ' + error.stack);
+    ////        return
+    ////    }
+    ////    console.log('Inserted!');
+    ////});
+    //connection.query('SELECT * FROM test;', function (err, results, fieds) {
+    //    if (err) {
+    //        console.log('ERROR at SELECT ' + err.stack);
+    //        return
+    //    }
+    //    for (var result in results) console.log(result);
+    //    res.json({ response: { resuilts: results, fieds: fieds } });
+    //})
     //try {
     //    connection.connect();
     //    console.log('Connessione aperta..');
@@ -66,23 +70,27 @@ router.get('/redirect/:uId/:iId', function (req, res) {
         iId = req.params.iId;
     connection.query('INSERT INTO authTokens(uId, iId, token) VALUES(?, ?, "hashash");', [uId, iId], function (err) {
         if (err) {
-            console.error(err.stack);
+            console.error('Error: ' + err.stack);
             return
         }
         console.log('Created Token for user: ' + uId + ' for instance: ' + iId);
     })
-    res.redirect('http://localhost:8001/?uId=' + uId);
+    res.redirect('http://localhost:8001');
 });
 
 router.get('/auth/:uId/:iId', function (req, res) {
     var uId = req.params.uId,
         iId = req.params.iId;
+    console.log('Received authentication request from istance: ' + iId + ' for client: ' + uId);
     connection.query('SELECT token FROM authTokens WHERE uId = ? AND iId = ?;', [uId, iId], function (err, results, fields) {
         if (err) {
             console.error(err.stack);
-            return
+            res.json({ error: err.stack });
         }
-        if (!results) res.json({ response: false })
+        if (results.length == 0) {
+            console.log(uId + ' failed authentication!');
+            res.json({ response: false });
+        }
         else {
             connection.query('DELETE FROM authTokens WHERE uId = ? AND iId = ?;', [uId, iId], function (err) {
                 if (err) {
@@ -91,6 +99,7 @@ router.get('/auth/:uId/:iId', function (req, res) {
                 }
                 console.log('Token used.');
             });
+            console.log(uId + ' autorized');
             res.json({ response: true });
         }
     });
@@ -103,5 +112,5 @@ router.get('/createNew', function (req, res) {
 
 app.use('/api', router);
 
-app.listen(process.env.PORT || 8080);
-console.log('Partito...');
+app.listen(process.env.PORT || 8000);
+console.log('Central API started...');

@@ -25,6 +25,10 @@ LBCLientsManager.prototype.postMessage = function (connId, args) {
 LBCLientsManager.prototype.onConnect = function (/*id,*/ conn, sTx, sTy) {
     //this.ids.push(id);
     //this.nowConnected.push(id);
+
+    var remote = eurecaServer.getClient(conn.id);
+    this.postMessage(conn.id, { event: 'authentication' });
+
     this.ids.push(conn.id);
     this.nowConnected.push(conn.id);
     this.info[conn.id] = { /*id: id,*/ remote: eurecaServer.getClient(conn.id), connInfo: { id: conn.id, ip: conn.remoteAddress }, state: { x: sTx, y: sTy } };

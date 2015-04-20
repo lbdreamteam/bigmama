@@ -8,17 +8,17 @@
 
     <!--Funzione per leggere i parametri passati da URL-->
     <script type="text/javascript">
-        var params = {},
+        var URL_params = {},
         digestURL = function () {
             var s_params = location.search.split('&');
             s_params[0] = s_params[0].substring(1);
             for (var i in s_params) {
                 var tmp = s_params[i].split('=');
-                params[tmp[0]] = tmp[1];
+                URL_params[tmp[0]] = tmp[1];
             }
             var out = '';
-            for (var i in params) {
-                out += 'param: ' + i + ' value: ' + params[i] + '\n';
+            for (var i in URL_params) {
+                out += 'param: ' + i + ' value: ' + URL_params[i] + '\n';
             }
         }
     </script>

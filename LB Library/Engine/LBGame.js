@@ -154,19 +154,16 @@ LBGame.prototype.loadSpritePixelMatrix = function (cacheName) {
 
 
 
-LBGame.prototype.gameSetup = function () { //funzione richiamata dal create del gioco
-
-    console.warn(params);
-    
+LBGame.prototype.gameSetup = function () { //funzione richiamata dal create del gioco    
     //TODO: chiamata di verifica credenziali all'api
 
     //JSON.get('https://ide.c9.io/apoteneggi/consequentiae/api/auth', function () { });
 
-    eurecaClient = new Eureca.Client();
+    //eurecaClient = new Eureca.Client();
 
-    eurecaClient.ready(function (proxy) {
-        eurecaServer = proxy;
-    });
+    //eurecaClient.ready(function (proxy) {
+    //    eurecaServer = proxy;
+    //});
 
     //nuova funzione per gestire dialogo client-server
     eurecaClient.exports.serverHandler = function (args) {
