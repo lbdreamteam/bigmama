@@ -188,6 +188,10 @@ LBGame.prototype.gameSetup = function () { //funzione richiamata dal create del 
     eurecaClient.exports.spawnOtherPlayers = function (posTable) {
         OtherPlayersManager.Spawn(posTable);
     };
+
+    var font = new LBFont();
+
+    console.log('AA: ');
 }
 
 LBGame.prototype.setVisibilityChangeHandlers = function () {

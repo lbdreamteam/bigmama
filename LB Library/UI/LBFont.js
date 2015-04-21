@@ -8,10 +8,10 @@
     this.bold = bold;
 
     this.char = []; //Array dei caratteri ascii
-    this.width = []; 
-    this.height = []; 
-    this.x = [];
-    this.y = [];
+    this.fwidth = []; 
+    this.fheight = []; 
+    this.fx = [];
+    this.fy = [];
 
     //TODO: non va da solo il create
     this.create();
@@ -24,15 +24,17 @@ LBFont.prototype.create = function () {
     
     //Set degli array
     LBFont.prototype.fillArray(this.char, "id");
-    LBFont.prototype.fillArray(this.width, "width");
-    LBFont.prototype.fillArray(this.height, "height");
-    LBFont.prototype.fillArray(this.x, "x");
-    LBFont.prototype.fillArray(this.y, "y");
+    LBFont.prototype.fillArray(this.fwidth, "width");
+    LBFont.prototype.fillArray(this.fheight, "height");
+    LBFont.prototype.fillArray(this.fx, "x");
+    LBFont.prototype.fillArray(this.fy, "y");
+    LBFont.prototype.imageHandler();
 
 }
 
-LBFont.prototype.fillArray = function (arr, attribute) {
 
+
+LBFont.prototype.fillArray = function (arr, attribute) {
     //Viene caricato il documento XML del font
     xml = new XMLHttpRequest;
     xml.open("GET", "assets/font.xml", false);
@@ -50,6 +52,12 @@ LBFont.prototype.fillArray = function (arr, attribute) {
 
 LBFont.prototype.imageHandler = function () {
 
+    gameInstance.phaserGame.load.image('font_table', 'assets/font.png');
+    var im = gameInstance.phaserGame.cache.getImage('font_table');
+    var rect = new Phaser.Rectangle(this.fx[0], this.fy[0], this.fwidth[0], this.fheight[0]);
+    console.log(im.width);
+    console.log(im.height);
+    var bm = new Phaser.BitmapData(gameInstance.phaserGame, 'bitmap_font', im.width, im.height);
 
-    //Guardare questo http://dev.vizuina.com/cropper/
+    
 }
