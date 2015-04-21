@@ -6,7 +6,7 @@
     //LBModules
     LBServerInstance = require('./ServerModules/LBServerModule.js'),
     connection = mysql.createConnection({
-        host: '192.168.1.83',
+        host: 'host2trialcode.ddns.net',
         port: '3306',
         database: 'trialcode_test',
         user: 'test',
@@ -112,5 +112,5 @@ router.get('/createNew', function (req, res) {
 
 app.use('/api', router);
 
-app.listen(process.env.PORT || 8000);
+app.listen(process.env.PORT || 8080);
 console.log('Central API started...');

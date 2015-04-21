@@ -1,15 +1,10 @@
 var express = require('express'),
-    app = express(app),
+    app = express(),
     http = require('http'),
-    server = http.createServer(app),
+    server = http.createServer(app);
     clc = require('cli-color');
 
 app.use(express.static(__dirname));
-app.use(function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    next();
-});
 
 /************ VARIABILI GLOBALI ************/
 var clients = {},
@@ -63,8 +58,8 @@ eurecaServer.onConnect(function (conn) {
 eurecaServer.exports.sendAuth = function (uId) {
     console.log('Received authentication for player ' + uId + ' at ' + Date.now() + '...verifing...');
     var req = http.request({
-        host: '127.0.0.1',
-        port: '8000',
+        host: 'localhost',
+        port: '8080',
         path: '/api/auth/' + uId + '/istanza',
         method: 'GET'
     }, function (res) {
