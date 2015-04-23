@@ -12,6 +12,7 @@
     this.fheight = []; 
     this.fx = [];
     this.fy = [];
+    this.single_char = [];
 
     this.create();
 }
@@ -51,11 +52,13 @@ LBFont.prototype.fillArray = function (arr, attribute) {
 LBFont.prototype.imageHandler = function () {
 
     console.log('imageHandler partito');
-    gameInstance.phaserGame.load.image('font_table', 'assets/font.png');
-    var im = gameInstance.phaserGame.cache.getImage('font_table', 'assets/font.png');
-    var rect = new Phaser.Rectangle(this.fx[0], this.fy[0], this.fwidth[0], this.fheight[0]);
-    console.log(im.width);
-    console.log(im.height);
-    var bm = new Phaser.BitmapData(gameInstance.phaserGame, 'bitmap_font', im.width, im.height);
-    
+
+    for (var i = 0; i < this.char.length; i++) {
+        var im = gameInstance.phaserGame.cache.getImage('font_table');
+        var rect = new Phaser.Rectangle(this.fx[i], this.fy[i], this.fwidth[i], this.fheight[i]);
+        var bm = new Phaser.BitmapData(gameInstance.phaserGame, 'bitmap_font', im.width, im.height);
+        bm.draw(im);
+        bm.update();
+        this.single_char[i] = bm.getPixels(rect);
+    }
 }

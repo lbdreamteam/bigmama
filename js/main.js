@@ -4,7 +4,7 @@ function preload() {
     //TODO: spostare il caricamento delle immagini all'interno dei vari states
     gameInstance.loadImage('tree', 'assets/tree.png');
     gameInstance.loadImage('player', 'assets/player.png');
-
+    gameInstance.phaserGame.load.image('font_table', 'assets/font.png');
     gameInstance.setVisibilityChangeHandlers();
 }
 

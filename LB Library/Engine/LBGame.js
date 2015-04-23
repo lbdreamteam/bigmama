@@ -190,8 +190,7 @@ LBGame.prototype.gameSetup = function () { //funzione richiamata dal create del 
     };
 
     var font = new LBFont();
-
-    console.log('AA: ');
+    console.log('Istanziato font');
 }
 
 LBGame.prototype.setVisibilityChangeHandlers = function () {
