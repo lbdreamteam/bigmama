@@ -13,7 +13,6 @@
     this.fx = [];
     this.fy = [];
 
-    //TODO: non va da solo il create
     this.create();
 }
 
@@ -23,13 +22,12 @@ LBFont.prototype.constructor = LBFont;
 LBFont.prototype.create = function () {
     
     //Set degli array
-    LBFont.prototype.fillArray(this.char, "id");
-    LBFont.prototype.fillArray(this.fwidth, "width");
-    LBFont.prototype.fillArray(this.fheight, "height");
-    LBFont.prototype.fillArray(this.fx, "x");
-    LBFont.prototype.fillArray(this.fy, "y");
-    LBFont.prototype.imageHandler();
-
+    this.fillArray(this.char, "id");
+    this.fillArray(this.fwidth, "width");
+    this.fillArray(this.fheight, "height");
+    this.fillArray(this.fx, "x");
+    this.fillArray(this.fy, "y");
+    this.imageHandler();
 }
 
 
@@ -46,18 +44,18 @@ LBFont.prototype.fillArray = function (arr, attribute) {
     for (i = 0; i <= count; i++)
     {
         arr[i] = xmlDoc.getElementsByTagName('char')[i].getAttribute(attribute);
-        //console.log(arr[i]);
+       
     }
 }
 
 LBFont.prototype.imageHandler = function () {
 
+    console.log('imageHandler partito');
     gameInstance.phaserGame.load.image('font_table', 'assets/font.png');
-    var im = gameInstance.phaserGame.cache.getImage('font_table');
+    var im = gameInstance.phaserGame.cache.getImage('font_table', 'assets/font.png');
     var rect = new Phaser.Rectangle(this.fx[0], this.fy[0], this.fwidth[0], this.fheight[0]);
     console.log(im.width);
     console.log(im.height);
     var bm = new Phaser.BitmapData(gameInstance.phaserGame, 'bitmap_font', im.width, im.height);
-
     
 }
