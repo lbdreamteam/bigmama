@@ -59,9 +59,9 @@
     agent.body.y = pos.y - (gameInstance.movementGridSize / 2);
     agent.body.immovable = true;
     gameInstance.phaserGame.debug.body(agent);
-    console.log('Result from cCollidingMovement for ' + agent.id + ' --Pos:' + agent.currentTile.x + ';' + agent.currentTile.y + ' --MinT: ' + minT + ' --MaxT: ' + maxT + ' --DeltaT: ' + deltaT);
+    //console.log('Result from cCollidingMovement for ' + agent.id + ' --Pos:' + agent.currentTile.x + ';' + agent.currentTile.y + ' --MinT: ' + minT + ' --MaxT: ' + maxT + ' --DeltaT: ' + deltaT);
 
-    this.sendDelegate('startMoving', function () { console.log('This is the callback from Colliding Movement...'); });
+    this.sendDelegate('startMoving', function () { /*console.log('This is the callback from Colliding Movement...');*/ });
 }
 
 LBCollidingMovementComponent.prototype = Object.create(LBBaseComponent.prototype);

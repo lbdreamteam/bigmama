@@ -4,6 +4,8 @@
     this.collidableObject = [];
     //devo fargli arrivare la direzione
     this.sendDelegate('startMoving', this.findCollidableObject.bind(this));
+    this.sendDelegate('endMoving', this.lastCheck.bind(this));
+    this.sendUpdate(this.update.bind(this), ['isMoving'], []);
 }
 
 LBOverlapComponent.prototype = Object.create(LBBaseComponent.prototype);
@@ -11,9 +13,9 @@ LBOverlapComponent.prototype.constructor = LBOverlapComponent;
 
 //Da chiamare una volta all'inizio del movimento, riempe collidableObject
 //Ottimizzazione: sostituire maxSpriteWidth con una indicazione della massima distanza tra il tile di appartenenza e il punto più laterale dell'oggetto (sia a destra che a sinistra)
-LBOverlapComponent.prototype.findCollidableObject = function ()/*(direction)*/{
+LBOverlapComponent.prototype.findCollidableObject = function (){
 	var direction = this.componentsManager.Parameters['direction'];
-    console.log('Searching collidable object');
+    //console.log('Searching collidable object');
     this.collidableObject = [];
 
     var xTile = this.agent.currentTile.x + (direction.x > 0 ? 0 : direction.x),
@@ -71,7 +73,7 @@ LBOverlapComponent.prototype.areInOverlap = function (sprite1, sprite2){
     return depthCheck && ppcResult;
 }
 
-//Durante l'update, controlla l'overlap
+//Controlla l'overlap (isLast serve per indicare se è l'ultima chiamata per questo movimento)
 LBOverlapComponent.prototype.checkOverlap = function (isLast){
 	for (var i = 0; i < this.collidableObject.length; i++){
 		var sprite = this.collidableObject[i][0];
@@ -85,5 +87,17 @@ LBOverlapComponent.prototype.checkOverlap = function (isLast){
                 sprite.alpha = 0.5;
    		    else
                 sprite.alpha = 1;
+    }
+}
+
+LBOverlapComponent.prototype.lastCheck = function(){
+    this.checkOverlap(true);
+}
+
+//funzione di update dell'overlapComponent
+LBOverlapComponent.prototype.update = function(){
+    if (this.componentsManager.Parameters['isMoving']){
+        console.log("update dell'overlapComponent");
+        this.checkOverlap(false);
     }
 }

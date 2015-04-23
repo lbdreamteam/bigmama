@@ -41,8 +41,9 @@ LBPlayer.prototype.update = function () {
         };
     }
     else {
-        if (this.cMovement.isMoving) this.cOverlap.checkOverlap(false);
+        //if (this.cMovement.isMoving) this.cOverlap.checkOverlap(false);
     }
+    this.componentsManager.update();
 }
 
 LBPlayer.prototype.updatePosition = function (x, y, callId) {

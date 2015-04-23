@@ -4,6 +4,7 @@ LBMovementComponent = function (agent) {
     this.isMoving = false;
 
     this.createSignal('startMoving');
+    this.createSignal('endMoving');
 }
 
 LBMovementComponent.prototype = Object.create(LBBaseComponent.prototype);
@@ -39,6 +40,7 @@ LBMovementComponent.prototype.move = function (target, onStartFunction, onComple
 
     tween.onStart.add(function () {
         component.isMoving = true;
+        component.componentsManager.Parameters['isMoving'] = true;
         onStartFunction(component.agent, increment);
         component.fireSignal('startMoving');
         gameInstance.cDepth.depthSort(component.agent, target);
@@ -46,7 +48,9 @@ LBMovementComponent.prototype.move = function (target, onStartFunction, onComple
 
     tween.onComplete.add(function () {
         onCompleteFunction(component.agent);
+        component.fireSignal('endMoving');
         component.isMoving = false;
+        component.componentsManager.Parameters['isMoving'] = false;
     });
 
     tween.start();
