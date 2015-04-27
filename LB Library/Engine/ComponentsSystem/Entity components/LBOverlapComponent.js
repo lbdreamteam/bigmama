@@ -15,7 +15,6 @@ LBOverlapComponent.prototype.constructor = LBOverlapComponent;
 //Ottimizzazione: sostituire maxSpriteWidth con una indicazione della massima distanza tra il tile di appartenenza e il punto più laterale dell'oggetto (sia a destra che a sinistra)
 LBOverlapComponent.prototype.findCollidableObject = function (){
 	var direction = this.componentsManager.Parameters['direction'];
-    //console.log('Searching collidable object');
     this.collidableObject = [];
 
     var xTile = this.agent.currentTile.x + (direction.x > 0 ? 0 : direction.x),
@@ -97,7 +96,7 @@ LBOverlapComponent.prototype.lastCheck = function(){
 //funzione di update dell'overlapComponent
 LBOverlapComponent.prototype.update = function(){
     if (this.componentsManager.Parameters['isMoving']){
-        console.log("update dell'overlapComponent");
+        //console.log("update dell'overlapComponent");
         this.checkOverlap(false);
     }
 }

@@ -6,7 +6,8 @@ LBKeyboardInputComponent = function (agent) {
     this.increment = { x: 0, y: 0 };
 
     this.isGridEnabled = gameInstance.mapMovementMatrix ? true : false;
-    this.createParameters( { direction: 0 } );
+    this.createParameters( { direction: this.increment } );
+    //this.sendUpdate(function() { console.log('KeyboardInput Component'); }, [], ['direction']);
 }
 
 LBKeyboardInputComponent.prototype = Object.create(LBBaseComponent.prototype);

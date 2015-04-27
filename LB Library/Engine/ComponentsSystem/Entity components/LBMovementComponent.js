@@ -5,6 +5,8 @@ LBMovementComponent = function (agent) {
 
     this.createSignal('startMoving');
     this.createSignal('endMoving');
+    this.createParameters( { isMoving : false } );
+    //this.sendUpdate(function() {console.log('Movement Component'); } , ['direction'], ['isMoving']);
 }
 
 LBMovementComponent.prototype = Object.create(LBBaseComponent.prototype);
@@ -55,4 +57,3 @@ LBMovementComponent.prototype.move = function (target, onStartFunction, onComple
 
     tween.start();
 }
-

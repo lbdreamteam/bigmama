@@ -34,5 +34,5 @@ LBBaseComponent.prototype.sendDelegate = function (signalName, callback) {
 }
 
 LBBaseComponent.prototype.sendUpdate = function (updateFunction, reqParameters, sentParameters) {
-    this.componentsManager.loadUpdate(updateFunction, reqParameters, sentParameters);
+    this.componentsManager.loadUpdate(updateFunction, this, reqParameters, sentParameters);
 }

@@ -8,10 +8,8 @@
     this.Components = {};
     //array che contiene le prop utilizzate dagli eventi dei components come parametri
     this.Parameters = {};
-    //array che contiene in ordine le funzioni di update di ogni component
+    //array contenente tutti gli update in ordine (del tipo {update: funzione, parent: oggetto genitore , paramReq: [parametri richiesti], paramSnd: [parametri messi a disposizione]})
     this.UpdateFunctions = [];
-    //array contenente tutti gli update disordinati (del tipo {callback: funzione, paramReq: parametri richiesti, paramSnd: parametri messi a disposizione})
-    this.UnorderedUpdateFunctions = [];
 }
 
 LBComponentsManager.prototype = Object.create(Object);
@@ -38,8 +36,9 @@ LBComponentsManager.prototype.addSignal = function (signal) {
 LBComponentsManager.prototype.addParameters = function (parameters) {
     for (var parameter in parameters)
         if (!this.Parameters[parameter]) {
-            this.Parameters[parameter] = { exist: true };
-            //console.log('Added parameter ' + parameter.toString());
+            this.Parameters[parameter] = parameters[parameter];
+            //console.log('Added parameter ' + parameter.toString() + ' for value ');
+            //console.log( this.Parameters[parameter]);
         }
         else
             console.warn('Two components added the same parameter, this may cause errors');
@@ -63,34 +62,39 @@ LBComponentsManager.prototype.loadDelegate = function (callingType, signalName, 
     }
 }
 
-LBComponentsManager.prototype.loadUpdate = function (updateFunction, reqParameters, sentParameters) {
-    this.UnorderedUpdateFunctions.push({ 
-        callback: updateFunction,
+LBComponentsManager.prototype.loadUpdate = function (updateFunction, parent, reqParameters, sentParameters) {
+    var newUpdate = { 
+        update: updateFunction,
+        parent: parent,
         paramReq: reqParameters,
-        paramSnd: sentParameters});
-    var OrderedFunctions = [];
-    OrderedFunctions.push(this.UnorderedUpdateFunctions[0]);
-    for (var i = 0; i < this.UnorderedUpdateFunctions.length; i++)
-        for (var j = 0; j < OrderedFunctions.length; j++)
-            for (var availableProp in this.UnorderedUpdateFunctions[i].paramSnd)
-                for (var neededProp in OrderedFunctions[j].paramReq){
-                    //se un certo update richiede una prop messa disponibile dal calback che sto aggiungendo, lo inserisco appena prima di quell'update
-                    if (availableProp === neededProp){
-                        //inserisci nel punto giusto
-                        var tempArr = [];
-                        for (var k = j; k < OrderedFunctions.length; k++)
-                            tempArr.push(OrderedFunctions[k]);
-                        OrderedFunctions[j] = this.UnorderedUpdateFunctions[i];
-                        for (var k = 0; k < tempArr.length; k++)
-                            OrderedFunctions[j + k + 1] = tempArr[k];
-                    }
+        paramSnd: sentParameters};
+    console.log(newUpdate);
+    var added = false;
+    //Trova il punto in cui deve inserire il nuovo
+    //se un certo update richiede una prop messa disponibile dal calback che sto aggiungendo, lo inserisco appena prima di quell'update, altrimenti lo inserisco alla fine
+    for (var i = 0; i < this.UpdateFunctions.length; i++){
+        var actualReq = this.UpdateFunctions[i].paramReq;
+        for (var inp = 0; inp < actualReq.length; inp++)
+            for (var isp = 0; isp < sentParameters.length; isp++)
+                if (!added && actualReq[inp] === sentParameters[isp]){
+                    //devo inserire il nuovo update appena prima dell'update di indice i
+                    added = true;
+                    var tempArr = [];
+                    for (var j = i; j < this.UpdateFunctions.length; j++)
+                        tempArr.push(this.UpdateFunctions[j]);
+                    this.UpdateFunctions[i] = newUpdate;
+                    for (var j = 0; j < tempArr.length; j++)
+                        this.UpdateFunctions[i + j + 1] = tempArr[j];
                 }
-    this.updateFunction = [];
-    for (var i = 0; i < OrderedFunctions.length; i++)
-        this.UpdateFunctions.push(OrderedFunctions[i].callback);
+    }
+    if (!added)
+        this.UpdateFunctions.push(newUpdate);
+    console.log('aggiunta di un nuovo update da parte di '+parent.type);
 }
 
 LBComponentsManager.prototype.update = function() {
+    //console.log(this.UpdateFunctions);
     for (var i = 0; i < this.UpdateFunctions.length; i++)
-        this.UpdateFunctions[i]();
+        if (this.UpdateFunctions[i].parent.enabled)
+            this.UpdateFunctions[i].update();
 }

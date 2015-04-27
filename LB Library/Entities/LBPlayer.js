@@ -32,16 +32,12 @@ LBPlayer.prototype.update = function () {
                 function (context) {
                     context.currentTile.x += context.cKeyboardInput.increment.x;
                     context.currentTile.y += context.cKeyboardInput.increment.y;
-                    if (gameInstance.overlap) context.cOverlap.checkOverlap(true);
                 },
                 this.cKeyboardInput.increment,
                 175,
                 Phaser.Easing.Linear.None
            );
         };
-    }
-    else {
-        //if (this.cMovement.isMoving) this.cOverlap.checkOverlap(false);
     }
     this.componentsManager.update();
 }
