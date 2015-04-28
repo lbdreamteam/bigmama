@@ -21,7 +21,7 @@
     <Content Include="assets\placeholders\tileset.png" />
     <Content Include="assets\player.png" />
     <Content Include="assets\tree.png" />
-    <Content Include="CentralAPI\Central.js" />
+    <Content Include="CentralAPI\central.js" />
     <Content Include="CentralAPI\Scripts\CryptoJS\aes.js" />
     <Content Include="CentralAPI\Scripts\CryptoJS\hmac-md5.js" />
     <Content Include="CentralAPI\Scripts\CryptoJS\hmac-ripemd160.js" />
