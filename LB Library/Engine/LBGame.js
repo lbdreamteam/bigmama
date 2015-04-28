@@ -189,8 +189,7 @@ LBGame.prototype.gameSetup = function () { //funzione richiamata dal create del 
         OtherPlayersManager.Spawn(posTable);
     };
 
-    var font = new LBFont();
-    console.log('Istanziato font');
+    
 }
 
 LBGame.prototype.setVisibilityChangeHandlers = function () {

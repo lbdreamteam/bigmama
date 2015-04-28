@@ -18,6 +18,7 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="assets\font - Copia.png" />
     <Content Include="assets\font.png" />
     <Content Include="assets\placeholders\tileset.png" />
     <Content Include="assets\player.png" />

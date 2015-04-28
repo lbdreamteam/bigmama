@@ -19,6 +19,9 @@ GameState.prototype.create = function () {
     gameInstance.clientsList[myId] = new LBPlayer(gameInstance, gameInstance.playerSpawnPoint.x, gameInstance.playerSpawnPoint.y, 'player');
 
     gameInstance.phaserGame.camera.follow(gameInstance.clientsList[myId]);
+
+    var font = new LBFont();
+    console.log('Istanziato font');
 }
 
 GameState.prototype.update = function () {

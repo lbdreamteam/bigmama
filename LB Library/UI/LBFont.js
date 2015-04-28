@@ -56,21 +56,22 @@ LBFont.prototype.imageHandler = function () {
 
     var im = gameInstance.phaserGame.cache.getImage('font_table');
 
-    var bmd = gameInstance.phaserGame.add.bitmapData(gameInstance.width, gameInstance.height);
-
+    var bmd = gameInstance.phaserGame.add.bitmapData(im.width + 200, im.height + 200);
+    
     // funzioni da gestire con il depth group
-    // bmd.addToWorld();
+    bmd.addToWorld();
 
-    //bdm.draw(im, 0, 0);
+    bmd.draw(im, 0, 0);
 
     for (var i = 0; i < this.char.length - 1; i++) {
 
         this.rect[i] = new Phaser.Rectangle(this.fx[i], this.fy[i], this.fwidth[i], this.fheight[i]);
-        this.single_char[i] = bmd.getPixels(this.rect[i]).data;
+        this.single_char[i] = bmd.getPixels(this.rect[i]);
 
     }
 
     //funzione che mostra la lettera a 
-    // bmd.ctx.putImageData(this.rect[0], x, y);
+    bmd.ctx.putImageData(this.single_char[1], 500, 500);
+    bmd.ctx.putImageData(this.single_char[2], 450, 500);
 }
 
