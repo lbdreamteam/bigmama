@@ -1,18 +1,12 @@
 ﻿var express = require("express"),
     bodyparser = require("body-parser"),
-    mysql = require('mysql'),
-    app = express(),
-    crypto = require('crypto'),
-    //LBModules
-    LBServerInstance = require('./ServerModules/LBServerModule.js'),
-    connection = mysql.createConnection({
-        host: 'host2trialcode.ddns.net',
-        port: '3306',
-        database: 'trialcode_test',
-        user: 'test',
-        //password: 'Spallanzani1'
-    }),
-    instances = {};
+    exec = require('child_process').exec,
+    AWS = require('aws-sdk'),
+    app = express();
+
+AWS.config.update({ region: 'eu-west-1' });
+
+var dynDB = new AWS.DynamoDB();
 
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
@@ -26,88 +20,39 @@ router.use(function (req, res, next) {
     next();
 });
 
-router.get('/:param', function (req, res) {
-    console.log(req.params.param);
-    res.json({ response: req.params.param });
-    //connection.connect(function (err) {
-    //    if (err) {
-    //        console.log('Error while connecting to database: ' + err.stack);
-    //        return
-    //    }
-    //    console.log('Connessione aperta --ID: ' + connection.threadId);
-    //});
-    ////connection.query('INSERT INTO test(Nome, Token) VALUES("abc", "def");', function (error, results, fields) {
-    ////    if (error) {
-    ////        console.log('ERROR at query: ' + error.stack);
-    ////        return
-    ////    }
-    ////    console.log('Inserted!');
-    ////});
-    //connection.query('SELECT * FROM test;', function (err, results, fieds) {
-    //    if (err) {
-    //        console.log('ERROR at SELECT ' + err.stack);
-    //        return
-    //    }
-    //    for (var result in results) console.log(result);
-    //    res.json({ response: { resuilts: results, fieds: fieds } });
-    //})
-    //try {
-    //    connection.connect();
-    //    console.log('Connessione aperta..');
-    //    connection.end();
-    //}
-    //catch (ex) {
-    //    console.log('Exception: ' + ex);
-    //}
-    //console.log('Redirecting --Req ' + req);
-    //res.redirect('http://localhost:8001');
-
-    ////res.json({ response: 'Ciao' });
-});
-
-router.get('/redirect/:uId/:iId', function (req, res) {
-    var uId = req.params.uId,
-        iId = req.params.iId;
-    connection.query('INSERT INTO authTokens(uId, iId, token) VALUES(?, ?, "hashash");', [uId, iId], function (err) {
-        if (err) {
-            console.error('Error: ' + err.stack);
-            return
+router.get('/loadPorts/:startPort/:max/:pullSize', function (req, res) {
+    var lastPort = req.params.startPort;
+    for (var i = 0; i < req.params.max/req.params.pullSize; i++) {
+        var portPull = []
+        for (var j = 0; j < req.params.pullSize; j++) {
+            portPull[j] = (lastPort + j).toString();
+            console.log(portPull[j]);
         }
-        console.log('Created Token for user: ' + uId + ' for instance: ' + iId);
-    })
-    res.redirect('http://localhost:8001');
-});
-
-router.get('/auth/:uId/:iId', function (req, res) {
-    var uId = req.params.uId,
-        iId = req.params.iId;
-    console.log('Received authentication request from istance: ' + iId + ' for client: ' + uId);
-    connection.query('SELECT token FROM authTokens WHERE uId = ? AND iId = ?;', [uId, iId], function (err, results, fields) {
-        if (err) {
-            console.error(err.stack);
-            res.json({ error: err.stack });
-        }
-        if (results.length == 0) {
-            console.log(uId + ' failed authentication!');
-            res.json({ response: false });
-        }
-        else {
-            connection.query('DELETE FROM authTokens WHERE uId = ? AND iId = ?;', [uId, iId], function (err) {
-                if (err) {
-                    console.error(err.stack);
-                    return
+        lastPort += parseInt(req.params.pullSize);
+        dynDB.putItem({
+            'TableName': 'ports',
+            'Item': {
+                'index': {
+                    'N' :  i.toString()
+                },
+                'pull': {
+                    'NS' : portPull
                 }
-                console.log('Token used.');
-            });
-            console.log(uId + ' autorized');
-            res.json({ response: true });
-        }
-    });
+            }
+        }, function (err) {
+            if (err) res.json({err: err })
+        });
+    }
+    console.log('Port Loaded --From ' + req.params.startPort + ' --Til ' + req.params.max);
+    res.json({ response: 'Port Loaded --From ' + req.params.startPort + ' --Til ' + req.params.max });
 });
 
-router.get('/createNew', function (req, res) {
-    var response = LBServerInstance.create();
-    res.json({ response: response });
+router.get('/redirect/:port', function (req, res) {
+    res.redirect('http://52.17.92.120:' + req.params.port);
+});
+
+router.get('/create', function (req, res) {
+
 })
 
 app.use('/api', router);
