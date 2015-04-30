@@ -52,7 +52,7 @@ router.get('/redirect/:port', function (req, res) {
 });
 
 router.get('/create', function (req, res) {
-    var pullIndex = Math.floor(Math.random() * 10);
+    var pullIndex = Math.floor(Math.random() * 20);
     dynDB.getItem({
         'AttributesToGet' : ['pull'],
         'Key': {
@@ -68,9 +68,9 @@ router.get('/create', function (req, res) {
             console.log('pulllength : ' + data.Item.pull.NS.length + ' port: ' + port);
             dynDB.updateItem({
                 'UpdateExpression': 'DELETE pull :port',
-                'ExpressionAttributeValues' : {
-                    ':port' : {
-                        'NS' : [port.toString()]
+                'ExpressionAttributeValues': {
+                    ':port': {
+                        'NS': [port.toString()]
                     }
                 },
                 'Key': {
@@ -78,7 +78,7 @@ router.get('/create', function (req, res) {
                         'N': pullIndex.toString()
                     }
                 },
-                'TableName' : 'ports',
+                'TableName': 'ports',
                 'ReturnValues': 'UPDATED_NEW'
             }, function (err, data) {
                 if (err) res.json({ err: err })
@@ -88,7 +88,46 @@ router.get('/create', function (req, res) {
                     console.log('Started game on port: ' + port);
                     child = exec('aws ec2 authorize-security-group-ingress --group-id sg-0787d562 --protocol tcp --port ' + port + ' --cidr 0.0.0.0/0 --region eu-west-1');
                     console.log('Opened port: ' + port);
-                    res.redirect('http://52.17.92.120:' + port);
+                    dynDB.putItem({
+                        'TableName': 'activeGames',
+                        'Item': {
+                            'port': {
+                                'N': port.toString()
+                            },
+                            'timing': {
+                                'M': {
+                                    'init': {
+                                        'N' : Date.now().toString()
+                                    },
+                                    'start': {
+                                        'N' : '0'
+                                    },
+                                    'finish': {
+                                        'N' : '0'
+                                    },
+                                    'closed': {
+                                        'N' : '0'
+                                    }
+                                }
+                            },
+                            'state': {
+                                'S' : 'WAITING'
+                            },
+                            'players': {
+                                'M': {
+                                    'owner': {
+                                        'S' : req.connection.remoteAddress.toString()
+                                    },
+                                    'hosts': {
+                                        'L' : []
+                                    }
+                                }
+                            }
+                        }
+                    }, function (err, data) {
+                        if (err) res.json({ err: err })
+                        else res.redirect('http://52.17.92.120:' + port);
+                    });
                 }
             });
         }
