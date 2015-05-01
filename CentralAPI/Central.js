@@ -13,6 +13,8 @@ app.use(bodyparser.json());
 
 var router = express.Router();
 
+router.get('/', function(req, res) {});
+
 //QUESTO PERMETTE LE CHIAMATE CROSS DOMAIN
 router.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
