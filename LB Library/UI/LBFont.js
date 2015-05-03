@@ -58,7 +58,7 @@ LBFont.prototype.imageHandler = function () {
 
     var font_bitmap = gameInstance.phaserGame.add.bitmapData(font_img.width, font_img.height);
     
-    for (var i = 0; i < 2; i++)
+    for (var i = 0; i < this.char.length - 1; i++)
         this.createChar(font_img, font_bitmap, i);
 
     //Dovrebbe visualizzare la lettera a 
