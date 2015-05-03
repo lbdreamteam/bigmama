@@ -18,7 +18,6 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="assets\font - Copia.png" />
     <Content Include="assets\font.png" />
     <Content Include="assets\placeholders\tileset.png" />
     <Content Include="assets\player.png" />
@@ -47,6 +46,7 @@
     <Content Include="LB Library\Entities\LBOtherPlayer.js" />
     <Content Include="LB Library\Entities\LBPlayer.js" />
     <Content Include="LB Library\UI\LBFont.js" />
+    <Content Include="LB Library\UI\LBText.js" />
     <Content Include="LB Library\Utility\Elements\LBHashTable.js" />
     <Content Include="LB Library\Utility\phaser.js" />
     <Content Include="server.js" />

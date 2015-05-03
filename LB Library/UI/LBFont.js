@@ -26,15 +26,15 @@ LBFont.prototype.constructor = LBFont;
 LBFont.prototype.create = function () {
 
     //Set degli array
-    this.fillArray(this.char, "id");
-    this.fillArray(this.fwidth, "width");
-    this.fillArray(this.fheight, "height");
-    this.fillArray(this.fx, "x");
-    this.fillArray(this.fy, "y");
+    this.loadFontProps(this.char, "id");
+    this.loadFontProps(this.fwidth, "width");
+    this.loadFontProps(this.fheight, "height");
+    this.loadFontProps(this.fx, "x");
+    this.loadFontProps(this.fy, "y");
     this.imageHandler();
 }
 
-LBFont.prototype.fillArray = function (arr, attribute) {
+LBFont.prototype.loadFontProps = function (arr, attribute) {
     //Viene caricato il documento XML del font
     xml = new XMLHttpRequest;
     xml.open("GET", "assets/font.xml", false);
@@ -54,24 +54,29 @@ LBFont.prototype.imageHandler = function () {
     console.log('imageHandler partito');
 
 
-    var im = gameInstance.phaserGame.cache.getImage('font_table');
+    var font_img = gameInstance.phaserGame.cache.getImage('font_table');
 
-    var bmd = gameInstance.phaserGame.add.bitmapData(im.width + 200, im.height + 200);
+    var font_bitmap = gameInstance.phaserGame.add.bitmapData(font_img.width, font_img.height);
     
-    // funzioni da gestire con il depth group
+    for (var i = 0; i < 2; i++)
+        this.createChar(font_img, font_bitmap, i);
+
+    //Dovrebbe visualizzare la lettera a 
+    gameInstance.phaserGame.add.sprite(0, 0, gameInstance.phaserGame.cache.getBitmapData(this.char[0]));
+}
+
+LBFont.prototype.createChar = function (im, bmd, count) {
+
     bmd.addToWorld();
 
     bmd.draw(im, 0, 0);
 
-    for (var i = 0; i < this.char.length - 1; i++) {
+    this.rect[count] = new Phaser.Rectangle(this.fx[count], this.fy[count], this.fwidth[count], this.fheight[count]);
+    this.single_char[count] = bmd.getPixels(this.rect[count]);
 
-        this.rect[i] = new Phaser.Rectangle(this.fx[i], this.fy[i], this.fwidth[i], this.fheight[i]);
-        this.single_char[i] = bmd.getPixels(this.rect[i]);
-
-    }
-
-    //funzione che mostra la lettera a 
-    bmd.ctx.putImageData(this.single_char[1], 500, 500);
-    bmd.ctx.putImageData(this.single_char[2], 450, 500);
+    bmd.clear();
+    //bmd.resize(this.fwidth[count], this.fheight[count]);
+    bmd.ctx.putImageData(this.single_char[count], 0, 0);
+    gameInstance.phaserGame.cache.addBitmapData(this.char[count], bmd);
 }
 
