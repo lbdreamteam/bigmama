@@ -11,8 +11,8 @@ LBApi.create(
 		{
 			'action' : 'test',
 			'params' : ['nome'],
-			'function' : function(params) {
-				return {response : params.nome};
+			'function' : function(params, res) {
+				res.json({response : 'test'});
 			}
 		},
 
@@ -20,30 +20,36 @@ LBApi.create(
 		{
 			'action' : 'loadPorts' , 
 			'params' : ['startPort', 'max', 'pullSize'], 
-			'function' : function(params) {
-				var lastPort = parseInt(params.startPort);
+			'function' : function(params, res) {
+				var lastPort = parseInt(params.startPort),
+                    dynDBParams = {
+                        'RequestItems' : {
+                            'ports' : []
+                        }
+                    };
 					for (var i = 0; i < params.max/params.pullSize; i++) {
-        			var portPull = []
-        			for (var j = 0; j < params.pullSize; j++) {
-            			portPull[j] = (lastPort + j).toString();
+        			    var portPull = []
+        			    for (var j = 0; j < params.pullSize; j++) {
+            			    portPull[j] = (lastPort + j).toString();
+        			    }
+        			    lastPort += parseInt(params.pullSize);
+        			    dynDBParams.RequestItems.ports.push({
+                            'PutRequest' : {
+                                'Item' : {
+                                    'index' : {
+                                        'N' : i.toString()
+                                    },
+                                    'pull' : {
+                                        'NS' : portPull
+                                    }
+                                }
+                            }
+                        });
         			}
-        			lastPort += parseInt(params.pullSize);
-        			console.log('putting');
-        			dynDB.putItem({
-            			'TableName': 'ports',
-            			'Item': {
-                			'index': {
-                    			'N' :  i.toString()
-                			},
-                			'pull': {
-                    			'NS' : portPull
-                			}
-            			}
-            		}, function (err, data) {
-            			if (err) console.log(err);
-        			});
-    			}
-    			return {response: 'completed'};
+                dynDB.batchWriteItem(dynDBParams, function(err, data) {
+    			     if (err) res.json({err: err})
+                     else res.json({response : 'Completed'})
+                });
 			}
 		},
 
@@ -51,7 +57,7 @@ LBApi.create(
 		{
 			'action' : 'create',
 			'params' : [],
-			'function' : function(params) {
+			'function' : function(params, res) {
 				var pullIndex = Math.floor(Math.random() * 20);
     			dynDB.getItem({
         			'AttributesToGet' : ['pull'],
@@ -125,8 +131,8 @@ LBApi.create(
                             			}
                         			}
                     			}, function (err, data) {
-                        			if (err) console.log(err);
-                        			else return {redirect : 'http://52.17.92.120:' + port}
+                        			if (err) res.json({err: err});
+                        			else res.redirect('http://52.17.92.120:' + port);
                     			});
                 			}
             			});
@@ -139,7 +145,7 @@ LBApi.create(
 		{
 			'action' : 'kill',
 			'params' : ['port'],
-			'function' : function(params) {
+			'function' : function(params, res) {
 				var port = params.port;
     			dynDB.scan({
         			'TableName': 'ports',

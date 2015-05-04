@@ -17,12 +17,12 @@ LBPrivateHandlersModule.prototype.addHandler = function (event, params, pHandler
     this.phs[event] = pHandler;
 };
 
-LBPrivateHandlersModule.prototype.callHandler = function (event, params, req, onError, callback) {
+LBPrivateHandlersModule.prototype.callHandler = function (event, params, res, onError, callback) {
     onError = onError || function (err) {
         console.error('ERROR --At ' + event + '--Code: ' + err.code);
         return;
     };
 
     for (var p in this.params[event]) if (!params[this.params[event][p]]) onError({ code: 0 });
-    return this.phs[event](params);
+    this.phs[event](params, res);
 };

@@ -67,7 +67,7 @@ LBAPI.prototype.start = function(port, pHandlers, context, enableCORS) {
 
 	this.router.get('/:cmd?', function(req, res) {
 		console.log('Received request for action: ' + req.params.cmd);
-		res.json(context.privateHandlers.callHandler(req.params.cmd, req.query, req));
+		context.privateHandlers.callHandler(req.params.cmd, req.query, res);
 	});
 
 	this.app.use('/LBApi', this.router);
