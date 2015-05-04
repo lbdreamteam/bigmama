@@ -16,3 +16,9 @@ C:\Users\Asus\Desktop\bigmama\bin\BigMama.pdb
 C:\Users\Asus\Desktop\bigmama\obj\Debug\BigMama.csprojResolveAssemblyReference.cache
 C:\Users\Asus\Desktop\bigmama\obj\Debug\BigMama.dll
 C:\Users\Asus\Desktop\bigmama\obj\Debug\BigMama.pdb
+C:\Users\Riccardo\Desktop\bigmama\bin\BigMama.dll.config
+C:\Users\Riccardo\Desktop\bigmama\bin\BigMama.dll
+C:\Users\Riccardo\Desktop\bigmama\bin\BigMama.pdb
+C:\Users\Riccardo\Desktop\bigmama\obj\Debug\BigMama.csprojResolveAssemblyReference.cache
+C:\Users\Riccardo\Desktop\bigmama\obj\Debug\BigMama.dll
+C:\Users\Riccardo\Desktop\bigmama\obj\Debug\BigMama.pdb

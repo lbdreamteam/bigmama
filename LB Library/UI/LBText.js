@@ -1,6 +1,15 @@
-﻿LBText = function () {
+﻿LBText = function (text, x, y) {
+    //LBText usa il font di default del gioco, istanziato in GameState
+    this.text = text;
+    this.t_x = x;
+    this.t_y = y;
 
+    //this.create();
 }
 
-LBFont.prototype = Object.create(Object);
-LBFont.prototype.constructor = LBFont;
+LBText.prototype = Object.create(Object);
+LBText.prototype.constructor = LBText;
+
+LBText.prototype.create = function () {
+
+}

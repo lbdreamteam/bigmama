@@ -20,12 +20,13 @@ GameState.prototype.create = function () {
 
     gameInstance.phaserGame.camera.follow(gameInstance.clientsList[myId]);
 
-
-    var font = new LBFont();
-
-   
-    var sp = gameInstance.phaserGame.add.sprite(150, 0, gameInstance.phaserGame.cache.getBitmapData(font.char[50]));
+    //Creazione istanza font
+    var gameFont = new LBFont();
     console.log('Istanziato font');
+
+    //Aggiunge al game una lettera di prova
+    gameInstance.phaserGame.add.sprite(150, 0, gameInstance.phaserGame.cache.getBitmapData(gameFont.char[50]));
+    
 }
 
 GameState.prototype.update = function () {
