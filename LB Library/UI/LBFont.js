@@ -16,6 +16,7 @@
     this.fy = [];
     this.single_char = [];
     this.rect = [];
+    this.bmd = [];
 
     this.create();
 }
@@ -59,14 +60,16 @@ LBFont.prototype.imageHandler = function () {
     var font_bitmap = gameInstance.phaserGame.add.bitmapData(font_img.width, font_img.height);
     
     for (var i = 0; i < this.char.length - 1; i++)
-        this.createChar(font_img, font_bitmap, i);
+        this.getPixels(font_img, font_bitmap, i);
 
-    //Dovrebbe visualizzare la lettera a 
-    gameInstance.phaserGame.add.sprite(0, 0, gameInstance.phaserGame.cache.getBitmapData(this.char[0]));
+    for (var i = 0; i < this.char.length - 1; i++)
+        this.createChar( i);
+
+  
 }
 
-LBFont.prototype.createChar = function (im, bmd, count) {
-
+LBFont.prototype.getPixels = function (im, bmd, count) {
+    
     bmd.addToWorld();
 
     bmd.draw(im, 0, 0);
@@ -75,8 +78,14 @@ LBFont.prototype.createChar = function (im, bmd, count) {
     this.single_char[count] = bmd.getPixels(this.rect[count]);
 
     bmd.clear();
+
+}
+
+LBFont.prototype.createChar = function (count) {
+
     //bmd.resize(this.fwidth[count], this.fheight[count]);
-    bmd.ctx.putImageData(this.single_char[count], 0, 0);
-    gameInstance.phaserGame.cache.addBitmapData(this.char[count], bmd);
+    this.bmd[count] = gameInstance.phaserGame.add.bitmapData(this.rect[count].width,this.rect[count].height);
+    this.bmd[count].ctx.putImageData(this.single_char[count], 0, 0);
+    gameInstance.phaserGame.cache.addBitmapData(this.char[count], this.bmd[count]);
 }
 

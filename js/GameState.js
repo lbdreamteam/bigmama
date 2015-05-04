@@ -20,7 +20,11 @@ GameState.prototype.create = function () {
 
     gameInstance.phaserGame.camera.follow(gameInstance.clientsList[myId]);
 
+
     var font = new LBFont();
+
+   
+    var sp = gameInstance.phaserGame.add.sprite(150, 0, gameInstance.phaserGame.cache.getBitmapData(font.char[50]));
     console.log('Istanziato font');
 }
 
