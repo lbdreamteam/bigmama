@@ -87,7 +87,7 @@ LBApi.create(
                 			'TableName': 'ports',
                 			'ReturnValues': 'UPDATED_NEW'
             			}, function (err, data) {
-                			if (err) console.log(err);
+                			if (err) res.json({err: err});
                 			else {
                     			var child;
                     			child = exec('node server.js ' + port);
