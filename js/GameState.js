@@ -24,8 +24,8 @@ GameState.prototype.create = function () {
     var gameFont = new LBFont();
     console.log('Istanziato font');
 
-    //Aggiunge al game una lettera di prova
-    gameInstance.phaserGame.add.sprite(150, 0, gameInstance.phaserGame.cache.getBitmapData(gameFont.char[50]));
+    //Aggiunge al game una stringa di prova
+    var gmText = new LBText(null, 'press space to shoot', 150, 0);
     
 }
 
