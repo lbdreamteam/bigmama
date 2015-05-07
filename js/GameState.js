@@ -25,7 +25,7 @@ GameState.prototype.create = function () {
     console.log('Istanziato font');
 
     //Aggiunge al game una stringa di prova
-    var gmText = new LBText(null, 'press space to shoot', 150, 0);
+    var gmText = new LBText(null, 'press space to shoot', 150, 0, 80);
     
 }
 
