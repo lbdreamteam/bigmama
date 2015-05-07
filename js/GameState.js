@@ -21,11 +21,11 @@ GameState.prototype.create = function () {
     gameInstance.phaserGame.camera.follow(gameInstance.clientsList[myId]);
 
     //Creazione istanza font
-    var gameFont = new LBFont('medium');
+    var gameFont = new LBFont('small');
     console.log('Istanziato font');
 
-    //Aggiunge al game una stringa di prova
-    var gmText = new LBText(null, 'LB DETH PIXEL', 150, 200, 80);
+    //Aggiunge al game una stringa di prova,il / fa andare a capo il testo
+    var gmText = new LBText(null, 'ANDARE/A/CAPO/E^/SWAG', 300, 100, 30,60);
     
 }
 
