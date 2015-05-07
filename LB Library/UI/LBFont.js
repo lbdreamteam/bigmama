@@ -1,11 +1,11 @@
 ﻿//http://kvazars.com/littera/  generatore font
 
 LBFont = function (scale, italic, bold) {
-    if (scale == undefined || (scale != "s" && scale != "m" && scale != "l")) { scale = "s"; }
+    if (scale == undefined || (scale != "small" && scale != "medium" && scale != "large")) { scale = "small"; }
     if (italic == undefined) { italic = false; }
     if (bold == undefined) { bold = false; }
 
-    this.scale = scale; //Grandezza del carattere (s, h2, h3)
+    this.scale = scale; //Grandezza del carattere (small, medium, large)
     this.italic = italic;
     this.bold = bold;
 
@@ -38,7 +38,7 @@ LBFont.prototype.create = function () {
 LBFont.prototype.loadFontProps = function (arr, attribute) {
     //Viene caricato il documento XML del font
     xml = new XMLHttpRequest;
-    xml.open("GET", "assets/font.xml", false);
+    xml.open("GET", "assets/font_" + this.scale + "/font.xml", false);
     xml.send();
     xmlDoc = xml.responseXML;
 
@@ -52,7 +52,7 @@ LBFont.prototype.loadFontProps = function (arr, attribute) {
 
 LBFont.prototype.imageHandler = function () {
 
-    var font_img = gameInstance.phaserGame.cache.getImage('font_table');
+    var font_img = gameInstance.phaserGame.cache.getImage('font_table_' + this.scale);
 
     var font_bitmap = gameInstance.phaserGame.add.bitmapData(font_img.width, font_img.height);
     
