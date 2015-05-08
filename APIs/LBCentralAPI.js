@@ -2,7 +2,8 @@ var express = require('express'),
 	LBApi = require('./ServerModules/LBAPIModule.js'),
 	//VARIABILI DI QUESTA SPECIFICA API
 	dynDB,
-	exec;
+	exec,
+    http;
 
 LBApi.create(
 	'8081', 
@@ -128,11 +129,23 @@ LBApi.create(
                                         			'L' : []
                                     			}
                                 			}
+                            			},
+                            			'map': {
+                                            'S' : '-->MAP<--'
                             			}
                         			}
                     			}, function (err, data) {
-                        			if (err) res.json({err: err});
-                        			else res.redirect('http://52.17.92.120:' + port);
+                    			    if (err) res.json({ err: err });
+                                    //CREA LA NUOVA MAPPA TRAMITE LA API E LA STORA IN DYNDB
+                    			    else http.request({
+                    			        host: '52.17.92.120',
+                    			        port: '8082',
+                    			        path: '/LBApi/createJson?port=' + port,
+                                        method: 'GET'
+                    			    }, function (MAPres) {
+                    			        if (MAPres.err) res.json(MAPres)
+                    			        else if (MAPres.response) res.redirect('http://52.17.92.120:' + port);
+                    			    }).end();
                     			});
                 			}
             			});
@@ -200,5 +213,6 @@ LBApi.create(
 	function(APIInstance) {
 		dynDB = new APIInstance.modules['aws-sdk'].DynamoDB();
 		exec = APIInstance.modules['child_process'].exec;
+		http = APIInstance.modules['http'];
 	}
 );

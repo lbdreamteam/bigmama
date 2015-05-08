@@ -64,9 +64,6 @@ LBGame.prototype = Object.create(Object);
 LBGame.prototype.constructor = LBGame;
 
 //Crea la mappa dei punti di snap per i baricentri degli oggetti nel modo tile-based
-
-//ISSUE: MapMovementH0 non funziona, anche cambiandolo il risultato è sempre lo stesso!
-//ISSUE: Problema con il corretto posizionamento degli oggetti e dei personaggi. Non deve dipendere dalla zona del movimento!
 LBGame.prototype.createMovementMap = function (h, h0) {
     var map = {},
         zeroY = this.phaserGame.height - h0 - (h * this.movementGridSize);
@@ -168,7 +165,6 @@ LBGame.prototype.gameSetup = function () { //funzione richiamata dal create del 
     //nuova funzione per gestire dialogo client-server
     eurecaClient.exports.serverHandler = function (args) {
         gameInstance.privateHandlers.callHandler(args.event, args.params);
-
     };
 
     gameInstance.privateHandlers.addHandler('createGame', ['id', 'Tx', 'Ty'], function (params) {
@@ -196,39 +192,7 @@ LBGame.prototype.gameSetup = function () { //funzione richiamata dal create del 
 
     gameInstance.privateHandlers.addHandler('spawnOtherPlayers', ['posTable'], function (params) {
         otherPlayersManager.spawn(params.posTable);
-    })
-
-    //this.privateHandlers['updatePlayer'] = function (params) {
-    //    if (!params.x || !params.y || params.callId) {
-    //        console.error('ERROR --UpdatePlayer: params are not correct.');
-    //        return;
-    //    }
-    //}
-
-    /************ FUNZIONI DISPONIBILI LATO SERVER ************/
-    //eurecaClient.exports.createGame = function (id, Tx, Ty) {
-        
-    //}
-
-    //eurecaClient.exports.updatePlayer = function (x, y, callId) {
-    //    gameInstance.clientsList[myId].updatePosition(x, y, callId);
-    //};
-
-    //eurecaClient.exports.updateOtherPlayers = function (posTable) {
-    //    otherPlayersManager.Update(posTable);
-    //};
-
-    //eurecaClient.exports.onOtherPlayerConnect = function (id, x, y) {
-    //    otherPlayersManager.OnConnect(id, x, y);
-    //};
-
-    //eurecaClient.exports.onOtherPlayerDisconnect = function (id) {
-    //    otherPlayersManager.OnDisconnect(id);
-    //};
-
-    //eurecaClient.exports.spawnOtherPlayers = function (posTable) {
-    //    otherPlayersManager.Spawn(posTable);
-    //};
+    });
 }
 
 LBGame.prototype.setVisibilityChangeHandlers = function () {
