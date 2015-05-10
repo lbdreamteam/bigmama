@@ -168,6 +168,7 @@ LBGame.prototype.gameSetup = function () { //funzione richiamata dal create del 
     };
 
     gameInstance.privateHandlers.addHandler('createGame', ['id', 'Tx', 'Ty'], function (params) {
+        console.log('Creating game');
         myId = params.id;
         gameInstance.playerSpawnPoint = { x: params.Tx, y: params.Ty };
         create();

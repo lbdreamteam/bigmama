@@ -23,10 +23,10 @@
     <Content Include="APIs\LBCentralAPI.js" />
     <Content Include="APIs\mainServer.js" />
     <Content Include="APIs\APIsModules\LBAPIModule.js" />
-    <Content Include="Server\ServerModules\LBClientsManagerModule.js" />
+    <Content Include="LBClientsManagerModule.js" />
     <Content Include="APIs\APIsModules\LBPrivateHandlersModule.js" />
-    <Content Include="Server\ServerModules\LBServerPrivateHandlersModule.js" />
-    <Content Include="Server\ServerModules\LBServerModule.js" />
+    <Content Include="LBServerPrivateHandlersModule.js" />
+    <Content Include="LBServerModule.js" />
     <Content Include="assets\placeholders\tileset.png" />
     <Content Include="assets\player.png" />
     <Content Include="assets\tree.png" />
@@ -63,7 +63,7 @@
     <Content Include="package.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Server\LBServer.js" />
+    <Content Include="LBServer.js" />
     <Content Include="web.config" />
     <Content Include="assets\treeMatrix.json" />
     <Content Include="assets\playerMatrix.json" />

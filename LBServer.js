@@ -1,4 +1,4 @@
-require('./ServerModules/LBServerModule.js').create(
+require('./LBServerModule.js').create(
     process.argv[2],
     null,
     null,

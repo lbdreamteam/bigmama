@@ -33,18 +33,18 @@ LBCLientsManager.prototype.start = function () {
     console.log(this.serverInstance.nodeSettings.modules['cli-color'].blue.bgWhite('LB csMan ' + module.exports.version));
 };
 
-LBCLientsManager.prototype.onConnect = function (/*id,*/ conn) {
-    console.log('Connected new client --ID ' + conn.id + ' --Origin ' + conn.remoteAddress);
+LBCLientsManager.prototype.onConnect = function (conn) {
+    console.log('Connected new client --ID ' + conn.id + ' --Origin ' + conn.remoteAddress.ip);
     //this.ids.push(id);
     //this.nowConnected.push(id);
 
-    var remote = eurecaServer.getClient(conn.id),
+    var remote = eurecaInstance.getClient(conn.id),
         firstPos = {Tx: this.serverInstance.spawnPoint.sTx, Ty: this.serverInstance.spawnPoint.sTy};
     //this.callRemoteHandler(conn.id, { event: 'authentication' });
 
     this.ids.push(conn.id);
     this.nowConnected.push(conn.id);
-    this.info[conn.id] = { /*id: id,*/ remote: remote, connInfo: { id: conn.id, ip: conn.remoteAddress }};
+    this.info[conn.id] = { remote: remote, connInfo: { id: conn.id, ip: conn.remoteAddress }};
     this.posTable.nowPos[conn.id] = firstPos;
     //delete this.nowUpdating[this.nowUpdating.indexOf(conn.id)]; Questo comando sarebbe utile nel caso il connect venisse effettuato a cavallo di un sync, ma 
     //non credo che gli interval vadano su thread diversi data la loro imprecisione, e test dimostrano che al momento del connect è sempre null.
