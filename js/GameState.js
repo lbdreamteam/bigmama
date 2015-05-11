@@ -21,8 +21,13 @@ GameState.prototype.create = function () {
     this.add.existing(tree);
 
     gameInstance.phaserGame.camera.follow(gameInstance.clientsList[myId]);
+
+    gameInstance.phaserGame.time.advancedTiming = true;
+    fpsText = gameInstance.phaserGame.add.text(10, 10, 'FPS: ' + gameInstance.phaserGame.time.fps);
 }
 
-GameState.prototype.update = function () {
+var fpsText;
 
+GameState.prototype.update = function () {
+    fpsText.setText('FPS: ' + gameInstance.phaserGame.time.fps);
 }
