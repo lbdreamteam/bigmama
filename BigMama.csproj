@@ -42,8 +42,11 @@
     <Content Include="LB Library\Engine\LBGame.js" />
     <Content Include="LB Library\Engine\LBState.js" />
     <Content Include="LB Library\Engine\LBSprite.js" />
+    <Content Include="LB Library\Engine\WeaponsSystem\LBWeapon.js" />
+    <Content Include="LB Library\Engine\WeaponsSystem\WeaponsData.js" />
     <Content Include="LB Library\Entities\LBOtherPlayer.js" />
     <Content Include="LB Library\Entities\LBPlayer.js" />
+    <Content Include="LB Library\Entities\LBTestingTree.js" />
     <Content Include="LB Library\UI\LBButton.js" />
     <Content Include="LB Library\Utility\Elements\LBHashTable.js" />
     <Content Include="LB Library\Utility\phaser.js" />

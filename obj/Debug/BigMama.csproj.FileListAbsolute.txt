@@ -4,3 +4,9 @@ C:\Users\Jacopo\Documents\GitHub\bigmama\bin\BigMama.pdb
 C:\Users\Jacopo\Documents\GitHub\bigmama\obj\Debug\BigMama.csprojResolveAssemblyReference.cache
 C:\Users\Jacopo\Documents\GitHub\bigmama\obj\Debug\BigMama.dll
 C:\Users\Jacopo\Documents\GitHub\bigmama\obj\Debug\BigMama.pdb
+C:\Users\Francesco\Desktop\GitHub\bigmama\bin\BigMama.dll.config
+C:\Users\Francesco\Desktop\GitHub\bigmama\bin\BigMama.dll
+C:\Users\Francesco\Desktop\GitHub\bigmama\bin\BigMama.pdb
+C:\Users\Francesco\Desktop\GitHub\bigmama\obj\Debug\BigMama.csprojResolveAssemblyReference.cache
+C:\Users\Francesco\Desktop\GitHub\bigmama\obj\Debug\BigMama.dll
+C:\Users\Francesco\Desktop\GitHub\bigmama\obj\Debug\BigMama.pdb
