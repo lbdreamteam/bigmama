@@ -22,13 +22,13 @@ LBText.prototype.create = function () {
     console.log('istanziato text');
     this.stringHandler(this.text);
     this.textDrawer(this.text);
+    this.getPixelColor();
 }
 
 LBText.prototype.stringHandler = function (txt) {
 
     for (var i = 0; i < txt.length; i++) {
         this.ASCII[i] = txt.charCodeAt(i);
-        console.log(this.ASCII[i]);
     }
 }
 
@@ -45,6 +45,24 @@ LBText.prototype.textDrawer = function (txt) {
         else {
             xcount++;  //aggiorna il contatore delle x
             gameInstance.phaserGame.add.sprite(this.t_x + xcount * this.t_Wspacing, ycount, gameInstance.phaserGame.cache.getBitmapData(this.ASCII[i]));
+        }
+    }
+}
+
+LBText.prototype.getPixelColor = function () {
+
+    for (var i = 0; i < this.ASCII.length; i++) {
+
+        var width = gameInstance.phaserGame.cache.getBitmapData(this.ASCII[i]).width;
+        var height = gameInstance.phaserGame.cache.getBitmapData(this.ASCII[i]).height;
+
+        for (var j = 0; j < width; j++) {
+            
+            for (var k = 0; k < height; k++) {
+
+                if (gameInstance.phaserGame.cache.getBitmapData(this.ASCII[i]).getPixel(j, k).color != 16726)
+                    console.log(gameInstance.phaserGame.cache.getBitmapData(this.ASCII[i]).getPixel(j, k).color32);
+            }
         }
     }
 }
