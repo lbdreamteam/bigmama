@@ -37,6 +37,7 @@ LBServerPrivateHandlersModule.prototype.addHandler = function (event, params, pH
 };
 
 LBServerPrivateHandlersModule.prototype.callHandler = function (event, params) {
+    //onError non definito!
     onError = onError || function (err) {
         console.error('ERROR --At ' + event + '--Code: ' + err.code);
         return;
