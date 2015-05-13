@@ -1,4 +1,4 @@
-﻿gameInstance = new LBGame(800, 600, 2500, 600, 32, true, true, Phaser.AUTO, 5)
+﻿gameInstance = new LBGame(800, 600, 2500, 600, 48, true, true, Phaser.AUTO, 5)
 
 function preload() {
     //TODO: spostare il caricamento delle immagini all'interno dei vari states

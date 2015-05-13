@@ -12,12 +12,22 @@
     this.cCollidingMovement = new LBCollidingMovementComponent(this);
     if (gameInstance.overlap) this.cOverlap = new LBOverlapComponent(this);
     this.cMovement = new LBMovementComponent(this);
+    this.cShooting = new LBShootingComponent(this);
+    this.weapon;
 }
 
 LBPlayer.prototype = Object.create(LBSprite.prototype);
 LBPlayer.prototype.constructor = LBPlayer;
 
 LBPlayer.prototype.update = function () {
+    if (gameInstance.phaserGame.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && this.weapon === undefined) {
+        this.weapon = new LBWeapon('gun', 5, 10, 150, 500, 'tree');
+        console.log(this.weapon);
+    }
+
+    if (gameInstance.phaserGame.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && this.weapon !== undefined) {
+        this.cShooting.shoot();
+    }
 
     if (!this.cMovement.isMoving) {
         if (this.cKeyboardInput.detectInput(this.cursors) != 'null' && (this.cKeyboardInput.increment.x != 0 || this.cKeyboardInput.increment.y != 0)) {

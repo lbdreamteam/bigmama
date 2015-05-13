@@ -36,27 +36,35 @@ LBKeyboardInputComponent.prototype.createInputString = function(agent, cursors) 
 
     if (cursors.up.isDown && !cursors.down.isDown && !cursors.right.isDown && !cursors.left.isDown) {
         input = 'up';
+        this.agent.facing = 'UP';
     }
     else if (!cursors.up.isDown && cursors.down.isDown && !cursors.right.isDown && !cursors.left.isDown) {
         input = 'down';
+        this.agent.facing = 'DOWN';
     }
     else if (!cursors.up.isDown && !cursors.down.isDown && cursors.right.isDown && !cursors.left.isDown) {
         input = 'right';
+        this.agent.facing = 'RIGHT';
     }
     else if (!cursors.up.isDown && !cursors.down.isDown && !cursors.right.isDown && cursors.left.isDown) {
         input = 'left';
+        this.agent.facing = 'LEFT';
     }
     else if (gameInstance.movementInEightDirections && cursors.up.isDown && !cursors.down.isDown && cursors.right.isDown && !cursors.left.isDown) {
         input = 'up-right';
+        this.agent.facing = 'UP-RIGHT';
     }
     else if (gameInstance.movementInEightDirections && cursors.up.isDown && !cursors.down.isDown && !cursors.right.isDown && cursors.left.isDown) {
         input = 'up-left';
+        this.agent.facing = 'UP-LEFT';
     }
     else if (gameInstance.movementInEightDirections && !cursors.up.isDown && cursors.down.isDown && cursors.right.isDown && !cursors.left.isDown) {
         input = 'down-right';
+        this.agent.facing = 'DOWN-RIGHT';
     }
     else if (gameInstance.movementInEightDirections && !cursors.up.isDown && cursors.down.isDown && !cursors.right.isDown && cursors.left.isDown) {
         input = 'down-left';
+        this.agent.facing = 'DOWN-LEFT';
     }
     else {
         input = 'null';

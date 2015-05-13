@@ -8,6 +8,7 @@
     //Proprietà
     this.gameInstance = gameInstance;
     this.currentTile = { x: Tx, y: Ty };
+    this.facing = 'RIGHT';
     this.zDepth = 0;
     this.graph = graph;
     this.componentsManager = new LBComponentsManager();

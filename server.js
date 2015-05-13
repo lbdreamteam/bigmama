@@ -70,7 +70,7 @@ eurecaServer.exports.ClientManagement = (function () {
     /************ PLAYER MANAGEMENT ************/
     var player = (function () {
 
-        var tileSize = 32;
+        var tileSize = 48;
         /************ PLAYER MANAGEMENT - SEND INPUT ************/
         function sendInput(increment, clientId, callId) {
             console.log(increment);
