@@ -6,6 +6,7 @@
     Phaser.Sprite.call(this, gameInstance.phaserGame, Rx, Ry, graph);
     
     //Proprietà
+    this.gameInstance = gameInstance;
     this.currentTile = { x: Tx, y: Ty };
     this.zDepth = 0;
     this.graph = graph;

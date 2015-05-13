@@ -1,10 +1,8 @@
-﻿LBPixelPerfectCollisionComponent = function (agent) {
-    LBBaseComponent.call(this, agent);
-
+﻿LBPixelPerfectCollisionComponent = function () {
     this.spriteCollisionMatrix = {};
 }
 
-LBPixelPerfectCollisionComponent.prototype = Object.create(LBBaseComponent.prototype);
+LBPixelPerfectCollisionComponent.prototype = Object.create(Object);
 LBPixelPerfectCollisionComponent.prototype.constructor = LBPixelPerfectCollisionComponent;
 
 //Verifica se sprite1 e sprite2 (phaser.Sprite) sono in collisione con una pixel perfect collision

@@ -23,7 +23,7 @@
     this.playerSpawnPoint = {};
 
     //Depth
-    this.cDepth = new LBDepthComponent(this);
+    this.cDepth = new LBDepthComponent();
 
     //Overlap
     this.overlap = overlap;
@@ -44,7 +44,7 @@
     }
 
     //Pixel-perfect collision
-    this.cPpc = new LBPixelPerfectCollisionComponent(this);
+    this.cPpc = new LBPixelPerfectCollisionComponent();
 
     //Hitbox
     this.spritePixelMatrix = {};
@@ -128,7 +128,7 @@ LBGame.prototype.loadCollisionPixelMatrix = function (cacheName, path) {
             xmlhttp = undefined;
         }
         else if (xmlhttp.readyState === 4 && xmlhttp.status === 404) {
-            console.log('ATTENTION: missing pixel matrix for the image ' + cacheName + '. A  temporary pixel matrix has been created, but its use may reduce performance');
+            console.warn('ATTENTION: missing pixel matrix for the image ' + cacheName + '. A  temporary pixel matrix has been created, but its use may reduce performance');
             gameInstance.cPpc.spriteCollisionMatrix[cacheName] = [gameInstance.spritePixelMatrix[cacheName]];
             xmlhttp = undefined;
         }

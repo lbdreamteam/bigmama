@@ -3,6 +3,11 @@ LBBaseComponent = function (agent, type) {
     //il tipo richiamato da LBLibrary
     this.type = type;
     this.componentsManager = agent.componentsManager;
+    //se il componente esiste già, allora fa qualcosa
+    if (this.componentsManager.Components[this.type])
+        console.log('il componente '+this.type+' esiste già');
+    //aggiunge se stesso all'elenco del manager
+    this.componentsManager.Components[this.type] = this;
     //booleana che verrà usata dal manager per gestire gli update
     this.enabled = true;
 }
@@ -12,7 +17,7 @@ LBBaseComponent.prototype.constructor = LBBaseComponent;
 
 //funzione che richiama la creazione del segnale tramite il manager
 LBBaseComponent.prototype.createSignal = function (signalName) {
-    console.log('Creating ' + signalName + '...');
+    //console.log('Creating ' + signalName + '...');
     var signal = new LBSignal(signalName, this);
     this.componentsManager.addSignal(signal);
 }

@@ -1,11 +1,9 @@
-﻿LBDepthComponent = function (agent) {
-    LBBaseComponent.call(this, agent);
-
+﻿LBDepthComponent = function () {
     this.depthGroup;
     this.maxZ = 100;    //Da cambiare
 }
 
-LBDepthComponent.prototype = Object.create(LBBaseComponent.prototype);
+LBDepthComponent.prototype = Object.create(Object);
 LBDepthComponent.prototype.constructor = LBDepthComponent;
 
 //Funzione per ordinare gli oggetti nell'ordine di rendering
