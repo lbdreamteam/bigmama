@@ -28,6 +28,7 @@
     <Content Include="LB Library\Engine\ComponentsSystem\Entity components\LBKeyboardInputComponent.js" />
     <Content Include="LB Library\Engine\ComponentsSystem\Entity components\LBMovementComponent.js" />
     <Content Include="LB Library\Engine\ComponentsSystem\Entity components\LBOverlapComponent.js" />
+    <Content Include="LB Library\Engine\ComponentsSystem\Entity components\LBShootableComponent.js" />
     <Content Include="LB Library\Engine\ComponentsSystem\Entity components\LBShootingComponent.js" />
     <Content Include="LB Library\Engine\ComponentsSystem\Entity components\LBSnappingComponent.js" />
     <Content Include="LB Library\Engine\ComponentsSystem\LBBaseComponent.js" />
@@ -44,6 +45,7 @@
     <Content Include="LB Library\Engine\LBSprite.js" />
     <Content Include="LB Library\Engine\WeaponsSystem\LBWeapon.js" />
     <Content Include="LB Library\Engine\WeaponsSystem\WeaponsData.js" />
+    <Content Include="LB Library\Entities\LBBullet.js" />
     <Content Include="LB Library\Entities\LBOtherPlayer.js" />
     <Content Include="LB Library\Entities\LBPlayer.js" />
     <Content Include="LB Library\Entities\LBTestingTree.js" />

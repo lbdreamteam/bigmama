@@ -1,4 +1,4 @@
-﻿LBWeapon = function (name, damage, range, bullets, rate, bulletsGraph) {
+﻿LBWeapon = function (name, damage, range, bullets, rate, speed, bulletsGraph) {
     this.name = name;
     this.damage = damage;
     this.range = range;

@@ -21,12 +21,13 @@ LBPlayer.prototype.constructor = LBPlayer;
 
 LBPlayer.prototype.update = function () {
     if (gameInstance.phaserGame.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && this.weapon === undefined) {
-        this.weapon = new LBWeapon('gun', 5, 10, 150, 500, 'tree');
-        console.log(this.weapon);
+        //this.weapon = new LBWeapon('gun', 5, 12, 1500, 50, 'tree');
+        //console.log(this.weapon);
+        var test = new LBBullet(gameInstance, this.currentTile.x, this.currentTile.y, 'tree', this.facing, 5, 3, 10);
     }
 
     if (gameInstance.phaserGame.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && this.weapon !== undefined) {
-        this.cShooting.shoot();
+        //this.cShooting.shoot();
     }
 
     if (!this.cMovement.isMoving) {
