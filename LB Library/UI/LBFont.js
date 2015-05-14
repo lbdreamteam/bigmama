@@ -17,6 +17,7 @@ LBFont = function (scale, italic, bold) {
     this.single_char_data = []; //Contiene ImageData
     this.rect = [];
     this.bmd = []; //BitmapData
+    this.img = gameInstance.phaserGame.cache.getImage('font_table_' + this.scale);
 
     this.create();
 }

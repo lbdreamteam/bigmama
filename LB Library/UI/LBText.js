@@ -11,9 +11,20 @@
 
     this.t_Wspacing = Wspacing;
     this.t_Hspacing = Hspacing;
+    
+    this.base_rgba = {
+        r: 0,
+        g: 0,
+        b: 0,
+        a: 0
+    }
+
+    this.rgba = [];
 
     this.create();
 }
+
+
 
 LBText.prototype = Object.create(Object);
 LBText.prototype.constructor = LBText;
@@ -22,7 +33,8 @@ LBText.prototype.create = function () {
     console.log('istanziato text');
     this.stringHandler(this.text);
     this.textDrawer(this.text);
-    this.getPixelColor();
+    this.setRGBAProp(this.text_font, this.rgba);
+    this.getPixelColor(this.text_font, this.rgba);
 }
 
 LBText.prototype.stringHandler = function (txt) {
@@ -49,20 +61,32 @@ LBText.prototype.textDrawer = function (txt) {
     }
 }
 
-LBText.prototype.getPixelColor = function () {
+LBText.prototype.getPixelColor = function (font, rgba) {
 
+    var count = 0;
+
+    console.log(font.single_char_data[0].data);
+    
     for (var i = 0; i < this.ASCII.length; i++) {
 
-        var width = gameInstance.phaserGame.cache.getBitmapData(this.ASCII[i]).width;
-        var height = gameInstance.phaserGame.cache.getBitmapData(this.ASCII[i]).height;
+        for (var j = 0; j < ((font.bmd[i].width * font.bmd[i].height) - 1); j += 4) {
 
-        for (var j = 0; j < width; j++) {
-            
-            for (var k = 0; k < height; k++) {
-
-                if (gameInstance.phaserGame.cache.getBitmapData(this.ASCII[i]).getPixel(j, k).color != 16726)
-                    console.log(gameInstance.phaserGame.cache.getBitmapData(this.ASCII[i]).getPixel(j, k).color32);
-            }
+            rgba[count].r = font.single_char_data[i].data[j];
+            rgba[count].g = font.single_char_data[i].data[j + 1];
+            rgba[count].b = font.single_char_data[i].data[j + 2];
+            rgba[count].a = font.single_char_data[i].data[j + 3];
+            console.log(rgba[count]);
+            console.log(count);
+            count++;
         }
+    }
+}
+
+LBText.prototype.setRGBAProp = function (font, rgba) {
+
+    console.log(font.img.width * font.img.height);
+
+    for (i = 0; i < font.img.width * font.img.height; i++) {
+        rgba[i] = this.base_rgba;
     }
 }

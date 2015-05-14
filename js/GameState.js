@@ -25,7 +25,7 @@ GameState.prototype.create = function () {
     console.log('Istanziato font');
 
     //Aggiunge al game una stringa di prova,il / fa andare a capo il testo
-    var gmText = new LBText(null, 'ANDARE/A/CAPO/E^/SWAG', 300, 100, 30,60);
+    var gmText = new LBText(gameFont, 'ANDARE/A/CAPO/E^/SWAG', 300, 100, 30,60);
     
 }
 
