@@ -71,7 +71,7 @@ LBServer.prototype.start = function (port) {
 
     eurecaInstance.exports.clientHandler = function (args) {
         console.log('Received request for action: ' + args.event + ' from ' + (args.params.clientId || 'unidentified'));
-        serverInstance.pHandlers.callHandler({ event: args.event, params: args.params });
+        serverInstance.pHandlers.callHandler(args.event, args.params);
     }
 
     this.nodeSettings.httpServer.listen(port);

@@ -184,6 +184,7 @@ LBGame.prototype.gameSetup = function () { //funzione richiamata dal create del 
     });
 
     gameInstance.privateHandlers.addHandler('onOtherPlayerConnect', ['id', 'oldPos', 'nowPos'], function (params) {
+        console.log('On other player connect');
         otherPlayersManager.onConnect(params.id, params.oldPos, params.nowPos);
     });
 

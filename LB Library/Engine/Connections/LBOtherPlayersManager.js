@@ -17,6 +17,7 @@
 
     var spawn = function (posTable) {
         for (var client in posTable.oldPos) {
+            console.log('Spawning: ' + myId);
             if (client != myId) {
                 gameInstance.clientsList[client] = new LBOtherPlayer(gameInstance, posTable.oldPos[client].x, posTable.oldPos[client].y, 'player', client);
                 console.log('Manager Said: --ONSPAWN --New OtherPlayer --Spawn: ' + posTable.oldPos[client].x + ';' + posTable.oldPos[client].y + ' --NowPos: ' + posTable.nowPos[client].x + ';' + posTable.nowPos[client].y);
