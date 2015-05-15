@@ -55,10 +55,17 @@ LBCLientsManager.prototype.onConnect = function (conn) {
 
 LBCLientsManager.prototype.onDisconnect = function (conn) {
     //var id = this.info[conn.id].id;
-    delete this.info[this.info.indexOf(conn.id)];
+    console.log('Disconnected client --ID ' + conn.id + ' --Origin ' + conn.remoteAddress.ip);
+    delete this.info[conn.id];
     delete this.ids[this.ids.indexOf(conn.id)];
     delete this.nowConnected[this.nowConnected.indexOf(conn.id)];
     delete this.nowUpdating[this.nowUpdating.indexOf(conn.id)];
+    delete this.posTable.nowPos[conn.id];
+    delete this.posTable.oldPos[conn.id];
+    //console.log(this.info);
+    //console.log(this.ids);
+    //console.log(this.nowConnected);
+    //console.log(this.nowUpdating);
     for (var id in this.ids) {
         //console.log('ids: ' + id);
         this.callRemoteHandler(this.ids[id], { event: 'onOtherPlayerDisconnect', params: { id: conn.id } });
@@ -67,10 +74,10 @@ LBCLientsManager.prototype.onDisconnect = function (conn) {
 
 LBCLientsManager.prototype.update = function () {
     this.posTable.oldPos = JSON.parse(JSON.stringify(this.posTable.nowPos));
-    console.log('Connected:');
-    console.log(this.nowConnected);
-    console.log('Updating:');
-    console.log(this.nowUpdating);
+    //console.log('Connected:');
+    //console.log(this.nowConnected);
+    //console.log('Updating:');
+    //console.log(this.nowUpdating);
     //var spawningPos = function (id) {
     //    var out = {};
     //    for (var iSpawning in this.ids) if (this.ids[iSpawning] != id) out[this.ids[iSpawning]] = { oldPos: this.posTable.oldPos[this.ids[iSpawning]], nowPos: this.posTable.nowPos[this.ids[iSpawning]] };
@@ -82,7 +89,9 @@ LBCLientsManager.prototype.update = function () {
         var idConnected = this.nowConnected[iConnected];
         for (var iClient in this.ids) if (this.ids[iClient] != idConnected) {
             //console.log('nowConnected[id]: ' + this.nowConnected[id]);
-            this.callRemoteHandler(this.nowConnected[id], { event: 'onOtherPlayerConnect', params: { id: idConnected, oldPos: this.posTable.oldPos[idConnected], nowPos: this.posTable.nowPos[idConnected] } });
+            //console.log(this.ids[iClient]);
+            //console.log(this.info);
+            this.callRemoteHandler(this.ids[iClient], { event: 'onOtherPlayerConnect', params: { id: idConnected, oldPos: this.posTable.oldPos[idConnected], nowPos: this.posTable.nowPos[idConnected] } });
         }
 
         //console.log('idConnected: ' + idConnected);
@@ -92,18 +101,18 @@ LBCLientsManager.prototype.update = function () {
     var updatingPos = function (id) {
         var out = {};
         for (var iUpdating in this.nowUpdating) if (this.nowUpdating[iUpdating] != id) out[this.nowUpdating[iUpdating]] = this.posTable.nowPos[this.nowUpdating[iUpdating]];
-        console.log('OUT for ' + id);
-        console.log(out);
+        //console.log('OUT for ' + id);
+        //console.log(out);
         return out;
     }
     for (var iUpdating in this.nowUpdating) {
         //console.log('nowUpdateing: ' + this.nowUpdating[iUpdating]);
         var tmp = updatingPos(this.nowUpdating[iUpdating]);
-        console.log('Temp: ');
-        console.log(tmp);
+        //console.log('Temp: ');
+        //console.log(tmp);
         if (Object.keys(tmp).length !== 0) this.callRemoteHandler(this.nowUpdating[iUpdating], { event: 'updateOtherPlayers', params: { posTable: tmp } });
     }
-    console.log('Updating');
+    //console.log('Updating');
     this.nowUpdating = this.ids.slice();
 };
 

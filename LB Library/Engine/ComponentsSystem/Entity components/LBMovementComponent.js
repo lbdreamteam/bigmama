@@ -12,7 +12,7 @@ LBMovementComponent.prototype.constructor = LBMovementComponent;
 LBMovementComponent.prototype.move = function (target, onStartFunction, onCompleteFunction, increment, duration, ease, autoStart, delay, repeat, yoyo) {
 
     var component = this,
-        pixelTarget = gameInstance.mapMovementMatrix[target.x][target.y];
+        pixelTarget = gameInstance.mapMovementMatrix[target.y][target.x].G;
     
     //Definizione parametri opzionali
     if (typeof onStartFunction === 'undefined' || !onStartFunction) { onStartFunction = function () { } }

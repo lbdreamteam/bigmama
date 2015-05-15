@@ -65,13 +65,22 @@ LBGame.prototype.constructor = LBGame;
 
 //Crea la mappa dei punti di snap per i baricentri degli oggetti nel modo tile-based
 LBGame.prototype.createMovementMap = function (h, h0) {
-    var map = {},
+    //NUOIVA VERSIONE COMPATIBILE CON A* <--CONTROLLARE TUTTI I RIFERIMENTI IN GIRO AL PROGETTO
+    var map = [],
         zeroY = this.phaserGame.height - h0 - (h * this.movementGridSize);
-    for (var column = 1; column <= Math.floor(this.phaserGame.width / this.movementGridSize) ; column++) {
-        map[column] = {};
-        for (var row = 1; row <= h; row++) map[column][row] = { x: (column * this.movementGridSize) - (this.movementGridSize / 2), y: zeroY + (row * this.movementGridSize) - (this.movementGridSize / 2) };
+    for (var row = 1; row <= h; row++) {
+        map[row] = [];
+        for (var column = 1; column <= Math.floor(this.phaserGame.width / this.movementGridSize) ; column++) map[row][column] = { G: { x: (column * this.movementGridSize) - (this.movementGridSize / 2), y: zeroY + (row * this.movementGridSize) - (this.movementGridSize / 2) }, weight: 1 };
     }
     return map;
+    //VECCHIA VERSIONE
+    //var map = {},
+    //    zeroY = this.phaserGame.height - h0 - (h * this.movementGridSize);
+    //for (var column = 1; column <= Math.floor(this.phaserGame.width / this.movementGridSize) ; column++) {
+    //    map[column] = {};
+    //    for (var row = 1; row <= h; row++) map[column][row] = { x: (column * this.movementGridSize) - (this.movementGridSize / 2), y: zeroY + (row * this.movementGridSize) - (this.movementGridSize / 2) };
+    //}
+    //return map;
 }
 
 //Carica un'immagine, con tutto ciò che ne consegue

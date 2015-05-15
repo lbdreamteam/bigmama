@@ -67,7 +67,11 @@ LBServer.prototype.start = function (port) {
         //this.clients[conn.id] = { id: conn.id, remote: eurecaServer.getClient(conn.id), state: { x: 1, y: 1 } };
         //this.posTable.nowPos[conn.id] = this.clients[conn.id].state;
         //this.clients[conn.id].remote.serverHandler({ event: 'createGame', params: { id: conn.id, Tx: this.clients[conn.id].state.x, Ty: this.clients[conn.id].state.y } });
-    });    
+    });
+
+    eurecaInstance.onDisconnect(function (conn) {
+        serverInstance.clients.onDisconnect(conn);
+    });
 
     eurecaInstance.exports.clientHandler = function (args) {
         console.log('Received request for action: ' + args.event + ' from ' + (args.params.clientId || 'unidentified'));
