@@ -4,8 +4,7 @@ function preload() {
     //TODO: spostare il caricamento delle immagini all'interno dei vari states
     gameInstance.loadImage('tree', 'assets/tree.png');
     gameInstance.loadImage('player', 'assets/player.png');
-    gameInstance.loadImage('bullet', 'assets/placeholders/town.png');
-
+    
     gameInstance.setVisibilityChangeHandlers();
 }
 

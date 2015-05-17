@@ -6,6 +6,7 @@
     this.currentBullets = bullets;
     this.bulletsGraph = bulletsGraph;
     this.rate = rate;
+    this.speed = speed;
 }
 
 LBWeapon.prototype = Object.create(Object);

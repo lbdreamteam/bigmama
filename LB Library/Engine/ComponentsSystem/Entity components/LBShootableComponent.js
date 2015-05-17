@@ -5,6 +5,7 @@
     if (!this.componentsManager.Components[LBLibrary.ComponentsTypes.Movement])
         this.agent.cMovement = new LBMovementComponent(this.agent);
     this.cMovement = this.componentsManager.Components[LBLibrary.ComponentsTypes.Movement];
+    this.sendDelegate('outOfMap', function () { this.agent.kill(); }.bind(this));
 
     this.move({
         x: this.agent.currentTile.x + this.direction.x,
