@@ -63,30 +63,9 @@ LBText.prototype.textDrawer = function (txt) {
 
 LBText.prototype.getPixelColor = function (font, rgba) {
 
-    var count = 0;
-
-    console.log(font.single_char_data[0].data);
-    
-    for (var i = 0; i < this.ASCII.length; i++) {
-
-        for (var j = 0; j < ((font.bmd[i].width * font.bmd[i].height) - 1); j += 4) {
-
-            rgba[count].r = font.single_char_data[i].data[j];
-            rgba[count].g = font.single_char_data[i].data[j + 1];
-            rgba[count].b = font.single_char_data[i].data[j + 2];
-            rgba[count].a = font.single_char_data[i].data[j + 3];
-            console.log(rgba[count]);
-            console.log(count);
-            count++;
-        }
-    }
 }
 
 LBText.prototype.setRGBAProp = function (font, rgba) {
 
-    console.log(font.img.width * font.img.height);
-
-    for (i = 0; i < font.img.width * font.img.height; i++) {
-        rgba[i] = this.base_rgba;
-    }
+  
 }
