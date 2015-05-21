@@ -81,16 +81,19 @@ LBFont.prototype.imageHandler = function (imgdata) {
 
     imgdata = font_bitmap.getPixels(base_rectangle);
 
-    console.log(imgdata.data);
-
     this.setRGBAProp(this.rgba);
     
-    this.getPixelColor(this.rgba,imgdata);
+    this.getPixelColor(this.rgba, imgdata);
+
+    this.setPixelColor(this.rgba, imgdata);
+
+    console.log(imgdata);
+    font_bitmap.ctx.putImageData(imgdata, 0, 0);
 
     for (var i = 0; i < this.char_ASCII.length - 1; i++)
         this.getPixels(font_img, font_bitmap, i);
 
-    font_bitmap.clear();
+    //font_bitmap.clear();
 
     for (var i = 0; i < this.char_ASCII.length - 1; i++)
         this.createChar( i);
@@ -126,9 +129,7 @@ LBFont.prototype.getPixelColor = function (rgba,fullimgdata) {
 
     var count = 0;
 
-    console.log(rgba[count]);
-
-    for (var j = 0; j < this.img.width*this.img.height*4; j += 4) {
+    for (var j = 0; j < this.img.width * this.img.height ; j += 4) {
 
         rgba[count].r = fullimgdata.data[j];
         rgba[count].g = fullimgdata.data[j + 1];
@@ -136,5 +137,26 @@ LBFont.prototype.getPixelColor = function (rgba,fullimgdata) {
         rgba[count].a = fullimgdata.data[j + 3];
         count++;
     }
-    console.log(count);
+}
+
+LBFont.prototype.setPixelColor = function (rgba, fullimgdata) {
+
+    for (var i = 0; i < this.img.width * this.img.height; i++) {
+        if (rgba[i].r != 47) {
+            rgba[i].r = 4;
+            rgba[i].g = 5;
+            rgba[i].b = 45;
+        }
+    }
+
+    var count = 0;
+
+    for (var j = 0; j < this.img.width * this.img.height*4; j += 4) {
+
+        fullimgdata.data[j] = rgba[count].r;
+        fullimgdata.data[j + 1] = rgba[count].g;
+        fullimgdata.data[j + 2] = rgba[count].b;
+        fullimgdata.data[j + 3] = rgba[count].a;
+        count++;
+    }
 }
