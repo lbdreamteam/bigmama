@@ -21,7 +21,7 @@ LBFont = function (scale, italic, bold) {
 
     this.img =  gameInstance.phaserGame.cache.getImage('font_table_' + this.scale);
 
-    this.fullimgdata = {};
+    this.fullimgdata = [];
 
     this.rgba = [];
 
@@ -71,8 +71,6 @@ LBFont.prototype.imageHandler = function (imgdata) {
 
     var font_bitmap = gameInstance.phaserGame.add.bitmapData(font_img.width, font_img.height);
      
-
-
     font_bitmap.addToWorld();
 
     font_bitmap.draw(font_img, 0, 0);
@@ -80,25 +78,20 @@ LBFont.prototype.imageHandler = function (imgdata) {
     var base_rectangle = new Phaser.Rectangle(0, 0, this.img.width, this.img.height);
 
     imgdata = font_bitmap.getPixels(base_rectangle);
-
-    this.setRGBAProp(this.rgba);
-    
-    this.getPixelColor(this.rgba, imgdata);
-
-    this.setPixelColor(this.rgba, imgdata);
-
-    console.log(imgdata);
+  
+    this.setFontColor( imgdata.data);
+       
     font_bitmap.ctx.putImageData(imgdata, 0, 0);
+
 
     for (var i = 0; i < this.char_ASCII.length - 1; i++)
         this.getPixels(font_img, font_bitmap, i);
 
-    //font_bitmap.clear();
+    font_bitmap.clear();
 
     for (var i = 0; i < this.char_ASCII.length - 1; i++)
         this.createChar( i);
 
-  
 }
 
 LBFont.prototype.getPixels = function (im, bmd, count) {
@@ -114,49 +107,19 @@ LBFont.prototype.createChar = function (count) {
     gameInstance.phaserGame.cache.addBitmapData(this.char_ASCII[count], this.bmd[count]);
 }
 
-LBFont.prototype.setRGBAProp = function (rgba) {
+LBFont.prototype.setFontColor = function (pixelArray) {
 
+    for (var i = 0; i < pixelArray.length/4; i++) {
+        var index = 4 * i;
 
-    console.log("lenght:" + this.img.width * this.img.height);
+        var r = pixelArray[index];
+        var g = pixelArray[++index];
+        var b = pixelArray[++index];
+        var a = pixelArray[++index];
 
-    for (i = 0; i < this.img.width * this.img.height; i++) {
-        rgba[i] = this.base_rgba;
-    }
-}
-
-LBFont.prototype.getPixelColor = function (rgba,fullimgdata) {
-
-
-    var count = 0;
-
-    for (var j = 0; j < this.img.width * this.img.height ; j += 4) {
-
-        rgba[count].r = fullimgdata.data[j];
-        rgba[count].g = fullimgdata.data[j + 1];
-        rgba[count].b = fullimgdata.data[j + 2];
-        rgba[count].a = fullimgdata.data[j + 3];
-        count++;
-    }
-}
-
-LBFont.prototype.setPixelColor = function (rgba, fullimgdata) {
-
-    for (var i = 0; i < this.img.width * this.img.height; i++) {
-        if (rgba[i].r != 47) {
-            rgba[i].r = 4;
-            rgba[i].g = 5;
-            rgba[i].b = 45;
-        }
-    }
-
-    var count = 0;
-
-    for (var j = 0; j < this.img.width * this.img.height*4; j += 4) {
-
-        fullimgdata.data[j] = rgba[count].r;
-        fullimgdata.data[j + 1] = rgba[count].g;
-        fullimgdata.data[j + 2] = rgba[count].b;
-        fullimgdata.data[j + 3] = rgba[count].a;
-        count++;
+      
+            pixelArray[--index] = 255; 
+            pixelArray[--index] = 255; 
+        
     }
 }
