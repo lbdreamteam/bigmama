@@ -21,7 +21,7 @@ GameState.prototype.create = function () {
     gameInstance.phaserGame.camera.follow(gameInstance.clientsList[myId]);
 
     //Creazione istanza font
-    var gameFont = new LBFont('small');
+    var gameFont = new LBFont('small',false,false,157,176,78);
     console.log('Istanziato font');
 
     //Aggiunge al game una stringa di prova,il / fa andare a capo il testo

@@ -1,13 +1,18 @@
 ﻿//http://kvazars.com/littera/  generatore font
 
-LBFont = function (scale, italic, bold) {
+LBFont = function (scale, italic, bold,r,g,b) {
     if (scale == undefined || (scale != "small" && scale != "medium" && scale != "large")) { scale = "small"; }
     if (italic == undefined) { italic = false; }
     if (bold == undefined) { bold = false; }
+    if (r == undefined || g == undefined|| b == undefined) { r =0; g=0;b=0; } //setta come colore di default il nero
 
     this.scale = scale; //Grandezza del carattere (small, medium, large)
     this.italic = italic;
     this.bold = bold;
+    this.r = r;
+    this.g = g;
+    this.b = b;
+
 
     this.char_ASCII = []; //Array dei caratteri ascii
     this.f_width = [];
@@ -112,14 +117,19 @@ LBFont.prototype.setFontColor = function (pixelArray) {
     for (var i = 0; i < pixelArray.length/4; i++) {
         var index = 4 * i;
 
+
         var r = pixelArray[index];
         var g = pixelArray[++index];
         var b = pixelArray[++index];
         var a = pixelArray[++index];
+              
+        if ( a != 0) {
+            pixelArray[--index] = this.b; 
+            pixelArray[--index] = this.g;
+            pixelArray[--index] = this.r;
 
-      
-            pixelArray[--index] = 255; 
-            pixelArray[--index] = 255; 
+        }
+
         
     }
 }
