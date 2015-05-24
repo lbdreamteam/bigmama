@@ -23,6 +23,7 @@ LBPlayer.prototype.update = function () {
         if (this.cKeyboardInput.detectInput(this.cursors) != 'null' && (this.cKeyboardInput.increment.x != 0 || this.cKeyboardInput.increment.y != 0)) {
             this.cMovement.move(
                 this.cKeyboardInput.targetPoint,
+                175,
                 function (context, increment) {
                     if (context.calls.counter >= 2500) context.calls.counter = 0;
                     context.calls.counter++;
@@ -36,7 +37,6 @@ LBPlayer.prototype.update = function () {
                     if (gameInstance.overlap) context.cOverlap.checkOverlap(true);
                 },
                 this.cKeyboardInput.increment,
-                175,
                 Phaser.Easing.Linear.None
            );
         };

@@ -8,7 +8,8 @@
             if (!params.client || !params.pointer) console.log('ERROR at onPushPosition: params are not set correctly.')
             else {
                 gameInstance.clientsList[params.client].cMovement.move(
-                    { x: params.pointer.x, y: params.pointer.y},
+                    { x: params.pointer.x, y: params.pointer.y },
+                    175,
                     function (_agent, input) {
                         gameInstance.clientsList[params.client].currentTile = params.pointer;
                         console.log('Worker Class said: New currentTile for ' + params.client + ' --Values: ' + params.pointer.x + ';' + params.pointer.y + ' --Pixels: ' + gameInstance.clientsList[params.client].x + ';' + gameInstance.clientsList[params.client].y);
@@ -18,7 +19,6 @@
                         gameInstance.otherPlayersW.worker.postMessage({ event: 'requestPosition', params: params.client });
                     },
                     null,
-                    175,
                     Phaser.Easing.Linear.None,
                     false);
             }

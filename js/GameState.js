@@ -19,6 +19,8 @@ GameState.prototype.create = function () {
     gameInstance.clientsList[myId] = new LBPlayer(gameInstance, gameInstance.playerSpawnPoint.x, gameInstance.playerSpawnPoint.y, 'player');
 
     gameInstance.phaserGame.camera.follow(gameInstance.clientsList[myId]);
+
+    var testAI = new LBBaseAI(gameInstance, 5, 5, 'player');
 }
 
 GameState.prototype.update = function () {

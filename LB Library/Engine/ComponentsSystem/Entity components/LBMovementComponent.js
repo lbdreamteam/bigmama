@@ -9,7 +9,7 @@ LBMovementComponent = function (agent) {
 LBMovementComponent.prototype = Object.create(LBBaseComponent.prototype);
 LBMovementComponent.prototype.constructor = LBMovementComponent;
 
-LBMovementComponent.prototype.move = function (target, onStartFunction, onCompleteFunction, increment, duration, ease, autoStart, delay, repeat, yoyo) {
+LBMovementComponent.prototype.move = function (target, duration, onStartFunction, onCompleteFunction, increment, ease, autoStart, delay, repeat, yoyo) {
 
     var component = this,
         pixelTarget = gameInstance.mapMovementMatrix[target.y][target.x].G;

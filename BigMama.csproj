@@ -23,6 +23,8 @@
     <Content Include="APIs\LBCentralAPI.js" />
     <Content Include="APIs\mainServer.js" />
     <Content Include="APIs\APIsModules\LBAPIModule.js" />
+    <Content Include="LB Library\Entities\LBBaseAI.js" />
+    <Content Include="LB Library\Utility\astar.js" />
     <Content Include="LBClientsManagerModule.js" />
     <Content Include="APIs\APIsModules\LBPrivateHandlersModule.js" />
     <Content Include="LBServerPrivateHandlersModule.js" />
