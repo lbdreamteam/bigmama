@@ -37,7 +37,10 @@ LBMovementComponent.prototype.move = function (target, duration, onStartFunction
         yoyo
     );
 
+    var initPoint = {};
+
     tween.onStart.add(function () {
+        initPoint = { x: component.agent.x, y: component.agent.y };
         component.isMoving = true;
         onStartFunction(component.agent, increment);
         component.fireSignal('startMoving');
@@ -46,9 +49,9 @@ LBMovementComponent.prototype.move = function (target, duration, onStartFunction
 
     tween.onComplete.add(function () {
         onCompleteFunction(component.agent);
+        component.agent.currentTile = target;
         component.isMoving = false;
     });
 
     tween.start();
 }
-

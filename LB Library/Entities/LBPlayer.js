@@ -32,8 +32,6 @@ LBPlayer.prototype.update = function () {
                     if (gameInstance.overlap) context.cOverlap.findCollidableObject(context.cKeyboardInput.increment);
                 },
                 function (context) {
-                    context.currentTile.x += context.cKeyboardInput.increment.x;
-                    context.currentTile.y += context.cKeyboardInput.increment.y;
                     if (gameInstance.overlap) context.cOverlap.checkOverlap(true);
                 },
                 this.cKeyboardInput.increment,
