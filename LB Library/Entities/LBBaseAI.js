@@ -2,6 +2,7 @@
     LBSprite.call(this, gameInstance, Tx, Ty, graph);
 
     this.cMovement = new LBMovementComponent(this);
+    this.cSnapping = new LBSnappingComponent(this);
     this.path = [];
 
     this.createIter();
@@ -36,18 +37,29 @@ LBBaseAI.prototype.createIter = function () {
     //TODO: ci sono dei problemi con mapMovementGrid legati al fatto che è y x e non x y!
     var tempGrid = [];
 
-    for (var i = 1; i < gameInstance.mapMovementMatrix.length; i++) {
+    for (var i = 0; i < gameInstance.mapMovementMatrix.length; i++) {
         tempGrid[i] = [];
-        for (var j = 1; j < gameInstance.mapMovementMatrix[i].length; j++) {
+        for (var j = 0; j < gameInstance.mapMovementMatrix[i].length; j++) {
             tempGrid[i][j] = gameInstance.mapMovementMatrix[i][j].weight;
         }
     }
 
+    //for (var row = 0; row < gameInstance.mapMovementMatrix.length; row++) {
+    //    //tempGrid[row] = [];
+    //    for (var column = 0; column < gameInstance.mapMovementMatrix[row].length; column++) {
+    //        //tempGrid[row][column] = gameInstance.mapMovementMatrix[row][column].weight;
+    //        tempGrid[column] = [];
+    //        for (var row2 = 0; row2 < gameInstance.mapMovementMatrix.length; row2++) {
+    //            tempGrid[column][row2] = gameInstance.mapMovementMatrix[row2][column].weight;
+    //        }
+    //    }
+    //}
+
     console.log(tempGrid);
     var graph = new Graph(tempGrid);
 
-    var start = graph.grid[this.currentTile.x][this.currentTile.y];
-    var end = graph.grid[gameInstance.clientsList[myId].currentTile.x][gameInstance.clientsList[myId].currentTile.y];
+    var start = graph.grid[2][2];
+    var end = graph.grid[3][4];
     var result = astar.search(graph, start, end);
 
     console.log(result);

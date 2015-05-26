@@ -20,7 +20,7 @@ GameState.prototype.create = function () {
 
     gameInstance.phaserGame.camera.follow(gameInstance.clientsList[myId]);
 
-    var testAI = new LBBaseAI(gameInstance, 5, 5, 'player');
+    var testAI = new LBBaseAI(gameInstance, 2, 2, 'player');
 }
 
 GameState.prototype.update = function () {
