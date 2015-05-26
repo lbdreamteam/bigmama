@@ -1,18 +1,13 @@
 ﻿//http://kvazars.com/littera/  generatore font
 
-LBFont = function (scale, italic, bold,r,g,b) {
+LBFont = function (scale, italic, bold) {
     if (scale == undefined || (scale != "small" && scale != "medium" && scale != "large")) { scale = "small"; }
     if (italic == undefined) { italic = false; }
     if (bold == undefined) { bold = false; }
-    if (r == undefined || g == undefined|| b == undefined) { r =0; g=0;b=0; } //setta come colore di default il nero
 
     this.scale = scale; //Grandezza del carattere (small, medium, large)
     this.italic = italic;
     this.bold = bold;
-    this.r = r;
-    this.g = g;
-    this.b = b;
-
 
     this.char_ASCII = []; //Array dei caratteri ascii
     this.f_width = [];
