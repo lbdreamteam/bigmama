@@ -26,17 +26,6 @@ LBFont = function (scale, italic, bold,r,g,b) {
 
     this.img =  gameInstance.phaserGame.cache.getImage('font_table_' + this.scale);
 
-    this.fullimgdata = [];
-
-    this.rgba = [];
-
-    this.base_rgba = {
-        r:0,
-        g:0,
-        b:0,
-        a:0
-    }
-
     this.create();
 }
 
@@ -51,7 +40,7 @@ LBFont.prototype.create = function () {
     this.loadFontProps(this.f_height, "height");
     this.loadFontProps(this.f_x, "x");
     this.loadFontProps(this.f_y, "y");
-    this.imageHandler(this.fullimgdata);
+    this.imageHandler();
 }
 
 LBFont.prototype.loadFontProps = function (arr, attribute) {
@@ -69,7 +58,7 @@ LBFont.prototype.loadFontProps = function (arr, attribute) {
     }
 }
 
-LBFont.prototype.imageHandler = function (imgdata) {
+LBFont.prototype.imageHandler = function () {
 
 
     var font_img = gameInstance.phaserGame.cache.getImage('font_table_' + this.scale);
@@ -79,14 +68,6 @@ LBFont.prototype.imageHandler = function (imgdata) {
     font_bitmap.addToWorld();
 
     font_bitmap.draw(font_img, 0, 0);
-
-    var base_rectangle = new Phaser.Rectangle(0, 0, this.img.width, this.img.height);
-
-    imgdata = font_bitmap.getPixels(base_rectangle);
-  
-    this.setFontColor( imgdata.data);
-       
-    font_bitmap.ctx.putImageData(imgdata, 0, 0);
 
 
     for (var i = 0; i < this.char_ASCII.length - 1; i++)
@@ -112,24 +93,4 @@ LBFont.prototype.createChar = function (count) {
     gameInstance.phaserGame.cache.addBitmapData(this.char_ASCII[count], this.bmd[count]);
 }
 
-LBFont.prototype.setFontColor = function (pixelArray) {
 
-    for (var i = 0; i < pixelArray.length/4; i++) {
-        var index = 4 * i;
-
-
-        var r = pixelArray[index];
-        var g = pixelArray[++index];
-        var b = pixelArray[++index];
-        var a = pixelArray[++index];
-              
-        if ( a != 0) {
-            pixelArray[--index] = this.b; 
-            pixelArray[--index] = this.g;
-            pixelArray[--index] = this.r;
-
-        }
-
-        
-    }
-}
