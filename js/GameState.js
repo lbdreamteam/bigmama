@@ -25,7 +25,7 @@ GameState.prototype.create = function () {
     console.log('Istanziato font');
 
     //Aggiunge al game una stringa di prova,il / fa andare a capo il testo
-    var gmText = new LBText(gameFont, 'LB DEATH PIXEL', 300, 100, 60, 60, 0x9966FF);
+    var gmText = new LBText(gameFont, 'LB /rDEATH /rPIXEL', 300, 100, 60, 60, 0x9966FF);
     
 }
 

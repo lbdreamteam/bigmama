@@ -42,7 +42,8 @@ LBText.prototype.textDrawer = function (txt) {
     var xcount= 0;
 
     for (var i = 0; i < txt.length; i++) {
-        if (this.ASCII[i] == 47 ) {
+        if (this.ASCII[i-1] == 47 && this.ASCII[i] ==114 ) {
+            this.sprites[i - 1].kill();
             ycount += this.t_Hspacing;            // se la stringa contiente un / azzera il contatore delle x e aggiorna quello delle y
             xcount = 0;
         }
