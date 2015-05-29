@@ -28,18 +28,19 @@ LBPlayer.prototype.update = function () {
         if (this.cKeyboardInput.detectInput(this.cursors) != 'null' && (this.cKeyboardInput.increment.x != 0 || this.cKeyboardInput.increment.y != 0)) {
             this.cMovement.move(
                 this.cKeyboardInput.targetPoint,
+                175,
                 function (context, increment) {
                     if (context.calls.counter >= 2500) context.calls.counter = 0;
                     context.calls.counter++;
                     context.calls.calls.setItem(context.calls.counter, { id: context.calls.counter, input: context.cKeyboardInput.inputString });
-                    eurecaServer.ClientManagement.Player.SendInput(increment, myId, context.calls.counter);
+
+                    eurecaServer.clientHandler({ event: 'sendInput', params: { increment: increment, clientId: myId, callId: context.calls.counter } });
+                    if (gameInstance.overlap) context.cOverlap.findCollidableObject(context.cKeyboardInput.increment);
                 },
                 function (context) {
-                    context.currentTile.x += context.cKeyboardInput.increment.x;
-                    context.currentTile.y += context.cKeyboardInput.increment.y;
+                    if (gameInstance.overlap) context.cOverlap.checkOverlap(true);
                 },
                 this.cKeyboardInput.increment,
-                175,
                 Phaser.Easing.Linear.None
            );
         };

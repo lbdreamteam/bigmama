@@ -21,6 +21,7 @@
     this.movementInEightDirections = movementInEightDirections;
     this.world = { width: worldWidth, height: worldHeight };
     this.playerSpawnPoint = {};
+    this.privateHandlers = new LBPrivateHandlers();
 
     //Depth
     this.cDepth = new LBDepthComponent();
@@ -63,17 +64,23 @@ LBGame.prototype = Object.create(Object);
 LBGame.prototype.constructor = LBGame;
 
 //Crea la mappa dei punti di snap per i baricentri degli oggetti nel modo tile-based
-
-//ISSUE: MapMovementH0 non funziona, anche cambiandolo il risultato è sempre lo stesso!
-//ISSUE: Problema con il corretto posizionamento degli oggetti e dei personaggi. Non deve dipendere dalla zona del movimento!
 LBGame.prototype.createMovementMap = function (h, h0) {
-    var map = {},
+    //NUOIVA VERSIONE COMPATIBILE CON A* <--CONTROLLARE TUTTI I RIFERIMENTI IN GIRO AL PROGETTO
+    var map = [],
         zeroY = this.phaserGame.height - h0 - (h * this.movementGridSize);
-    for (var column = 1; column <= Math.floor(this.phaserGame.width / this.movementGridSize) ; column++) {
-        map[column] = {};
-        for (var row = 1; row <= h; row++) map[column][row] = { x: (column * this.movementGridSize) - (this.movementGridSize / 2), y: zeroY + (row * this.movementGridSize) - (this.movementGridSize / 2) };
+    for (var row = 0; row < h; row++) {
+        map[row] = [];
+        for (var column = 0; column < Math.floor(this.phaserGame.width / this.movementGridSize) ; column++) map[row][column] = { G: { x: (column * this.movementGridSize) - (this.movementGridSize / 2), y: zeroY + (row * this.movementGridSize) - (this.movementGridSize / 2) }, weight: 1 };
     }
     return map;
+    //VECCHIA VERSIONE
+    //var map = {},
+    //    zeroY = this.phaserGame.height - h0 - (h * this.movementGridSize);
+    //for (var column = 1; column <= Math.floor(this.phaserGame.width / this.movementGridSize) ; column++) {
+    //    map[column] = {};
+    //    for (var row = 1; row <= h; row++) map[column][row] = { x: (column * this.movementGridSize) - (this.movementGridSize / 2), y: zeroY + (row * this.movementGridSize) - (this.movementGridSize / 2) };
+    //}
+    //return map;
 }
 
 //Carica un'immagine, con tutto ciò che ne consegue
@@ -153,41 +160,50 @@ LBGame.prototype.loadSpritePixelMatrix = function (cacheName) {
 
 
 
-LBGame.prototype.gameSetup = function () { //funzione richiamata dal create del gioco
+LBGame.prototype.gameSetup = function () { //funzione richiamata dal create del gioco    
+    //TODO: chiamata di verifica credenziali all'api
 
-    eurecaClient = new Eureca.Client();
+    //JSON.get('https://ide.c9.io/apoteneggi/consequentiae/api/auth', function () { });
 
-    eurecaClient.ready(function (proxy) {
-        eurecaServer = proxy;
-    });
+    //eurecaClient = new Eureca.Client();
 
-    /************ FUNZIONI DISPONIBILI LATO SERVER ************/
-    eurecaClient.exports.createGame = function (id, Tx, Ty) {
-        myId = id;
-        gameInstance.playerSpawnPoint = { x: Tx, y: Ty };
+    //eurecaClient.ready(function (proxy) {
+    //    eurecaServer = proxy;
+    //});
+
+    //nuova funzione per gestire dialogo client-server
+    eurecaClient.exports.serverHandler = function (args) {
+        gameInstance.privateHandlers.callHandler(args.event, args.params);
+    };
+
+    gameInstance.privateHandlers.addHandler('createGame', ['id', 'Tx', 'Ty'], function (params) {
+        console.log('Creating game');
+        myId = params.id;
+        gameInstance.playerSpawnPoint = { x: params.Tx, y: params.Ty };
         create();
         gameInstance.otherPlayersW.worker.postMessage({ event: 'init', params: myId }); //inizializza il worker
-    }
+    });
 
-    eurecaClient.exports.updatePlayer = function (x, y, callId) {
-        gameInstance.clientsList[myId].updatePosition(x, y, callId);
-    };
+    gameInstance.privateHandlers.addHandler('updatePlayer', ['x', 'y', 'callId'], function (params) {
+        gameInstance.clientsList[myId].updatePosition(params.x, params.y, params.callId);
+    });
 
-    eurecaClient.exports.updateOtherPlayers = function (posTable) {
-        OtherPlayersManager.Update(posTable);
-    };
+    gameInstance.privateHandlers.addHandler('updateOtherPlayers', ['posTable'], function (params) {
+        otherPlayersManager.update(params.posTable);
+    });
 
-    eurecaClient.exports.onOtherPlayerConnect = function (id, x, y) {
-        OtherPlayersManager.OnConnect(id, x, y);
-    };
+    gameInstance.privateHandlers.addHandler('onOtherPlayerConnect', ['id', 'oldPos', 'nowPos'], function (params) {
+        console.log('On other player connect');
+        otherPlayersManager.onConnect(params.id, params.oldPos, params.nowPos);
+    });
 
-    eurecaClient.exports.onOtherPlayerDisconnect = function (id) {
-        OtherPlayersManager.OnDisconnect(id);
-    };
+    gameInstance.privateHandlers.addHandler('onOtherPlayerDisconnect', ['id'], function (params) {
+        otherPlayersManager.onDisconnect(params.id);
+    });
 
-    eurecaClient.exports.spawnOtherPlayers = function (posTable) {
-        OtherPlayersManager.Spawn(posTable);
-    };
+    gameInstance.privateHandlers.addHandler('spawnOtherPlayers', ['posTable'], function (params) {
+        otherPlayersManager.spawn(params.posTable);
+    });
 }
 
 LBGame.prototype.setVisibilityChangeHandlers = function () {

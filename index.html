@@ -1,15 +1,31 @@
 ﻿<!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <title>Javascript Phaser App</title>    
 </head>
-<body>
+<body onload="digestURL()">
 
-    <!--Elenco degli script da importare!!!!-->
+    <!--Funzione per leggere i parametri passati da URL-->
+    <script type="text/javascript">
+        var URL_params = {},
+        digestURL = function () {
+            var s_params = location.search.split('&');
+            s_params[0] = s_params[0].substring(1);
+            for (var i in s_params) {
+                var tmp = s_params[i].split('=');
+                URL_params[tmp[0]] = tmp[1];
+            }
+            var out = '';
+            for (var i in URL_params) {
+                out += 'param: ' + i + ' value: ' + URL_params[i] + '\n';
+            }
+        }
+    </script>
 
-    <script src="LB Library/Utility/phaser.js"></script>
+    <!--Elenco degli script da importare-->
+    <script src="/LB Library/Utility/phaser.js"></script>
+    <script src="LB Library/Utility/astar.js"></script>
 
     <script src="LB Library/Engine/ComponentsSystem/LBSignal.js"></script>
     <script src="LB Library/Engine/ComponentsSystem/LBComponentsManager.js"></script>
@@ -27,21 +43,29 @@
     <script src="LB Library/Engine/ComponentsSystem/Entity components/LBShootingComponent.js"></script>
 
     <!--UI-->
-    <script src="LB Library/UI/LBButton.js"></script>
 
-    <script src="eureca.js"></script>
-    <script src="LB Library/Engine/LBGlobalVariables.js"></script>
-    <script src="LB Library/Engine/Connections/LBOtherPlayerWorkerClass.js"></script>
-    <script src="LB Library/Engine/Connections/LBOtherPlayersManager.js"></script>
-    <script src="LB Library/Engine/LBGame.js"></script>
+    <script src="/LB Library/UI/LBFont.js"></script>
+    <script src="/LB Library/UI/LBText.js"></script>
+
+    <!--Utility Scripts-->
+    <script src="/eureca.js"></script>
+    <script src="/LB Library/Engine/LBGlobalVariables.js"></script>
+    <script src="/LB Library/Engine/Connections/LBOtherPlayerWorkerClass.js"></script>
+    <script src="/LB Library/Engine/Connections/LBOtherPlayersManager.js"></script>
+    <script src="LB Library/Utility/Elements/LBPrivateHandlers.js"></script>
+    <script src="/LB Library/Engine/LBGame.js"></script>
     
     <!--Nuovo core-->
     <script src="LB Library/Engine/LBSprite.js"></script>
     <script src="LB Library/Entities/LBPlayer.js"></script>
     <script src="LB Library/Engine/WeaponsSystem/LBWeapon.js"></script>
     <script src="LB Library/Entities/LBOtherPlayer.js"></script>
+
 	<script src="LB Library/Entities/LBTestingTree.js"></script>
 	<script src="LB Library/Entities/LBBullet.js"></script>
+
+
+    <script src="LB Library/Entities/LBBaseAI.js"></script>
     
     <script src="LB Library/Utility/Elements/LBHashTable.js"></script>
     <script src="LB Library/Engine/LBState.js"></script>
@@ -52,6 +76,5 @@
 
 
     <div id="content"></div>
-
 </body>
 </html>

@@ -22,11 +22,11 @@ var onInit = function (params) {
 var onConnect = function (params) {
     if (!params.id || !params.oldPos || !params.nowPos) self.postMessage('ERROR at onConnect: params are not correct');
     else {
-        positions[params.id] = { counter: 0, isPending: false, isMoving: false, pendingPositions: {}, lastPosition: { id: 0, x: params.oldPos.x, y: params.oldPos.y } };
+        positions[params.id] = { counter: 0, isPending: false, isMoving: false, pendingPositions: {}, lastPosition: { id: 0, x: params.oldPos.Tx, y: params.oldPos.Ty } };
         positions[params.id].counter++;
         positions[params.id].isPending = true;
-        positions[params.id].pendingPositions[1] = { id: 1, x: params.nowPos.x, y: params.nowPos.y };
-        self.postMessage('New Client: ' + params.id + ' -- OldPos(tiled): ' + params.oldPos.x + ';' + params.oldPos.y + ' -- NowPos(tiled): ' + params.nowPos.x + ';' + params.nowPos.y);
+        positions[params.id].pendingPositions[1] = { id: 1, x: params.nowPos.Tx, y: params.nowPos.Ty };
+        self.postMessage('New Client: ' + params.id + ' -- OldPos(tiled): ' + params.oldPos.Tx + ';' + params.oldPos.Ty + ' -- NowPos(tiled): ' + params.nowPos.Tx + ';' + params.nowPos.Ty);
         onRequestPosition(params.id); // forza l'inizio di un tween tra la posizione iniziale e quella già conosciuta;
     }
 };

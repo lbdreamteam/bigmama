@@ -1,10 +1,20 @@
-﻿LBButton = function (gameInstance, x, y, graph, callback, callbackContext, overFrame, outFrame, downFrame, upFrame) {
+﻿LBButton = function (style, text, x, y, callback) {
 
-    Phaser.Button.call(this, gameInstance.phaserGame, x, y, graph, callback, callbackContext, overFrame, outFrame, downFrame, upFrame);
+    this.b_style = style;
+    this.b_text = text;
+    this.b_x = x;
+    this.b_y = y;
+    this.b_callback = callback;
+    this.b_state = 'out';
+}
 
-    gameInstance.phaserGame.add.existing(this);
+LBButton.prototype = Object.create(Object);
+LBButton.prototype.constructor = LBButton;
+
+LBButton.prototype.create = function () {
 
 }
 
-LBButton.prototype = Object.create(Phaser.Button.prototype);
-LBButton.prototype.constructor = LBButton;
+LBButton.prototype.eventHandler = function () {
+    
+}

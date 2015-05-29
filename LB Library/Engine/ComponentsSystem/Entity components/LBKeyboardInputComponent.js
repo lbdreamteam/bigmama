@@ -114,8 +114,8 @@ LBKeyboardInputComponent.prototype.switchFunction = function(input) {
     }
 
     //console.log('map: ' + gameInstance.mapMovementMatrix[this.agent.currentTile.x + increment.x][this.agent.currentTile.y + increment.y])
-    if (this.isGridEnabled && !gameInstance.mapMovementMatrix[this.agent.currentTile.x + increment.x]) increment = { x: 0, y: 0 }
-    else if (this.isGridEnabled && !gameInstance.mapMovementMatrix[this.agent.currentTile.x + increment.x][this.agent.currentTile.y + increment.y]) increment = { x: 0, y: 0 };
+    if (this.isGridEnabled && !gameInstance.mapMovementMatrix[this.agent.currentTile.y + increment.y]) increment = { x: 0, y: 0 }
+    else if (this.isGridEnabled && !gameInstance.mapMovementMatrix[this.agent.currentTile.y + increment.y][this.agent.currentTile.x + increment.x]) increment = { x: 0, y: 0 };
     //console.log(increment);
     return increment;
 }

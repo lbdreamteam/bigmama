@@ -1,10 +1,24 @@
-﻿gameInstance = new LBGame(800, 600, 2500, 600, 48, true, true, Phaser.AUTO, 5)
+eurecaClient = new Eureca.Client();
+eurecaClient.ready(function (proxy) {
+    eurecaServer = proxy;
+});
+//eurecaClient.exports.authentication = function () {
+//    //console.warn(URL_params);
+//    //eurecaServer.sendAuth(URL_params['uId']);
+//}
+
+
+gameInstance = new LBGame(800, 600, 2500, 600, 32, true, true, Phaser.AUTO, 5)
 
 function preload() {
     //TODO: spostare il caricamento delle immagini all'interno dei vari states
     gameInstance.loadImage('tree', 'assets/tree.png');
     gameInstance.loadImage('player', 'assets/player.png');
-    
+
+    gameInstance.phaserGame.load.image('font_table_small', 'assets/font_small/font.png');
+    gameInstance.phaserGame.load.image('font_table_medium', 'assets/font_medium/font.png');
+    gameInstance.phaserGame.load.image('font_table_large', 'assets/font_large/font.png');
+
     gameInstance.setVisibilityChangeHandlers();
 }
 
