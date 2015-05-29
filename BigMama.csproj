@@ -23,6 +23,12 @@
     <Content Include="APIs\LBCentralAPI.js" />
     <Content Include="APIs\mainServer.js" />
     <Content Include="APIs\APIsModules\LBAPIModule.js" />
+    <Content Include="assets\font_large\font.png" />
+    <Content Include="assets\font_large\font.xml" />
+    <Content Include="assets\font_medium\font.png" />
+    <Content Include="assets\font_medium\font.xml" />
+    <Content Include="assets\font_small\font.png" />
+    <Content Include="assets\font_small\font.xml" />
     <Content Include="LB Library\Entities\LBBaseAI.js" />
     <Content Include="LB Library\Utility\astar.js" />
     <Content Include="LBClientsManagerModule.js" />
@@ -66,9 +72,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="LBServer.js" />
+    <Content Include="Readme.txt" />
     <Content Include="web.config" />
     <Content Include="assets\treeMatrix.json" />
     <Content Include="assets\playerMatrix.json" />
+    <Content Include="assets\font_large\Thumbs.db" />
+    <Content Include="assets\font_medium\Thumbs.db" />
+    <Content Include="assets\font_small\Thumbs.db" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -76,9 +86,7 @@
       <DependentUpon>web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="js\Characters\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
   </PropertyGroup>
