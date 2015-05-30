@@ -61,7 +61,6 @@
     <Content Include="LB Library\Engine\LBState.js" />
     <Content Include="LB Library\Engine\LBSprite.js" />
     <Content Include="LB Library\Engine\WeaponsSystem\LBWeapon.js" />
-    <Content Include="LB Library\Engine\WeaponsSystem\WeaponsData.js" />
     <Content Include="LB Library\Entities\LBBullet.js" />
     <Content Include="LB Library\Entities\LBOtherPlayer.js" />
     <Content Include="LB Library\Entities\LBPlayer.js" />

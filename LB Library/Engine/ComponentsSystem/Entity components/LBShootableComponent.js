@@ -19,6 +19,7 @@ LBShootableComponent.prototype.constructor = LBShootableComponent;
 LBShootableComponent.prototype.move = function (target, repetitions) {
     this.cMovement.move(
         target,
+        this.duration,
         undefined,
         function () {
             if (repetitions > 0)
@@ -30,7 +31,6 @@ LBShootableComponent.prototype.move = function (target, repetitions) {
                 this.agent.kill();
         }.bind(this),
         this.direction,
-        this.duration,
         Phaser.Easing.Linear.None
     );
 }
