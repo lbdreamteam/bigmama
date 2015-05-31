@@ -19,9 +19,9 @@
     <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="APIs\Central.js" />
+    <Content Include="APIs\APIsModules\LBAPIPrivateHandlersModule.js" />
     <Content Include="APIs\LBCentralAPI.js" />
-    <Content Include="APIs\mainServer.js" />
+    <Content Include="APIs\LBMapAPI.js" />
     <Content Include="APIs\APIsModules\LBAPIModule.js" />
     <Content Include="assets\font_large\font.png" />
     <Content Include="assets\font_large\font.xml" />
@@ -32,7 +32,6 @@
     <Content Include="LB Library\Entities\LBBaseAI.js" />
     <Content Include="LB Library\Utility\astar.js" />
     <Content Include="LBClientsManagerModule.js" />
-    <Content Include="APIs\APIsModules\LBPrivateHandlersModule.js" />
     <Content Include="LBServerPrivateHandlersModule.js" />
     <Content Include="LBServerModule.js" />
     <Content Include="assets\placeholders\tileset.png" />

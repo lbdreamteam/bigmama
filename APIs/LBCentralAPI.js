@@ -74,7 +74,7 @@ LBApi.create(
         			},
         			'TableName': 'ports'
     			}, function (err, data) {
-        			if (err) console.log('sono il log dell errore nel create ' + err);
+        			if (err) console.log('AWS DynamoDB error: ' + err);
         			else {
             			var port = data.Item.pull.NS[Math.floor(Math.random() * data.Item.pull.NS.length)];
             			console.log('pulllength : ' + data.Item.pull.NS.length + ' port: ' + port);
@@ -96,7 +96,7 @@ LBApi.create(
                 			if (err) res.json({err: err});
                 			else {
                     			var child;
-                    			child = exec('node server.js ' + port);
+                    			child = exec('node LBServer.js ' + port);
                     			console.log('Started game on port: ' + port);
                     			child = exec('aws ec2 authorize-security-group-ingress --group-id sg-0787d562 --protocol tcp --port ' + port + ' --cidr 0.0.0.0/0 --region eu-west-1');
                     			console.log('Opened port: ' + port);
