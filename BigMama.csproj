@@ -30,6 +30,8 @@
     <Content Include="assets\font_small\font.png" />
     <Content Include="assets\font_small\font.xml" />
     <Content Include="LB Library\Entities\LBBaseAI.js" />
+    <Content Include="LB Library\UI\LBFont.js" />
+    <Content Include="LB Library\UI\LBText.js" />
     <Content Include="LB Library\Utility\astar.js" />
     <Content Include="LBClientsManagerModule.js" />
     <Content Include="APIs\APIsModules\LBPrivateHandlersModule.js" />
