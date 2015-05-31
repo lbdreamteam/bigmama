@@ -1,7 +1,8 @@
 module.exports = {
 	create: function(port, AWSregion, pHandlers, initCallback, enableCORS, extraPackages) {
 		return new LBAPI(port, AWSregion, pHandlers, initCallback, enableCORS, extraPackages);
-	}
+	},
+    version : 'v0.0.1.3'
 }
 
 LBAPI = function(port, AWSregion, pHandlers, initCallback, enableCORS, extraPackages) {
@@ -32,8 +33,9 @@ LBAPI.prototype.init = function(AWSregion, extraPackages, initCallback) {
 	this.modules['aws-sdk'] = require('aws-sdk');
 	this.modules['aws-sdk'].config.update({region : AWSregion});
 	this.modules['cli-color'] = require('cli-color');
+	this.modules['http'] = require('http');
 	//LBModules
-	this.modules['LBPrivateHandlers'] = require('./LBPrivateHandlersModule.js');
+	this.modules['LBPrivateHandlers'] = require('./LBAPIPrivateHandlersModule.js');
 	if (extraPackages) for(var key in extraPackages) this.modules[key] = require(extraPackages[key]);
 	if (initCallback) initCallback(this);
 	//AWS-SDK configuration
@@ -72,6 +74,6 @@ LBAPI.prototype.start = function(port, pHandlers, context, enableCORS) {
 
 	this.app.use('/LBApi', this.router);
 	this.app.listen(port);
-	console.log(this.modules['cli-color'].blue.bgWhite('LBAPI v0.0.0.1.2'));
+	console.log(this.modules['cli-color'].blue.bgWhite('LB API ' + module.exports.version));
 };
 
