@@ -2,13 +2,66 @@ eurecaClient = new Eureca.Client();
 eurecaClient.ready(function (proxy) {
     eurecaServer = proxy;
 });
-//eurecaClient.exports.authentication = function () {
-//    //console.warn(URL_params);
-//    //eurecaServer.sendAuth(URL_params['uId']);
-//}
 
-
-gameInstance = new LBGame(800, 600, 2500, 600, 32, true, true, Phaser.AUTO, 5)
+gameInstance = new LBGame(
+    800,    //width
+    600,    //height
+    2500,   //wWidth
+    600,    //wHeight
+    32,     //MovgridS
+    true,   //movIn8Dir
+    true,   //overlap
+    Phaser.AUTO,    //renderer
+    [       //pHs        
+        {
+            'event': 'createGame',
+            'params': ['id', 'Tx', 'Ty'],
+            'function': function (params) {
+                console.log('Creating game');
+                myId = params.id;
+                gameInstance.playerSpawnPoint = { x: params.Tx, y: params.Ty };
+                gameInstance.otherPlayersW.worker.postMessage({ event: 'init', params: myId }); //inizializza il worker
+                create();
+            }
+        },
+        {
+            'event': 'updatePlayer',
+            'params': ['x', 'y', 'callId'],
+            'function': function (params) {
+                gameInstance.clientsList[myId].updatePosition(params.x, params.y, params.callId);
+            }
+        },
+        {
+            'event': 'updateOtherPlayers',
+            'params': ['posTable'],
+            'function': function (params) {
+                otherPlayersManager.update(params.posTable);
+            }
+        },
+        {
+            'event': 'onOtherPlayerConnect',
+            'params': ['id', 'oldpos', 'nowPos'],
+            'function': function (params) {
+                console.log('On other player connect');
+                otherPlayersManager.onConnect(params.id, params.oldPos, params.nowPos);
+            }
+        },
+        {
+            'event': 'onOtherPlayerDisconnect',
+            'params': ['id'],
+            'function': function (params) {
+                otherPlayersManager.onDisconnect(params.id);
+            }
+        },
+        {
+            'event': 'spawnOtherPlayers',
+            'params': ['posTable'],
+            'function': function (params) {
+                otherPlayersManager.spawn(params.posTable);
+            }
+        }
+    ],
+    5);
 
 function preload() {
     //TODO: spostare il caricamento delle immagini all'interno dei vari states

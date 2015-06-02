@@ -50,17 +50,4 @@ LBPlayer.prototype.update = function () {
 
 LBPlayer.prototype.updatePosition = function (x, y, callId) {
 
-    // --> DA RIFARE TUTTO QUANTO!!! <--
-
-    //var increment = { x: 0, y: 0 };
-
-    //this.calls.calls.removeItem(callId);
-    //this.calls.calls.each(function (key, item) {
-    //    increment += switchFunction(item.input);
-    //});
-
-    //if (x + increment.x != this.currentTile.x)
-    //    this.x = x + increment.x * this.gameInstance.movementGridSize;
-    //if (y + increment.y != this.currentTile.y)
-    //    this.y = y + increment.y * this.gameInstance.movementGridSize;
 }
