@@ -34,6 +34,8 @@ GameState.prototype.create = function () {
     //Aggiunge al game una stringa di prova,il / fa andare a capo il testo
     var gmText = new LBText(gameFont, 'LB /rDEATH /rPIXEL', 300, 100, 60, 60, 0x9966FF);
 
+    var btt = new LBButton
+
 }
 
 var fpsText;
