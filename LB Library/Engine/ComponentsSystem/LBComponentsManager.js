@@ -47,7 +47,7 @@ LBComponentsManager.prototype.addParameters = function (parameters) {
 //funzione che richiama tutti i delegati su quel segnale
 LBComponentsManager.prototype.signalCallback = function (signalName) {
     //console.log('Dispatching to handlers ...');
-    this.Signals[signalName].dispatch();
+    this.Signals[signalName].dispatch(this.Parameters);
     //console.log('Finished dispatching.');
 }
 

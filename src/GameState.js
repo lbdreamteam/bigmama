@@ -32,8 +32,11 @@ GameState.prototype.create = function () {
     console.log('Istanziato font');
 
     //Aggiunge al game una stringa di prova,il / fa andare a capo il testo
-    var gmText = new LBText(gameFont, 'LB /rDEATH /rPIXEL', 300, 100, 60, 60, 0x9966FF);
+    //var gmText = new LBText(gameFont, 'LB /rDEATH /rPIXEL', 300, 100, 60, 60, 0x9966FF);
 
+    for (var iColumn in gameInstance.mapMovementMatrix) {
+        for (var iRow in gameInstance.mapMovementMatrix[iColumn]) gameInstance.phaserGame.add.text(gameInstance.mapMovementMatrix[iColumn][iRow].G.x - (gameInstance.movementGridSize / 2), gameInstance.mapMovementMatrix[iColumn][iRow].G.y - (gameInstance.movementGridSize / 2), gameInstance.mapMovementMatrix[iColumn][iRow].weight.toString());
+    }
 }
 
 var fpsText;

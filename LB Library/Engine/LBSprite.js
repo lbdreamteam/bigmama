@@ -1,7 +1,7 @@
 ﻿LBSprite = function (gameInstance, Tx, Ty, graph) {
 
-    var Rx = gameInstance.mapMovementMatrix[Ty][Tx].G.x,
-        Ry = gameInstance.mapMovementMatrix[Ty][Tx].G.y;
+    var Rx = gameInstance.mapMovementMatrix[Tx][Ty].G.x,
+        Ry = gameInstance.mapMovementMatrix[Tx][Ty].G.y;
 
     Phaser.Sprite.call(this, gameInstance.phaserGame, Rx, Ry, graph);
     

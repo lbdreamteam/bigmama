@@ -8,7 +8,7 @@
     if (overlap === undefined) { overlap = true }
     renderer = renderer || Phaser.AUTO;
     parent = parent || '';
-    state = state || { preload: preload, create: this.gameSetup };
+    state = state || { preload: preload };
     transparent = transparent || false;
     if (antialias === undefined) { antialias = true }
     physicsConfig = physicsConfig || null;
@@ -71,10 +71,18 @@ LBGame.prototype.createMovementMap = function (h, h0) {
     //NUOIVA VERSIONE COMPATIBILE CON A* <--CONTROLLARE TUTTI I RIFERIMENTI IN GIRO AL PROGETTO
     var map = [],
         zeroY = this.phaserGame.height - h0 - (h * this.movementGridSize);
-    for (var row = 0; row < h; row++) {
-        map[row] = [];
-        for (var column = 0; column < Math.floor(this.phaserGame.width / this.movementGridSize) ; column++) map[row][column] = { G: { x: (column * this.movementGridSize) - (this.movementGridSize / 2), y: zeroY + (row * this.movementGridSize) - (this.movementGridSize / 2) }, weight: 1 };
+
+    for (var column = 0; column < Math.floor(this.phaserGame.width / this.movementGridSize); column++) {
+        map[column] = [];
+        for (var row = 0; row < h ; row++) {
+            map[column][row] = { G: { x: (column + 1) * this.movementGridSize - (this.movementGridSize / 2), y: zeroY + (row + 1) * this.movementGridSize - (this.movementGridSize / 2) }, weight: 1 };
+        }
     }
+
+    //for (var row = 0; row < h; row++) {
+    //    map[row] = [];
+    //    for (var column = 0; column < Math.floor(this.phaserGame.width / this.movementGridSize) ; column++) map[row][column] = { G: { x: (column * this.movementGridSize) - (this.movementGridSize / 2), y: zeroY + (row * this.movementGridSize) - (this.movementGridSize / 2) }, weight: 1 };
+    //}
     return map;
 }
 
@@ -166,10 +174,6 @@ LBGame.prototype.setHandlers = function (pHs) {
     };
 
     console.log('...done');
-}
-
-LBGame.prototype.gameSetup = function () {     
-
 }
 
 LBGame.prototype.setVisibilityChangeHandlers = function () {
