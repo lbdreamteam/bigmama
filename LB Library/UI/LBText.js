@@ -2,6 +2,7 @@
 
     if (Wspacing == undefined) { Wspacing = 40; }
     if (Hspacing == undefined) { Wspacing = 40; }
+    if (baseFont == undefined) { baseFont = new LBFont('small', false, false); }
 
     this.text = text;
     this.t_x = x;
@@ -24,7 +25,6 @@ LBText.prototype = Object.create(Object);
 LBText.prototype.constructor = LBText;
 
 LBText.prototype.create = function () {
-    console.log('istanziato text');
     this.stringHandler(this.text);
     this.textDrawer(this.text);
 }

@@ -29,7 +29,6 @@ GameState.prototype.create = function () {
 
     //Creazione istanza font
     var gameFont = new LBFont('small',false,false,157,176,78);
-    console.log('Istanziato font');
 
     //Aggiunge al game una stringa di prova,il / fa andare a capo il testo
     //var gmText = new LBText(gameFont, 'LB /rDEATH /rPIXEL', 300, 100, 60, 60, 0x9966FF);

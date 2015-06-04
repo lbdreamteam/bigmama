@@ -4,6 +4,7 @@
 
 
     this.b_style = style;
+    this.b_text_temp;
     this.b_text = text;
     this.b_x = x;
     this.b_y = y;
@@ -35,6 +36,17 @@ LBButton.prototype.stateHandler = function (down, over) {
 LBButton.prototype.frameHandler = function () {
 
   
+}
+
+LBButton.prototype.textHandler = function () {
+    if (typeof this.b_text === 'object') {
+
+        //Gestire dimensione/posizione del testo che è già un oggetto
+
+    }
+    else {
+         this.b_text_temp = new LBText(null, this.b_text, this.b_x, this.b_y, null, null, '#000000')
+    }
 }
 
 
