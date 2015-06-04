@@ -1,5 +1,8 @@
 ﻿LBButton = function (style, text, x, y, callback) {
 
+    if (callback == null) { callback = function () { };}
+
+
     this.b_style = style;
     this.b_text = text;
     this.b_x = x;
@@ -8,23 +11,31 @@
     this.b_down = false;
     this.b_over = false;
     this.base_sprite = gameInstance.phaserGame.add.sprite(this.b_x, this.b_y, this.b_style);
-
+    this.base_sprite.inputEnabled = true;
+   
     this.create();
 }
 
 LBButton.prototype = Object.create(Object);
 LBButton.prototype.constructor = LBButton;
 
-LBButton.prototype.create = function () {
-    if (this.base_sprite.events.onInputDown.active) {
-        console.log('Click');
-    }
+LBButton.prototype.create = function () { 
+    this.stateHandler(this.b_down, this.b_over);
+    this.base_sprite.events.onInputUp.add(this.b_callback, this);
 }
 
-LBButton.prototype.eventHandler = function () {
-    
+LBButton.prototype.stateHandler = function (down, over) {
+
+    this.base_sprite.events.onInputDown.add(function (down) { down = true; }, gameInstance.phaserGame);
+    this.base_sprite.events.onInputOver.add(function (over) { over = true; }, gameInstance.phaserGame);
+    this.base_sprite.events.onInputOut.add(function (over) { over = false; }, gameInstance.phaserGame);
+    this.base_sprite.events.onInputUp.add(function (down) { down = false;  }, gameInstance.phaserGame);
 }
 
-LBButton.prototype.update = function () {
+LBButton.prototype.frameHandler = function () {
 
+  
 }
+
+
+
