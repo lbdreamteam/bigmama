@@ -37,7 +37,6 @@ LBPlayer.prototype.update = function () {
                     if (gameInstance.overlap) context.cOverlap.findCollidableObject(context.cKeyboardInput.increment);
                 },
                 function (context) {
-                    console.log('Passato');
                     if (gameInstance.overlap) context.cOverlap.checkOverlap(true);
                 },
                 this.cKeyboardInput.increment,
@@ -62,11 +61,6 @@ LBPlayer.prototype.updatePosition = function (x, y, callId) {
     console.log('Debug rec: ', this.currentTile.x, this.currentTile.y, x + increment.x, y + increment.y, x, y, this.calls);
 
     if (x + increment.x != this.currentTile.x || y + increment.y != this.currentTile.y) {
-        console.log('Found incoherence bewtween server and client, stopping tween...');
-        //this.componentsManager.Parameters['tween'].pause();
-        console.log('...done');
-        var G = gameInstance.mapMovementMatrix[x][y].G;
-        this.x = G.x;
-        this.y = G.y;
+        this.cMovement.setForceRespawn({Tx: x, Ty: y});
     }
 }

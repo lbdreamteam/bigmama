@@ -3,6 +3,8 @@ LBMovementComponent = function (agent, canExit) {
 
     this.isMoving = false;
     this.canExit = canExit || false;
+    this.forceRespawn = false;
+    this.respawnPoint = {};
 
     //SIGNALS
     this.createSignal('startMoving');
@@ -112,6 +114,18 @@ LBMovementComponent.prototype.move = function (target, duration, onStartFunction
     });
 
     tween.onComplete.add(function () {
+        if (component.forceRespawn){ 
+            console.log('Forced respawn...');
+            var G = gameInstance.mapMovementMatrix[component.respawnPoint.Tx][component.respawnPoint.Ty].G;
+            component.agent.x = G.x;
+            component.agent.y = G.y;
+            component.forceRespawn = false;
+            component.agent.currentTile = {x: component.respawnPoint.Tx, y: component.respawnPoint.Ty};
+            console.log('...done');
+        }
+        if (component.agent.cCollidingMovement) {
+
+        }
         onCompleteFunction(component.agent);
         component.isMoving = false;
         component.updateParam('isMoving', false);
@@ -121,4 +135,9 @@ LBMovementComponent.prototype.move = function (target, duration, onStartFunction
 
     tween.start();
 
-}
+};
+
+LBMovementComponent.prototype.setForceRespawn = function(respawnPoint) { //possibilità di un futuro callback
+    this.forceRespawn = true;
+    this.respawnPoint = respawnPoint;
+};
