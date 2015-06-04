@@ -35,13 +35,19 @@ LBComponentsManager.prototype.addSignal = function (signal) {
 //aggiunge i parametri resi disponibili dal component all'elenco del manager
 LBComponentsManager.prototype.addParameters = function (parameters) {
     for (var parameter in parameters)
-        if (!this.Parameters[parameter]) {
+        if (typeof this.Parameters[parameter] === 'undefined') {
             this.Parameters[parameter] = parameters[parameter];
             //console.log('Added parameter ' + parameter.toString() + ' for value ');
             //console.log( this.Parameters[parameter]);
         }
         else
             console.warn('Two components added the same parameter, this may cause errors');
+}
+
+//funzione che aggiorna il valore di un parametro esistente
+LBComponentsManager.prototype.updateParam = function(paramName, value) {
+    if (typeof this.Parameters[paramName] === 'undefined') return console.log('Error at uploadParameter: ' + paramName + ' does not exists.' , this.Parameters);
+    else this.Parameters[paramName] = value;
 }
 
 //funzione che richiama tutti i delegati su quel segnale

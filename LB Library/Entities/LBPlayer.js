@@ -37,6 +37,7 @@ LBPlayer.prototype.update = function () {
                     if (gameInstance.overlap) context.cOverlap.findCollidableObject(context.cKeyboardInput.increment);
                 },
                 function (context) {
+                    console.log('Passato');
                     if (gameInstance.overlap) context.cOverlap.checkOverlap(true);
                 },
                 this.cKeyboardInput.increment,
@@ -51,18 +52,19 @@ LBPlayer.prototype.updatePosition = function (x, y, callId) {
 
     var increment = { x: 0, y: 0 };
 
-    this.calls.list.splice(callId, 1);
+    this.calls.list.splice(callId - 1, 1);
     for (var iCall in this.calls.list) {
         var tmp = this.cKeyboardInput.switchFunction(this.calls.list[iCall].input);
         increment.x += tmp.x;
         increment.y += tmp.y;
     }
 
-    //console.log('Debug rec: ', )
+    console.log('Debug rec: ', this.currentTile.x, this.currentTile.y, x + increment.x, y + increment.y, x, y, this.calls);
 
     if (x + increment.x != this.currentTile.x || y + increment.y != this.currentTile.y) {
-        console.log('Found incoherence bewtween server and client, resetting position to last valid position');
-        
+        console.log('Found incoherence bewtween server and client, stopping tween...');
+        //this.componentsManager.Parameters['tween'].pause();
+        console.log('...done');
         var G = gameInstance.mapMovementMatrix[x][y].G;
         this.x = G.x;
         this.y = G.y;

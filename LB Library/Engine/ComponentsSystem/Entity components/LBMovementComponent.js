@@ -4,10 +4,14 @@ LBMovementComponent = function (agent, canExit) {
     this.isMoving = false;
     this.canExit = canExit || false;
 
+    //SIGNALS
     this.createSignal('startMoving');
     this.createSignal('endMoving');
     this.createSignal('outOfMap');
-    this.createParameters( { isMoving : false } );
+
+    ///PARAMETERS
+    this.createParameters( { 'isMoving' : false, 'tween' : null } );
+
     //this.sendUpdate(function() {console.log('Movement Component'); } , ['direction'], ['isMoving']);
 }
 
@@ -98,8 +102,10 @@ LBMovementComponent.prototype.move = function (target, duration, onStartFunction
     var initPoint = {};
 
     tween.onStart.add(function () {
+        component.agent.currentTile = target;
         initPoint = { x: component.agent.x, y: component.agent.y };
         component.isMoving = true;
+        component.updateParam('isMoving', true);
         onStartFunction(component.agent, increment);
         component.fireSignal('startMoving');
         gameInstance.cDepth.depthSort(component.agent, target);
@@ -107,9 +113,11 @@ LBMovementComponent.prototype.move = function (target, duration, onStartFunction
 
     tween.onComplete.add(function () {
         onCompleteFunction(component.agent);
-        component.agent.currentTile = target;
         component.isMoving = false;
+        component.updateParam('isMoving', false);
     });
+
+    this.updateParam('tween', tween);
 
     tween.start();
 

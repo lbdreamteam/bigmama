@@ -26,8 +26,8 @@ LBKeyboardInputComponent.prototype.detectInput = function (cursors) {
         this.targetPoint = { x: this.agent.currentTile.x + this.increment.x, y: this.agent.currentTile.y + this.increment.y };
     }
 
-    this.componentsManager.Parameters['direction'] = this.increment;
-
+    this.updateParam('direction', this.increment);
+    
     return this.inputString;
 }
 
