@@ -88,8 +88,8 @@ LBCLientsManager.prototype.digestInput = function (params) {
     this.posTable.nowPos[params.clientId].Ty += params.increment.y;
     this.calls.list[this.calls.counter] = this.posTable.nowPos[params.clientId];
     this.calls.counter++;
-
-    this.callRemoteHandler(params.clientId, { event: 'updatePlayer', params: { x: this.posTable.nowPos[params.clientId].x, y: this.posTable.nowPos[params.clientId].y }, callId: params.callId });
+    console.log('Sending data for reconciliation to ' + params.clientId, this.posTable.nowPos[params.clientId].Tx, this.posTable.nowPos[params.clientId].Ty, params.callId);
+    this.callRemoteHandler(params.clientId, { event: 'updatePlayer', params: { x: this.posTable.nowPos[params.clientId].Tx, y: this.posTable.nowPos[params.clientId].Ty, callId: params.callId } });
 }
 
 LBCLientsManager.prototype.callRemoteHandler = function (connId, args) {

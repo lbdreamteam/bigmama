@@ -2,7 +2,7 @@
     LBSprite.call(this, gameInstance, Tx, Ty, graph);
 
     //Props
-    this.calls = { counter: 0, calls: new LBHashTable() }; //--> DA RIVEDERE TUTTA LA RECONCILIATION <--
+    this.calls = {counter: 0, list: []}; //--> DA RIVEDERE TUTTA LA RECONCILIATION <--
     this.cursors = gameInstance.phaserGame.input.keyboard.createCursorKeys(); // --> CERCARE DI INSERIRE NEL COMPONENTE <--
     //Controllo dello ZDepth
     this.zDepth = 0.6;
@@ -32,8 +32,7 @@ LBPlayer.prototype.update = function () {
                 function (context, increment) {
                     if (context.calls.counter >= 2500) context.calls.counter = 0;
                     context.calls.counter++;
-                    context.calls.calls.setItem(context.calls.counter, { id: context.calls.counter, input: context.cKeyboardInput.inputString });
-
+                    context.calls.list.push({ input: context.cKeyboardInput.inputString });
                     eurecaServer.clientHandler({ event: 'sendInput', params: { increment: increment, clientId: myId, callId: context.calls.counter } });
                     if (gameInstance.overlap) context.cOverlap.findCollidableObject(context.cKeyboardInput.increment);
                 },
@@ -50,4 +49,22 @@ LBPlayer.prototype.update = function () {
 
 LBPlayer.prototype.updatePosition = function (x, y, callId) {
 
+    var increment = { x: 0, y: 0 };
+
+    this.calls.list.splice(callId, 1);
+    for (var iCall in this.calls.list) {
+        var tmp = this.cKeyboardInput.switchFunction(this.calls.list[iCall].input);
+        increment.x += tmp.x;
+        increment.y += tmp.y;
+    }
+
+    //console.log('Debug rec: ', )
+
+    if (x + increment.x != this.currentTile.x || y + increment.y != this.currentTile.y) {
+        console.log('Found incoherence bewtween server and client, resetting position to last valid position');
+        
+        var G = gameInstance.mapMovementMatrix[x][y].G;
+        this.x = G.x;
+        this.y = G.y;
+    }
 }
