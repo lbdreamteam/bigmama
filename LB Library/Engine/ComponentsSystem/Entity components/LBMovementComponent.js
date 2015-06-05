@@ -114,6 +114,7 @@ LBMovementComponent.prototype.move = function (target, duration, onStartFunction
     });
 
     tween.onComplete.add(function () {
+        component.fireSignal('endMoving');
         if (component.forceRespawn){ 
             console.log('Forced respawn...');
             var G = gameInstance.mapMovementMatrix[component.respawnPoint.Tx][component.respawnPoint.Ty].G;

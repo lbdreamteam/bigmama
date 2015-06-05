@@ -29,6 +29,7 @@
     <Content Include="assets\font_medium\font.xml" />
     <Content Include="assets\font_small\font.png" />
     <Content Include="assets\font_small\font.xml" />
+    <Content Include="LB Library\Engine\ComponentsSystem\Entity components\LBPathFindingComponent.js" />
     <Content Include="LB Library\Entities\LBBaseAI.js" />
     <Content Include="LB Library\UI\LBFont.js" />
     <Content Include="LB Library\UI\LBText.js" />

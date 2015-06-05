@@ -39,7 +39,7 @@ LBBaseComponent.prototype.sendDelegate = function (signalName, callback) {
 }
 
 //funzione che manda una nuova funzione per il ciclo di update del manager
-LBBaseComponent.prototype.sendUpdate = function (updateFunction, reqParameters, sentParameters) {
+LBBaseComponent.prototype.sendUpdate = function (updateFunction, reqParameters, sentParameters) { //mandarli come []
     this.componentsManager.loadUpdate(updateFunction, this, reqParameters, sentParameters);
 }
 

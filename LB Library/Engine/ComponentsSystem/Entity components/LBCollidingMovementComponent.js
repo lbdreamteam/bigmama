@@ -19,11 +19,13 @@
     this.deltaT;
 
 
-    this.sendDelegate('stopMoving', function (params) {
-        //console.log(params.direction);
+    this.sendDelegate('endMoving', function (params) {
+        console.log('direction', params['direction']);
     })
 
     this.init(graph);
+
+    this.createParameters({'hitbox': {minT: this.minT, dim: {width: this.deltaT, height: this.h}}});
 }
 
 LBCollidingMovementComponent.prototype = Object.create(LBBaseComponent.prototype);
