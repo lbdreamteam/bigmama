@@ -15,7 +15,8 @@ var eurecaClient,
                     Shooting = 4,
                     Snapping = 5;
                     Overlap = 6,
-                    Shootable = 7
+                    Shootable = 7,
+                    PathFinding = 8
             return {
                 Movement: Movement,
                 KeyboardInput: KeyboardInput,
@@ -23,7 +24,8 @@ var eurecaClient,
                 Shooting: Shooting,
                 Snapping : Snapping,
                 Overlap : Overlap,
-                Shootable : Shootable
+                Shootable: Shootable,
+                PathFinding: PathFinding
             }
         }())
         return {

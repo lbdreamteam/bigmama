@@ -4,7 +4,7 @@
     this.cMovement = new LBMovementComponent(this);
     this.cSnapping = new LBSnappingComponent(this);
     this.cCollidingMovement = new LBCollidingMovementComponent(this);
-    this.path = [];
+    this.cPathFinding = new LBPathFindingComponent(this, 'A*');
 
 }
 

@@ -1,40 +1,38 @@
 ﻿LBPathFindingComponent = function (agent, algorithm) {
-    LBBaseComponent.call(this, agent);
+    LBBaseComponent.call(this, agent, LBLibrary.ComponentsTypes.PathFinding);
 
     this.algorithm = algorithm || 'A*';
     this.increment;
     this.path = [];
 
     this.createParameters({ 'direction': this.increment });
-
-    this.init()
+    this.sendUpdate(
+            this.update.bind(this),
+            [],
+            ['direction']
+        );
 }
 
-LBPathFindingComponent.prototype = Object.create(Object);
+LBPathFindingComponent.prototype = Object.create(LBBaseComponent.prototype);
 LBPathFindingComponent.prototype.constructor = LBPathFindingComponent;
 
-LBPathFindingComponent.prototype.init = function () {
-    this.sendUpdate(function () {
-        if (this.path.length > 0) {
-            if (!this.cMovement.isMoving) {
-                this.createIter();
-                console.log(this.currentTile);
-                console.log(gameInstance.clientsList[myId].currentTile);
-                console.log('PATH: ');
-                console.log(this.path);
-                if (this.path.length != 0)
-                    this.cMovement.move(
-                        this.path[0],
-                        250,
-                        function () { },
-                        function (context) {
-                            context.path.shift();
-                        }
-                    );
-            }
+LBPathFindingComponent.prototype.update = function () {
+    if (this.path.length > 0) {
+        if (!this.cMovement.isMoving) {
+            this.createIter();
+            console.log('PATH: ', this.path);
+            if (this.path.length != 0)
+                this.cMovement.move(
+                    this.path[0],
+                    250,
+                    function () { },
+                    function (context) {
+                        context.path.shift();
+                    }
+                );
         }
-        else this.createIter();
-    }.bind(this), [], ['direction']);
+    }
+    else this.createIter();
 };
 
 LBPathFindingComponent.prototype.createIter = function () {

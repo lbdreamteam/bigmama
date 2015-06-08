@@ -70,12 +70,12 @@ LBComponentsManager.prototype.loadDelegate = function (callingType, signalName, 
 
 //aggiunge una funzione all'update del manager, rispettando l'ordine in cui sono richiesti i parametri
 LBComponentsManager.prototype.loadUpdate = function (updateFunction, parent, reqParameters, sentParameters) {
-    var newUpdate = { 
+    var newUpdate = {
         update: updateFunction,
         parent: parent,
         paramReq: reqParameters,
         paramSnd: sentParameters};
-    //console.log(newUpdate);
+    console.log(newUpdate);
     var added = false;
     //Trova il punto in cui deve inserire il nuovo
     //se un certo update richiede una prop messa disponibile dal calback che sto aggiungendo, lo inserisco appena prima di quell'update, altrimenti lo inserisco alla fine
@@ -94,14 +94,15 @@ LBComponentsManager.prototype.loadUpdate = function (updateFunction, parent, req
                         this.UpdateFunctions[i + j + 1] = tempArr[j];
                 }
     }
-    if (!added)
+    if (!added) {
+        console.log('pushing function...');
         this.UpdateFunctions.push(newUpdate);
-    //console.log('aggiunta di un nuovo update da parte di '+parent.type);
+    }
+    console.log('aggiunta di un nuovo update da parte di ' + parent.type, this.UpdateFunctions);
 }
 
 //funzione di update del manager: richiama tutte le funzioni di update dei componenti
 LBComponentsManager.prototype.update = function() {
-    //console.log(this.UpdateFunctions);
     for (var i = 0; i < this.UpdateFunctions.length; i++)
         if (this.UpdateFunctions[i].parent.enabled)
             this.UpdateFunctions[i].update();
