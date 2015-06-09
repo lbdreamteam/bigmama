@@ -10,3 +10,7 @@
 
 LBBaseAI.prototype = Object.create(LBSprite.prototype);
 LBBaseAI.prototype.constructor = LBBaseAI;
+
+LBBaseAI.prototype.update = function () {
+    this.componentsManager.update();
+}

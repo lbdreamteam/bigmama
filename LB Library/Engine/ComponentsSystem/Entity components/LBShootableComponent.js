@@ -2,9 +2,12 @@
     LBBaseComponent.call(this, agent, LBLibrary.ComponentsTypes.Shootable);
     this.direction = this.convertFacing(facing);
     this.duration = Math.floor(1000 / speed);
+
+    //Se non esiste un MovementComponent sull'agent lo aggiunge
     if (!this.componentsManager.Components[LBLibrary.ComponentsTypes.Movement])
         this.agent.cMovement = new LBMovementComponent(this.agent);
     this.cMovement = this.componentsManager.Components[LBLibrary.ComponentsTypes.Movement];
+    
     this.sendDelegate('outOfMap', function () { this.agent.kill(); }.bind(this));
 
     this.move({
