@@ -54,6 +54,6 @@ LBPathFindingComponent.prototype.createIter = function () {
     }
     var graph = new Graph(weightMap, { diagonal: true });
     var start = graph.grid[this.agent.currentTile.x][this.agent.currentTile.y];
-    var end = graph.grid[gameInstance.clientsList[myId].currentTile.x - 1][gameInstance.clientsList[myId].currentTile.y];
+    var end = graph.grid[gameInstance.clientsList[myId].currentTile.x][gameInstance.clientsList[myId].currentTile.y];
     this.path = astar.search(graph, start, end);
 }

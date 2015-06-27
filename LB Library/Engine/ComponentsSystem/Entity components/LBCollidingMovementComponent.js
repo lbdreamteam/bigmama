@@ -73,38 +73,34 @@ LBCollidingMovementComponent.prototype.init = function (graph) {
 LBCollidingMovementComponent.prototype.translateX = function (X) {
     if (!X) return;
     var spriteH = this.agent.currentTile.y,
-        startX,
-        translation;
-    switch (X) {
-        case 1:
-            startX = this.minT;
-            break;
-        case -1:
-            startX = this.minT + this.deltaT;
-            break;
-    }
-    translation = X * (this.deltaT + 1);
+        startX = this.minT - (((-1 + X) / 2) * this.deltaT),
+        translation = X * (this.deltaT + 1);
     for (var i = 0; i < this.h; i++) {
         var currentH = spriteH - i;
         gameInstance.mapMovementMatrix[startX][currentH].weight = 1;
-        gameInstance.mapMovementMatrix[startX + translation][currentH] = 0;
-        console.log('Translated ' + startX + ',' + currentH + ' to ' + (startX + translation) + ',' + currentH);
+        console.log('Old ' , gameInstance.mapMovementMatrix[startX][currentH]);
+        gameInstance.mapMovementMatrix[startX + translation][currentH].weight = 0;
+        console.log('Translated(X) ' + startX + ',' + currentH + ' to ' + (startX + translation) + ',' + currentH);
     }
     this.minT += X;
 }
 
 LBCollidingMovementComponent.prototype.translateY = function (Y) {
     if (!Y) return;
-    switch (Y) {
-        case 1:
-            break;
-        case -1:
-            break;
+    var spriteX = this.agent.currentTile.x,
+        translation = Y * this.h,
+        startH = this.agent.currentTile.y + (((-1 + Y) / 2) * (this.h - 1));
+    for (var i = 0; i <= this.deltaT; i++) {
+        var currentX = spriteX + i;
+        gameInstance.mapMovementMatrix[currentX][startH] = 1;
+        gameInstance.mapMovementMatrix[currentX][startH + translation] = 0;
+        console.log('Translated(Y) ' + currentX + ',' + startH + ' to ' + currentX + ',' + (startH + translation));
     }
 }
 
 LBCollidingMovementComponent.prototype.translateOfVector = function (vector) {
-    console.log('Translating...');
+    console.log('Translating...' , this.agent);
     this.translateX(vector.x);
     this.translateY(vector.y);
+    console.log('...finished translating.');
 }

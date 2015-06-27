@@ -21,4 +21,4 @@ LBPrivateHandlers.prototype.callHandler = function (event, params, onError, call
     if (!this.phs[event]) console.log('Unauthorized ' + event);
     else this.phs[event](params);
     if (callback) callback();
-};S
+};

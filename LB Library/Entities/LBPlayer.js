@@ -49,9 +49,12 @@ LBPlayer.prototype.update = function () {
 
 LBPlayer.prototype.updatePosition = function (x, y, callId) {
 
+    if (callId != this.calls.counter) return console.log('Error starting reconciliation! CallId does not match calls counter');
+
     var increment = { x: 0, y: 0 };
 
-    this.calls.list.splice(callId - 1, 1);
+    this.calls.list.splice(0, 1);
+    
     for (var iCall in this.calls.list) {
         var tmp = this.cKeyboardInput.switchFunction(this.calls.list[iCall].input);
         increment.x += tmp.x;

@@ -116,5 +116,6 @@ LBKeyboardInputComponent.prototype.switchFunction = function(input) {
     if (this.isGridEnabled && !gameInstance.mapMovementMatrix[this.agent.currentTile.x + increment.x]) increment = { x: 0, y: 0 }
     else if (this.isGridEnabled && !gameInstance.mapMovementMatrix[this.agent.currentTile.x + increment.x][this.agent.currentTile.y + increment.y]) increment = { x: 0, y: 0 };
     else if (this.isGridEnabled && gameInstance.mapMovementMatrix[this.agent.currentTile.x + increment.x][this.agent.currentTile.y + increment.y].weight == 0) increment = { x: 0, y: 0 };
+    if (increment.x == 0 && increment.y == 0) console.log('Increment null');
     return increment;
 }
