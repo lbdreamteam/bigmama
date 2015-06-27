@@ -89,7 +89,7 @@ LBMovementComponent.prototype.move = function (target, duration, onStartFunction
     if (typeof repeat === 'undefined') { repeat = 0; }
     if (typeof yoyo === 'undefined') { yoyo = false; }
 
-    var tween = gameInstance.phaserGame.add.tween(component.agent);
+    var tween = gameInstance.phaserGame.add.tween(this.agent);
 
     tween.to(
         pixelTarget,
@@ -104,33 +104,31 @@ LBMovementComponent.prototype.move = function (target, duration, onStartFunction
     var initPoint = {};
 
     tween.onStart.add(function () {
-        component.agent.currentTile = target;
-        initPoint = { x: component.agent.x, y: component.agent.y };
-        component.isMoving = true;
-        component.updateParam('isMoving', true);
-        onStartFunction(component.agent, increment);
-        component.fireSignal('startMoving');
-        gameInstance.cDepth.depthSort(component.agent, target);
-    });
+        this.agent.currentTile = target;
+        initPoint = { x: this.agent.x, y: this.agent.y };
+        this.isMoving = true;
+        this.updateParam('isMoving', true);
+        onStartFunction(this.agent, increment);
+        this.fireSignal('startMoving');
+        gameInstance.cDepth.depthSort(this.agent, target);
+    }.bind(this));
 
     tween.onComplete.add(function () {
-        component.fireSignal('endMoving');
-        if (component.forceRespawn){ 
+        this.agent.currentTile = target;
+        this.fireSignal('endMoving');
+        if (this.forceRespawn) {
             console.log('Forced respawn...');
-            var G = gameInstance.mapMovementMatrix[component.respawnPoint.Tx][component.respawnPoint.Ty].G;
-            component.agent.x = G.x;
-            component.agent.y = G.y;
-            component.forceRespawn = false;
-            component.agent.currentTile = {x: component.respawnPoint.Tx, y: component.respawnPoint.Ty};
+            var G = gameInstance.mapMovementMatrix[this.respawnPoint.Tx][this.respawnPoint.Ty].G;
+            this.agent.x = G.x;
+            this.agent.y = G.y;
+            this.forceRespawn = false;
+            this.agent.currentTile = { x: this.respawnPoint.Tx, y: this.respawnPoint.Ty };
             console.log('...done');
         }
-        if (component.agent.cCollidingMovement) {
-
-        }
-        onCompleteFunction(component.agent);
-        component.isMoving = false;
-        component.updateParam('isMoving', false);
-    });
+        onCompleteFunction(this.agent);
+        this.isMoving = false;
+        this.updateParam('isMoving', false);
+    }.bind(this));
 
     this.updateParam('tween', tween);
 

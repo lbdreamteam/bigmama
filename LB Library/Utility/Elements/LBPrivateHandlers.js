@@ -17,8 +17,8 @@ LBPrivateHandlers.prototype.callHandler = function (event, params, onError, call
         return;
     };
 
-    for (var iParam in this.params[event]) if (!params[this.params[event][iParam]]) onError({ code: 0 });
+    for (var iParam in this.params[event]) if (typeof (params[this.params[event][iParam]]) === 'indefined') onError({ code: 0 });
     if (!this.phs[event]) console.log('Unauthorized ' + event);
     else this.phs[event](params);
     if (callback) callback();
-};
+};S

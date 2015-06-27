@@ -20,8 +20,8 @@
 
 
     this.sendDelegate('endMoving', function (params) {
-        console.log('direction', params['direction']);
-    })
+        this.translateOfVector(params['direction']);
+    }.bind(this));
 
     this.init(graph);
 
@@ -40,31 +40,71 @@ LBCollidingMovementComponent.prototype.init = function (graph) {
        XLeftLimit = G - (gameInstance.movementGridSize / 2),
        XRightLimit = G + (gameInstance.movementGridSize / 2);
     for (var i = 0; i < XLeftLimit; i++) {
-       if (!gameInstance.spritePixelMatrix[graph].matrix[i]) break;
-       for (var j = height - 1; j > height - 1 - ((gameInstance.movementGridSize * h) - (gameInstance.movementGridSize / 2)) - ((1 - this.agent.anchor.y) * height) ; j--) {
-           if (gameInstance.spritePixelMatrix[graph].matrix[i][j] == 1) {
-               var currentD = G - i;
-               if (currentD > maxLeftD) maxLeftD = currentD;
-           }
-       }
+        if (!gameInstance.spritePixelMatrix[graph].matrix[i]) break;
+        for (var j = height - 1; j > height - 1 - ((gameInstance.movementGridSize * h) - (gameInstance.movementGridSize / 2)) - ((1 - this.agent.anchor.y) * height) ; j--) {
+            if (gameInstance.spritePixelMatrix[graph].matrix[i][j] == 1) {
+                var currentD = G - i;
+                if (currentD > maxLeftD) maxLeftD = currentD;
+            }
+        }
     }
     for (var i = XRightLimit - 1; i < gameInstance.spritePixelMatrix[graph].bottomright.x; i++) {
-       if (!gameInstance.spritePixelMatrix[graph].matrix[i]) break;
-       for (var j = height - 1; j > height - 1 - ((gameInstance.movementGridSize * h) - (gameInstance.movementGridSize / 2)) - ((1 - this.agent.anchor.y) * height) ; j--) {
-           if (gameInstance.spritePixelMatrix[graph].matrix[i][j] == 1) {
-               var currentD = i - G;
-               if (currentD > maxRightD) maxRightD = currentD;
-           }
-       }
+        if (!gameInstance.spritePixelMatrix[graph].matrix[i]) break;
+        for (var j = height - 1; j > height - 1 - ((gameInstance.movementGridSize * h) - (gameInstance.movementGridSize / 2)) - ((1 - this.agent.anchor.y) * height) ; j--) {
+            if (gameInstance.spritePixelMatrix[graph].matrix[i][j] == 1) {
+                var currentD = i - G;
+                if (currentD > maxRightD) maxRightD = currentD;
+            }
+        }
     }
     this.minT = (maxLeftD != 0) ? Math.floor(((gameInstance.movementGridSize * this.agent.currentTile.x) - (gameInstance.movementGridSize / 2) - maxLeftD) / gameInstance.movementGridSize) + 1 : this.agent.currentTile.x;
     var maxT = (maxRightD != 0) ? Math.floor(((gameInstance.movementGridSize * this.agent.currentTile.x) - (gameInstance.movementGridSize / 2) + maxRightD) / gameInstance.movementGridSize) + 1 : this.agent.currentTile.x;
-    this.deltaT = maxT - this.minT + 1;
+    this.deltaT = maxT - this.minT;
 
     for (var i = this.minT; i <= maxT; i++) {
         console.log('i', i);
-        for (var j = this.agent.currentTile.y; j < this.agent.currentTile.y + this.h; j++){
+        for (var j = this.agent.currentTile.y; j < this.agent.currentTile.y + this.h; j++) {
             console.log('Setting ', i, j);
             gameInstance.mapMovementMatrix[i][j].weight = 0;
-    }   }
+        }
+    }
+}
+
+LBCollidingMovementComponent.prototype.translateX = function (X) {
+    if (!X) return;
+    var spriteH = this.agent.currentTile.y,
+        startX,
+        translation;
+    switch (X) {
+        case 1:
+            startX = this.minT;
+            break;
+        case -1:
+            startX = this.minT + this.deltaT;
+            break;
+    }
+    translation = X * (this.deltaT + 1);
+    for (var i = 0; i < this.h; i++) {
+        var currentH = spriteH - i;
+        gameInstance.mapMovementMatrix[startX][currentH].weight = 1;
+        gameInstance.mapMovementMatrix[startX + translation][currentH] = 0;
+        console.log('Translated ' + startX + ',' + currentH + ' to ' + (startX + translation) + ',' + currentH);
+    }
+    this.minT += X;
+}
+
+LBCollidingMovementComponent.prototype.translateY = function (Y) {
+    if (!Y) return;
+    switch (Y) {
+        case 1:
+            break;
+        case -1:
+            break;
+    }
+}
+
+LBCollidingMovementComponent.prototype.translateOfVector = function (vector) {
+    console.log('Translating...');
+    this.translateX(vector.x);
+    this.translateY(vector.y);
 }
