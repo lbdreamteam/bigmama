@@ -70,16 +70,16 @@ LBCollidingMovementComponent.prototype.init = function (graph) {
     }
 }
 
-LBCollidingMovementComponent.prototype.translateX = function (X) {
+LBCollidingMovementComponent.prototype.translateX = function (X, spriteH) {
     if (!X) return;
-    var spriteH = this.agent.currentTile.y,
-        startX = this.minT - (((-1 + X) / 2) * this.deltaT),
+    var startX = this.minT - (((-1 + X) / 2) * this.deltaT),
         translation = X * (this.deltaT + 1);
     for (var i = 0; i < this.h; i++) {
         var currentH = spriteH - i;
         gameInstance.mapMovementMatrix[startX][currentH].weight = 1;
-        console.log('Old ' , gameInstance.mapMovementMatrix[startX][currentH]);
         gameInstance.mapMovementMatrix[startX + translation][currentH].weight = 0;
+        labels[startX][currentH].setText(gameInstance.mapMovementMatrix[startX][currentH].weight.toString());
+        labels[startX + translation][currentH].setText(gameInstance.mapMovementMatrix[startX + translation][currentH].weight.toString());
         console.log('Translated(X) ' + startX + ',' + currentH + ' to ' + (startX + translation) + ',' + currentH);
     }
     this.minT += X;
@@ -89,18 +89,20 @@ LBCollidingMovementComponent.prototype.translateY = function (Y) {
     if (!Y) return;
     var spriteX = this.agent.currentTile.x,
         translation = Y * this.h,
-        startH = this.agent.currentTile.y + (((-1 + Y) / 2) * (this.h - 1));
+        startH = this.agent.currentTile.y - Y + (((-1 + Y) / 2) * (this.h - 1));
     for (var i = 0; i <= this.deltaT; i++) {
         var currentX = spriteX + i;
-        gameInstance.mapMovementMatrix[currentX][startH] = 1;
-        gameInstance.mapMovementMatrix[currentX][startH + translation] = 0;
+        gameInstance.mapMovementMatrix[currentX][startH].weight = 1;
+        gameInstance.mapMovementMatrix[currentX][startH + translation].weight = 0;
+        labels[currentX][startH].setText(gameInstance.mapMovementMatrix[currentX][startH].weight.toString());
+        labels[currentX][startH + translation].setText(gameInstance.mapMovementMatrix[currentX][startH + translation].weight.toString());
         console.log('Translated(Y) ' + currentX + ',' + startH + ' to ' + currentX + ',' + (startH + translation));
     }
 }
 
 LBCollidingMovementComponent.prototype.translateOfVector = function (vector) {
     console.log('Translating...' , this.agent);
-    this.translateX(vector.x);
+    this.translateX(vector.x, this.agent.currentTile.y - vector.y);
     this.translateY(vector.y);
-    console.log('...finished translating.');
+    console.log('...finished translating.', gameInstance.mapMovementMatrix);
 }

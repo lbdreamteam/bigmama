@@ -4,7 +4,7 @@ tramite i costruttori SOLO quelle*/
 var eurecaClient,
     eurecaServer,
     gameInstance,
-    myId = 0;
+    myId = 0,
     LBLibrary = (function () {
         /* Questo è il sistema dei tipi: ne va dichiarato uno nuovo ogni volta che si crea un nuobvo tipo di componente
         ATTENZIONE! il valore 0 viene considerato nullo quindi non va utilizzato! */
@@ -31,5 +31,6 @@ var eurecaClient,
         return {
             ComponentsTypes: ComponentsTypes
         }
-    }());
+    }()),
+    labels = [];
 ///PRIMA DI MODIFICARE QUESTA CLASSE DOVETE ESSERE SICURI CHE NON CI SIA UN ALTRO MODO///
