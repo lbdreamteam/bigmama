@@ -48,9 +48,9 @@ LBText.prototype.textDrawer = function (txt) {
             xcount = 0;
         }
         else {
-            xcount++;  //aggiorna il contatore delle x
             this.sprites[i] = gameInstance.phaserGame.add.sprite(this.t_x + xcount * this.t_Wspacing, ycount, gameInstance.phaserGame.cache.getBitmapData(this.ASCII[i]));
             this.sprites[i].tint = this.color;
+            xcount++; //aggiorna il contatore delle x
         }
     }
 }
