@@ -11,8 +11,12 @@
     this.ASCII = []; //contiene le singole lettere della stringa
     this.color = color;
 
+    this.t_Texture;
+
     this.t_Wspacing = Wspacing;
     this.t_Hspacing = Hspacing;
+
+    this.base_sprite;
 
     this.sprites = [];
 
@@ -38,19 +42,33 @@ LBText.prototype.stringHandler = function (txt) {
 
 LBText.prototype.textDrawer = function (txt) {
 
-    var ycount = this.t_y;
+    var ycount = 0;
     var xcount= 0;
+    var count = 0;
 
     for (var i = 0; i < txt.length; i++) {
         if (this.ASCII[i-1] == 47 && this.ASCII[i] ==114 ) {
-            this.sprites[i - 1].kill();
+            this.sprites[count - 1].kill();
             ycount += this.t_Hspacing;            // se la stringa contiente un / azzera il contatore delle x e aggiorna quello delle y
             xcount = 0;
         }
         else {
-            this.sprites[i] = gameInstance.phaserGame.add.sprite(this.t_x + xcount * this.t_Wspacing, ycount, gameInstance.phaserGame.cache.getBitmapData(this.ASCII[i]));
-            this.sprites[i].tint = this.color;
+            this.sprites[count] = gameInstance.phaserGame.add.sprite( xcount * this.t_Wspacing, ycount, gameInstance.phaserGame.cache.getBitmapData(this.ASCII[i]));
+            this.sprites[count].tint = this.color;
             xcount++; //aggiorna il contatore delle x
+            count++;
         }
     }
-}
+
+    this.t_Texture = gameInstance.phaserGame.add.renderTexture(this.sprites[count-1].x+this.sprites[count-1].width, this.sprites[count-1].y+this.sprites[count-1].height);
+
+    this.t_Texture.clear();
+
+    for (var i = 0; i < this.sprites.length; i++) {   //trasforma l'insieme di sprite delle lettere in un unico sprite che le comprende tutte
+                                                                              
+        this.t_Texture.render(this.sprites[i], this.sprites[i].position, false);
+        this.sprites[i].kill();
+    }
+    
+    this.base_sprite = gameInstance.phaserGame.add.sprite(200, 200, this.t_Texture);
+ }
