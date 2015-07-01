@@ -70,5 +70,5 @@ LBText.prototype.textDrawer = function (txt) {
         this.sprites[i].kill();
     }
     
-    this.base_sprite = gameInstance.phaserGame.add.sprite(200, 200, this.t_Texture);
+    this.base_sprite = gameInstance.phaserGame.add.sprite(this.t_x,this.t_y, this.t_Texture);
  }
