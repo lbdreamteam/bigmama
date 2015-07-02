@@ -14,6 +14,14 @@ gameInstance = new LBGame(
     Phaser.AUTO,    //renderer
     [       //pHs        
         {
+            'event': 'joined',
+            'params': [],
+            'function': function () {
+                joined = true;
+                console.log('joined');
+            }
+        },
+        {
             'event': 'createGame',
             'params': ['id', 'Tx', 'Ty'],
             'function': function (params) {

@@ -63,10 +63,6 @@ LBServer.prototype.start = function (port) {
 
     eurecaInstance.onConnect(function (conn) {
         serverInstance.clients.onConnect(conn);
-        //console.log('Connected new client: ' + conn.id + ' --From ' + conn.remoteAddress);
-        //this.clients[conn.id] = { id: conn.id, remote: eurecaServer.getClient(conn.id), state: { x: 1, y: 1 } };
-        //this.posTable.nowPos[conn.id] = this.clients[conn.id].state;
-        //this.clients[conn.id].remote.serverHandler({ event: 'createGame', params: { id: conn.id, Tx: this.clients[conn.id].state.x, Ty: this.clients[conn.id].state.y } });
     });
 
     eurecaInstance.onDisconnect(function (conn) {

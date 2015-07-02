@@ -4,6 +4,14 @@ require('./LBServerModule.js').create(
     null,
     [
         {
+            'event': 'ready',
+            'params': ['id'],
+            'function': function (params, serverInstance) {
+                console.log(params.id + ' is ready to join!');
+                serverInstance.clients.onReady(params.id);
+            }
+        },
+        {
             'event': 'sendInput',
             'params': ['increment', 'clientId', 'callId'],
             'function': function (params, serverInstance) {
