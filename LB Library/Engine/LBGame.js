@@ -25,6 +25,7 @@
     this.movementInEightDirections = movementInEightDirections;
     this.world = { width: worldWidth, height: worldHeight };
     this.playerSpawnPoint = {};
+    this.serverPort;
 
     //Depth
     this.cDepth = new LBDepthComponent();

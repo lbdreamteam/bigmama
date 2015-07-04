@@ -51,7 +51,7 @@ LBCLientsManager.prototype.onConnect = function (conn) {
     this.info[conn.id] = { remote: remote, connInfo: { id: conn.id, ip: conn.remoteAddress }, joined: false};
     this.posTable.nowPos[conn.id] = firstPos;
 
-    this.callRemoteHandler(conn.id, { event: 'createGame', params: { id: conn.id, Tx: firstPos.Tx, Ty: firstPos.Ty } });
+    this.callRemoteHandler(conn.id, { event: 'createGame', params: { id: conn.id, Tx: firstPos.Tx, Ty: firstPos.Ty, port: this.serverInstance.port } });
 };
 
 LBCLientsManager.prototype.onDisconnect = function (conn) {

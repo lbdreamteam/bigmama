@@ -26,6 +26,7 @@ gameInstance = new LBGame(
             'params': ['id', 'Tx', 'Ty'],
             'function': function (params) {
                 console.log('Creating game');
+                gameInstance.serverPort = params.port;
                 myId = params.id;
                 gameInstance.playerSpawnPoint = { x: params.Tx, y: params.Ty };
                 gameInstance.otherPlayersW.worker.postMessage({ event: 'init', params: myId }); //inizializza il worker

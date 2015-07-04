@@ -21,6 +21,7 @@ LBServer = function (port, movementGridSize, spawnPoint, pHandlers, onInit, extr
     this.posTable = { nowPos: {}, oldPod: {} };
     this.spawnPoint = spawnPoint || { sTx: 1, sTy: 1 };
     this.movementGridSize = movementGridSize || 32;
+    this.port = port;
 
     ///NODE SETTINGS
     this.init(extraPackages, onInit);
