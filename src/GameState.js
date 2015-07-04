@@ -28,12 +28,13 @@ GameState.prototype.create = function () {
    // var testAI = new LBBaseAI(gameInstance, 8, 1, 'player');
 
     //Creazione istanza font
-    var gameFont = new LBFont('small',false,false);
+    var gameFont = new LBFont('medium',false,false);
 
     //Aggiunge al game una stringa di prova,il /r fa andare a capo il testo
-    var gmText = new LBText(gameFont, 'LB /rDEATH /rPIXEL', 300, 100, 60, 60, 0x9966FF);
+    var gmText = new LBText(gameFont, 'TESTO/rDI /rPROVA', 300, 100, 60, 60, 0x9966FF);
+    var count = 0;
 
-    var btt = new LBButton('tree',gmText , 100, 100, function () { });
+    var btt = new LBButton('tree', gmText, 100, 100, function () {});
 
 }
 

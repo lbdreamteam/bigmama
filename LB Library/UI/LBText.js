@@ -57,17 +57,48 @@ LBText.prototype.textDrawer = function (txt) {
             count++;
         }
     }
+    this.MergeText(count);
 
-    this.t_Texture = gameInstance.phaserGame.add.renderTexture(this.sprites[count-1].x+this.sprites[count-1].width, this.sprites[count-1].y+this.sprites[count-1].height);
+ }
+
+LBText.prototype.getMax = function () { // ricava la lettera con la coordinata x più elevata
+
+    var temp =0;
+    var max;
+
+
+    for (var i = 0; i < this.sprites.length; i++) {
+
+        if (i == 0) {
+            max = i
+            temp = max;
+        }
+         else if (this.sprites[i].x  > this.sprites[i - 1].x && this.sprites[i].x > this.sprites[temp].x && this.sprites[i].alive) {
+
+            max = i
+            temp = max;
+        }
+
+    }
+
+    return this.sprites[max];
+}
+
+LBText.prototype.MergeText = function (count) {  //trasforma l'insieme di sprite delle lettere in un unico sprite che le comprende tutte
+
+
+    var maxSprite = this.getMax();
+
+    this.t_Texture = gameInstance.phaserGame.add.renderTexture(maxSprite.x + maxSprite.width, this.sprites[count - 1].y + this.sprites[count - 1].height + 10);
 
     this.t_Texture.clear();
 
-    for (var i = 0; i < this.sprites.length; i++) {   //trasforma l'insieme di sprite delle lettere in un unico sprite che le comprende tutte
-                                                                              
+    for (var i = 0; i < this.sprites.length; i++) {  
+
         this.t_Texture.render(this.sprites[i], this.sprites[i].position, false);
         this.sprites[i].kill();
     }
-    
+
     Phaser.Sprite.call(this, gameInstance.phaserGame, this.t_x, this.t_y, this.t_Texture);
     gameInstance.phaserGame.add.existing(this);
- }
+}
