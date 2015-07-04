@@ -25,12 +25,15 @@ GameState.prototype.create = function () {
     gameInstance.phaserGame.time.advancedTiming = true;
     fpsText = gameInstance.phaserGame.add.text(10, 10, 'FPS: ' + gameInstance.phaserGame.time.fps);
 
-    var testAI = new LBBaseAI(gameInstance, 8, 1, 'player');
+   // var testAI = new LBBaseAI(gameInstance, 8, 1, 'player');
 
     //Creazione istanza font
-    var gameFont = new LBFont('small',false,false,157,176,78);
+    var gameFont = new LBFont('small',false,false);
 
-    var btt = new LBButton('tree', null, 100, 100, function () { var gmText = new LBText(gameFont, 'LB /rDEATH /rPIXEL', 300, 200, 60, 60, 0x9966FF); });
+    //Aggiunge al game una stringa di prova,il /r fa andare a capo il testo
+    var gmText = new LBText(gameFont, 'LB /rDEATH /rPIXEL', 300, 100, 60, 60, 0x9966FF);
+
+    var btt = new LBButton('tree',gmText , 100, 100, function () { });
 
 }
 

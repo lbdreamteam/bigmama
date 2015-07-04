@@ -16,8 +16,6 @@
     this.t_Wspacing = Wspacing;
     this.t_Hspacing = Hspacing;
 
-    this.base_sprite;
-
     this.sprites = [];
 
     this.create();
@@ -25,7 +23,7 @@
 
 
 
-LBText.prototype = Object.create(Object);
+LBText.prototype = Object.create(Phaser.Sprite.prototype);
 LBText.prototype.constructor = LBText;
 
 LBText.prototype.create = function () {
@@ -70,5 +68,6 @@ LBText.prototype.textDrawer = function (txt) {
         this.sprites[i].kill();
     }
     
-    this.base_sprite = gameInstance.phaserGame.add.sprite(this.t_x,this.t_y, this.t_Texture);
+    Phaser.Sprite.call(this, gameInstance.phaserGame, this.t_x, this.t_y, this.t_Texture);
+    gameInstance.phaserGame.add.existing(this);
  }
