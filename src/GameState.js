@@ -13,8 +13,6 @@ GameState.prototype.preload = function () {
 
     this.add.existing(gameInstance.cDepth.depthGroup);
 
-    gameInstance.phaserGame.camera.follow(gameInstance.clientsList[myId]);
-
     gameInstance.phaserGame.time.advancedTiming = true;
 
     //Creazione istanza font
@@ -42,10 +40,10 @@ GameState.prototype.create = function () {
     gameInstance.clientsList[myId] = new LBPlayer(gameInstance, gameInstance.playerSpawnPoint.x, gameInstance.playerSpawnPoint.y, 'player');
     var tree = new LBTestingTree (gameInstance, 1, 1, 'tree');
 
-
+    gameInstance.phaserGame.camera.follow(gameInstance.clientsList[myId]);
 
     fpsText = gameInstance.phaserGame.add.text(10, 10, 'FPS: ' + gameInstance.phaserGame.time.fps);
-
+    fpsText.fixedToCamera = true;
     var testAI = new LBBaseAI(gameInstance, 8, 1, 'player');
 
 }
