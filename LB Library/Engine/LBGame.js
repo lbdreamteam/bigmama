@@ -99,84 +99,24 @@ LBGame.prototype.createMovementMap = function (h, h0) {
     return map;
 }
 
-//Carica un'immagine, con tutto ciò che ne consegue
-LBGame.prototype.loadImage = function (cacheName, path) {
-    gameInstance.phaserGame.load.image(cacheName, path);
-    gameInstance.phaserGame.load.onLoadStart.add(function () { console.log('Partito'); });
-    gameInstance.phaserGame.load.onLoadComplete.add(function () {
-        console.log('complete');
-        if (gameInstance.overlap) {
-            //Modifica le dimensioni di maxSpriteWidth e Heigth
-            var image = gameInstance.phaserGame.cache.getImage(cacheName);
-            if (image.height > gameInstance.maxSpriteHeight) gameInstance.maxSpriteHeight = image.height;
-            if (image.width > gameInstance.maxSpriteWidth) gameInstance.maxSpriteWidth = image.width;
-            gameInstance.maxTileDown = Math.floor(gameInstance.maxSpriteHeight / gameInstance.movementGridSize) + 2;
-            gameInstance.maxTileSide = Math.floor(gameInstance.maxSpriteWidth / gameInstance.movementGridSize) + 1;
-        }
-        //Crea la matrice dei pixel intera (la aggiunge a spritePixelMatrix)
-
-        if (!gameInstance.spritePixelMatrix[cacheName]) {
-            console.log('Carico la matrice');
-            gameInstance.spritePixelMatrix[cacheName] = gameInstance.createPixelMatrix(cacheName);
-            console.log('Pixel Matrix ', gameInstance.spritePixelMatrix);
-        } else {
-            console.log('graph is in matrix');
-        }//gameInstance.loadSpritePixelMatrix(cacheName);
-        //Carica la matrice dei pixel spezzata, se non esiste copia quella intera (la aggiunge a spriteCollisionMatrix)
-        if (!gameInstance.cPpc.spriteCollisionMatrix[cacheName])
-            gameInstance.loadCollisionPixelMatrix(cacheName, path);
-    });
-    console.log('loaded asset ' + cacheName);
-}
-
-//Crea una matrice dei pixel dell'immagine chiamata cacheName
-LBGame.prototype.createPixelMatrix = function (cacheName) {
-    var im = gameInstance.phaserGame.cache.getImage(cacheName);
-    var bm = new Phaser.BitmapData(gameInstance.phaserGame, cacheName + 'PixelMatrix', im.width, im.height);
-    bm.draw(im);
-    bm.update();
-    var matrix = [];
-    for (var i = 0; i < im.width; i++) {
-        matrix[i] = [];
-        for (var j = 0; j < im.height; j++) {
-            matrix[i][j] = bm.getPixel(i, j).a > 0 ? 1 : 0;
-        };
-    };
-    gameInstance.phaserGame.cache.removeBitmapData(cacheName + 'PixelMatrix')
-    im = bm = undefined;
-    return { topleft: { x: 0, y: 0 }, bottomright: { x: matrix.length, y: matrix[0].length }, matrix: matrix };
-}
-//Carica la matrice dei pixel dell'imagine con nome cacheName
-LBGame.prototype.loadCollisionPixelMatrix = function (cacheName, path) {
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function () {
-        if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
-            gameInstance.cPpc.spriteCollisionMatrix[cacheName] = JSON.parse(xmlhttp.responseText);
-            xmlhttp = undefined;
-        }
-        else if (xmlhttp.readyState === 4 && xmlhttp.status === 404) {
-            console.warn('ATTENTION: missing pixel matrix for the image ' + cacheName + '. A  temporary pixel matrix has been created, but its use may reduce performance');
-            gameInstance.cPpc.spriteCollisionMatrix[cacheName] = [gameInstance.spritePixelMatrix[cacheName]];
-            xmlhttp = undefined;
-        }
-    };
-    //Prova ad aprire
-    try {
-        var jsonPath = path.substr(0, path.lastIndexOf('.')) + 'Matrix.json';
-        xmlhttp.open("GET", jsonPath, true);
-        xmlhttp.send();
-    } catch (e) {
-        xmlhttp.abort();
+LBGame.prototype.loadFonts = function (fonts, callback) {
+    callback = callback || null;
+    var queue = fonts.slice();
+    for (var iFont in fonts) {
+        var currentFont = fonts[iFont];
+        gameInstance.phaserGame.load.image(currentFont[0], currentFont[1]);
+        console.log('Enqueued ' + currentFont[0]);
+        gameInstance.phaserGame.load.onLoadComplete.add(function () {
+            console.log('Completed loading font ' + queue[0][0]);
+            queue.splice(0, 1);
+            if (queue.length != 0) console.log('Remaining ' + queue.length + ' fonts to load')
+            else if (queue.length == 0) {
+                if (callback) callback()
+                else return true;
+            }
+        });
     }
 }
-/*
-//Questa funzione fa in modo che neanche le persone stupide possano inizializzare trecento volte la stessa matrice
-LBGame.prototype.loadSpritePixelMatrix = function (cacheName) {
-    if (gameInstance.spritePixelMatrix[cacheName]) {
-        return;
-    }
-    else gameInstance.spritePixelMatrix[cacheName] = gameInstance.createPixelMatrix(cacheName);
-}*/
 
 LBGame.prototype.setHandlers = function (pHs) {
 
