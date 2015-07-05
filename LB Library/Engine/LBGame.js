@@ -1,10 +1,15 @@
 ﻿LBGame = function (width, height, worldWidth, worldHeight, movementGridSize, movementInEightDirections, overlap, renderer, pHs, mapMovementH, mapMovementH0, parent, state, transparent, antialias, physicsConfig) {
 
     //Definizione parametri opzionali
-    width = width || 800;
-    height = height || 600;
-    movementGridSize = movementGridSize || 32;
-    movementInEightDirections = movementInEightDirections || false;
+
+    //TODO: sistemare i parametri opzionali perchè così non funzionano
+
+    this.width = width;
+    this.height = height;
+    this.mapMovementH = mapMovementH;
+
+    (typeof mapMovementH0 != 'undefined') ? this.mapMovementH0 = mapMovementH0 : this.mapMovementH0 = 0; //Dichiarazione corretta del parametro opzionale
+
     if (overlap === undefined) { overlap = true }
     renderer = renderer || Phaser.AUTO;
     parent = parent || '';
@@ -12,8 +17,7 @@
     transparent = transparent || false;
     if (antialias === undefined) { antialias = true }
     physicsConfig = physicsConfig || null;
-    mapMovementH = mapMovementH || 0;
-    mapMovementH0 = mapMovementH0 || 0;
+
 
     //Setting degli handlers
     this.privateHandlers = new LBPrivateHandlers();
@@ -59,7 +63,7 @@
     this.otherPlayersW = new LBOtherPlayerWorkerClass('LB Library/Engine/Connections/LBOtherPlayersWorker.js', null, null);
 
     //Griglia per lo spostamento
-    this.mapMovementMatrix = mapMovementH ? this.createMovementMap(mapMovementH, mapMovementH0) : null;
+    this.mapMovementMatrix = mapMovementH ? this.createMovementMap(this.mapMovementH, this.mapMovementH0) : null;
     console.log('MAP: ');
     console.log(this.mapMovementMatrix);
 }
@@ -70,10 +74,12 @@ LBGame.prototype.constructor = LBGame;
 //Crea la mappa dei punti di snap per i baricentri degli oggetti nel modo tile-based
 LBGame.prototype.createMovementMap = function (h, h0) {
     //NUOIVA VERSIONE COMPATIBILE CON A* <--CONTROLLARE TUTTI I RIFERIMENTI IN GIRO AL PROGETTO
-    var map = [],
-        zeroY = this.phaserGame.height - h0 - (h * this.movementGridSize);
+    console.log(this.world.height, this.world.width, this.mapMovementH, this.mapMovementH0)
 
-    for (var column = 0; column < Math.floor(this.phaserGame.width / this.movementGridSize); column++) {
+    var map = [],
+        zeroY = this.world.height - h0 - (h * this.movementGridSize);
+
+    for (var column = 0; column <= Math.floor(this.world.width / this.movementGridSize); column++) {
         map[column] = [];
         for (var row = 0; row < h ; row++) {
             map[column][row] = { G: { x: (column + 1) * this.movementGridSize - (this.movementGridSize / 2), y: zeroY + (row + 1) * this.movementGridSize - (this.movementGridSize / 2) }, weight: 1 };
