@@ -4,12 +4,38 @@ var express = require('express'),
 	dynDB,
 	exec,
     http,
-    cli;
+    cli,
+    crypto;
 
 LBApi.create(
 	'8081', 
 	'eu-west-1', 
 	[
+        {
+            'action': 'demo',
+            'method': 'GET',
+            'params': [],
+            'function': function (params, res) {
+                crypto.randomBytes(256, function (ex, buf) {
+                    if (ex) res.send(500);
+                    var token = buf.toString('hex'),
+                        dynDBParams = {
+                            'TableName': 'demoTokens',
+                            'Item': {
+                                'token': {
+                                    'S': token
+                                }
+                            }
+                        };
+                    console.log(token);
+                    dynDB.putItem(dynDBParams, function (err, data) {
+                        if (err) res.send(err)
+                        console.log('redirecting to demo new player...');
+                        res.redirect('http://localhost:8001/?token=' + token);
+                    })
+                })
+            }
+        },
 		{
 			'action' : 'test',
 			'params' : ['nome'],
@@ -24,7 +50,8 @@ LBApi.create(
 
 		//LOAD PORTS
 		{
-			'action' : 'loadPorts' , 
+		    'action': 'loadPorts',
+            'method': 'GET',
 			'params' : ['startPort', 'max', 'pullSize'], 
 			'function' : function(params, res) {
 				var lastPort = parseInt(params.startPort),
@@ -61,7 +88,8 @@ LBApi.create(
 
 		//CREATE
 		{
-			'action' : 'create',
+		    'action': 'create',
+		    'method': 'GET',
 			'params' : [],
 			'function' : function(params, res) {
 				var pullIndex = Math.floor(Math.random() * 20);
@@ -168,7 +196,8 @@ LBApi.create(
 
 		//KILL
 		{
-			'action' : 'kill',
+		    'action': 'kill',
+		    'method': 'GET',
 			'params' : ['port'],
 			'function' : function(params, res) {
 				var port = params.port;
@@ -242,8 +271,9 @@ LBApi.create(
 	function(APIInstance) {
 		dynDB = new APIInstance.modules['aws-sdk'].DynamoDB();
 		exec = APIInstance.modules['child_process'].exec;
-		http = APIInstance.modules['http'],
-        cli = APIInstance.modules['cli-color'];
+		http = APIInstance.modules['http'];
+		cli = APIInstance.modules['cli-color'];
+		crypto = APIInstance.modules['crypto'];
 
 		console.log(APIInstance.modules['cli-color'].green.bgWhite('LBCentralApi v0.0.1.1'));
 	}

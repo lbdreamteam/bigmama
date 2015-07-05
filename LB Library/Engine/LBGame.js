@@ -92,6 +92,7 @@ LBGame.prototype.loadImage = function (cacheName, path) {
     gameInstance.phaserGame.load.image(cacheName, path);
     gameInstance.phaserGame.load.onLoadStart.add(function () { console.log('Partito'); });
     gameInstance.phaserGame.load.onLoadComplete.add(function () {
+        console.log('complete');
         if (gameInstance.overlap) {
             //Modifica le dimensioni di maxSpriteWidth e Heigth
             var image = gameInstance.phaserGame.cache.getImage(cacheName);
@@ -103,8 +104,11 @@ LBGame.prototype.loadImage = function (cacheName, path) {
         //Crea la matrice dei pixel intera (la aggiunge a spritePixelMatrix)
 
         if (!gameInstance.spritePixelMatrix[cacheName]) {
+            console.log('Carico la matrice');
             gameInstance.spritePixelMatrix[cacheName] = gameInstance.createPixelMatrix(cacheName);
-
+            console.log('Pixel Matrix ', gameInstance.spritePixelMatrix);
+        } else {
+            console.log('graph is in matrix');
         }//gameInstance.loadSpritePixelMatrix(cacheName);
         //Carica la matrice dei pixel spezzata, se non esiste copia quella intera (la aggiunge a spriteCollisionMatrix)
         if (!gameInstance.cPpc.spriteCollisionMatrix[cacheName])

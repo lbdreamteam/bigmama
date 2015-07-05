@@ -31,9 +31,10 @@ LBAPI.prototype.init = function(AWSregion, extraPackages, initCallback) {
 	this.modules['body-parser'] = require('body-parser');
 	this.modules['child_process'] = require('child_process');
 	this.modules['aws-sdk'] = require('aws-sdk');
-	this.modules['aws-sdk'].config.update({region : AWSregion});
+	this.modules['aws-sdk'].config.update({ accessKeyId: 'AKIAJCMPBHWMZLPT473Q', secretAccessKey: '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', region: AWSregion }); //le credenziali sono temporanee per test in locale non su  EC2
 	this.modules['cli-color'] = require('cli-color');
 	this.modules['http'] = require('http');
+	this.modules['crypto'] = require('crypto');
 	//LBModules
 	this.modules['LBPrivateHandlers'] = require('./LBAPIPrivateHandlersModule.js');
 	if (extraPackages) for(var key in extraPackages) this.modules[key] = require(extraPackages[key]);
@@ -59,17 +60,25 @@ LBAPI.prototype.start = function(port, pHandlers, context, enableCORS) {
 
 	for (var index in pHandlers) {
 		var handler = pHandlers[index];
-		this.privateHandlers.addHandler(handler.action, handler.params, handler.function);
+		this.privateHandlers.addHandler(handler.action, handler.method, handler.params, handler.function);
 	}
 
 	//-->QUESTO SERVE PER EVITARE CHE CRASHI A CASO<--
-	this.router.get('/', function(req, res) {
+	this.router.get('/', function (req, res) {
 		res.json({response: null});
 	});
 
-	this.router.get('/:cmd?', function(req, res) {
-		console.log('Received request for action: ' + req.params.cmd);
-		context.privateHandlers.callHandler(req.params.cmd, req.query, res);
+	this.router.all('/:cmd?', function(req, res) {
+	    console.log('Received request for action: ' + req.method + ' ' + req.params.cmd);
+	    var params = {};
+	    try {
+	        var postData = JSON.parse(req.body);
+	    } catch (ex) {
+	        console.log('req.body is not JSON!');
+	    }
+	    if (postData) for (var field in postData) params[field] = postData[field]
+	    if (req.query) for (var field in req.query) params[field] = req.query[field];
+	    context.privateHandlers.callHandler(req.params.cmd, req.method, params, res);
 	});
 
 	this.app.use('/LBApi', this.router);

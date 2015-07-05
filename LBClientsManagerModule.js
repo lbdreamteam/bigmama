@@ -65,7 +65,7 @@ LBCLientsManager.prototype.onDisconnect = function (conn) {
     delete this.posTable.nowPos[conn.id];
     delete this.posTable.oldPos[conn.id];
     for (var id in this.ids.joined) {
-        this.callRemoteHandler(this.ids[id], { event: 'onOtherPlayerDisconnect', params: { id: conn.id } });
+        this.callRemoteHandler(this.ids.joined[id], { event: 'onOtherPlayerDisconnect', params: { id: conn.id } });
     }
 };
 

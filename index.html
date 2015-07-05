@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Javascript Phaser App</title>    
+    <title>Javascript Phaser App</title>   
 </head>
 <body onload="digestURL()">
 
@@ -20,7 +20,25 @@
             for (var i in URL_params) {
                 out += 'param: ' + i + ' value: ' + URL_params[i] + '\n';
             }
-        }
+            return out;
+        };
+        //URL_params = digestURL();
+        //if (URL_params['token']) {
+        //    var xmlHttp = new XMLHttpRequest(),
+        //        url = 'http://localhost:8081/LBApi/authorize';
+        //    xmlHttp.onreadystatechange = function () {
+        //        if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+        //            var res = JSON.parse(xmlHttp.responseText);
+        //            if (!res.message) window.close()
+        //            else {
+        //                url = 'http://localhost:8081/LBApi/authorize'
+        //            }
+        //        } else window.close();
+        //    };
+        //    xmlHttp.open('POST', url, false); //richiede l'autenticazione del token
+        //    xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        //    xmlHttp.send('token=' + URL_params['token']);
+        //} else window.close();
     </script>
 
     <!--Elenco degli script da importare-->

@@ -27,30 +27,40 @@ LBPrivateHandlersModule.prototype.start = function () {
     console.log(this.modules['cli-color'].blue.bgWhite('LB APIpHs ' + module.exports.version));
 };
 
-LBPrivateHandlersModule.prototype.addHandler = function (event, params, pHandler) {
-    this.actions[event] = event;
-    this.params[event] = params;
-    this.phs[event] = pHandler;
+LBPrivateHandlersModule.prototype.addHandler = function (event, method, params, pHandler) {
+
+    //console.log('Adding ' + event + ' ' + method + ' ', params);
+
+    if (!this.actions[method]) this.actions[method] = {};
+    this.actions[method][event] = event;
+
+    if (!this.params[method]) this.params[method] = {};
+    this.params[method][event] = params;
+
+    if (!this.phs[method]) this.phs[method] = {};
+    this.phs[method][event] = pHandler;
+
 };
 
-LBPrivateHandlersModule.prototype.callHandler = function (event, params, res, onError, callback) {
+LBPrivateHandlersModule.prototype.callHandler = function (event, method, params, res, onError, callback) {
+
     onError = onError || function (err) {
         console.error('ERROR --At ' + event + ' params are not correct --Code: ' + err.code + '; aborting operation...');
         res.statusCode = 400;
         res.send();
     };
 
-    if (!this.actions[event]) {
+    if (!this.actions[method] || !this.actions[method][event]) {
         console.log('Action ' + event + ' not permitted.');
         onError({ code: 400 });
         return;
     }
 
-    for (var p in this.params[event]) if (!params[this.params[event][p]]) {
+    for (var iP in this.params[method][event]) if (!params[this.params[method][event][iP]]) {
         onError({ code: 400 });
         return;
     }
 
-    this.phs[event](params, res);
+    this.phs[method][event](params, res);
 };
 

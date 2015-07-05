@@ -6,6 +6,7 @@ GameState.prototype = Object.create(LBState.prototype);
 GameState.prototype.constructor = GameState;
 
 GameState.prototype.preload = function () {
+
     //ISSUE: IL CARICAMENTO DELLE IMMAGINI DA QUESTA FUNZIONE NON FUNZIONA
     gameInstance.phaserGame.world.setBounds(0, 0, gameInstance.world.width, gameInstance.world.height);
     gameInstance.phaserGame.stage.backgroundColor = '#1B7B0C';

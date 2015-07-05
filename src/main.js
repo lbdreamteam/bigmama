@@ -25,6 +25,7 @@ gameInstance = new LBGame(
             'event': 'createGame',
             'params': ['id', 'Tx', 'Ty'],
             'function': function (params) {
+                while (gameInstance.phaserGame.load.isLoading) { console.log('still loading...');}
                 console.log('Creating game');
                 gameInstance.serverPort = params.port;
                 myId = params.id;
@@ -77,9 +78,11 @@ function preload() {
     gameInstance.loadImage('tree', 'assets/tree.png');
     gameInstance.loadImage('player', 'assets/player.png');
 
+    console.log('loading font assets...');
     gameInstance.phaserGame.load.image('font_table_small', 'assets/font_small/font.png');
     gameInstance.phaserGame.load.image('font_table_medium', 'assets/font_medium/font.png');
     gameInstance.phaserGame.load.image('font_table_large', 'assets/font_large/font.png');
+    console.log('...done');
 
     gameInstance.setVisibilityChangeHandlers();
 }
@@ -88,5 +91,5 @@ function create() {
     gameInstance.phaserGame.physics.startSystem(Phaser.Physics.ARCADE);
     gameInstance.cDepth.depthGroup = gameInstance.phaserGame.add.group(undefined, undefined, true);
 
-    gameInstance.phaserGame.state.add('testRoom', GameState, true);
+    gameInstance.phaserGame.state.add('testRoom', GameState, false);
 }

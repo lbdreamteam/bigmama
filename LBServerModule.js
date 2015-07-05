@@ -57,7 +57,7 @@ LBServer.prototype.start = function (port) {
 
     console.log(this.nodeSettings.modules['cli-color'].blue.bgWhite('LB server ' + module.exports.version));
 
-    eurecaInstance = new this.nodeSettings.modules['eureca.io'].EurecaServer({ allow: ['serverHandler'] });
+    eurecaInstance = new this.nodeSettings.modules['eureca.io'].Server({ allow: ['serverHandler'] });
 
     eurecaInstance.attach(this.nodeSettings.httpServer);
     console.log('port ' + port);
@@ -71,7 +71,7 @@ LBServer.prototype.start = function (port) {
     });
 
     eurecaInstance.exports.clientHandler = function (args) {
-        console.log('Received request for action: ' + args.event + ' from ' + (args.params.clientId || 'unidentified'));
+        console.log('Received request for action: ' + args.event + ' from ' + (args.params.clientId || args.params.id || 'unidentified'));
         serverInstance.pHandlers.callHandler(args.event, args.params);
     }
 
