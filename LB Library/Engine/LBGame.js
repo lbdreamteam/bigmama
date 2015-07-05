@@ -2,21 +2,28 @@
 
     //Definizione parametri opzionali
 
-    //TODO: sistemare i parametri opzionali perchè così non funzionano
 
-    this.width = width;
-    this.height = height;
-    this.mapMovementH = mapMovementH;
+    (typeof width != 'undefined') ? this.width = width : this.width = 640;
+    (typeof height != 'undefined') ? this.height = height : this.height = 480;
+    (typeof worldWidth != 'undefined' && typeof worldHeight != 'undefined') ? this.world = { width: worldWidth, height: worldHeight } : this.world = { width: this.width, height: this.height };;
+    (typeof movementGridSize != 'undefined') ? this.movementGridSize = movementGridSize : this.movementGridSize = 32;
+    (typeof movementInEightDirections != 'undefined') ? this.movementInEightDirections = movementInEightDirections : this.movementInEightDirections = false;
 
+
+    (typeof overlap != 'undefined') ? overlap = overlap : overlap = true;
+    (typeof renderer != 'undefined') ? renderer = renderer : renderer = Phaser.AUTO;
+    //Gestire undefined pHs
+
+    (typeof mapMovementH != 'undefined') ? this.mapMovementH = mapMovementH : this.mapMovementH = 5;
     (typeof mapMovementH0 != 'undefined') ? this.mapMovementH0 = mapMovementH0 : this.mapMovementH0 = 0; //Dichiarazione corretta del parametro opzionale
 
-    if (overlap === undefined) { overlap = true }
-    renderer = renderer || Phaser.AUTO;
-    parent = parent || '';
-    state = state || { preload: preload };
-    transparent = transparent || false;
-    if (antialias === undefined) { antialias = true }
-    physicsConfig = physicsConfig || null;
+
+    (typeof parent != 'undefined') ? parent = parent : parent = '';
+    (typeof state != 'undefined') ? state = state : state = { preload: preload };
+    (typeof transparent != 'undefined') ? transparent = transparent : transparent = false;
+
+    (typeof antialias != 'undefined') ? antialias = antialias : antialias = true;
+    (typeof physicsConfig != 'undefined') ? physicsConfig = physicsConfig : physicsConfig = null;
 
 
     //Setting degli handlers
@@ -25,9 +32,8 @@
 
     //Proprietà
     this.phaserGame = new Phaser.Game(width, height, renderer, parent, state, transparent, antialias, physicsConfig);
-    this.movementGridSize = movementGridSize;
-    this.movementInEightDirections = movementInEightDirections;
-    this.world = { width: worldWidth, height: worldHeight };
+
+
     this.playerSpawnPoint = {};
     this.serverPort;
 
@@ -63,7 +69,7 @@
     this.otherPlayersW = new LBOtherPlayerWorkerClass('LB Library/Engine/Connections/LBOtherPlayersWorker.js', null, null);
 
     //Griglia per lo spostamento
-    this.mapMovementMatrix = mapMovementH ? this.createMovementMap(this.mapMovementH, this.mapMovementH0) : null;
+    this.mapMovementMatrix = this.createMovementMap(this.mapMovementH, this.mapMovementH0);
     console.log('MAP: ');
     console.log(this.mapMovementMatrix);
 }
@@ -79,7 +85,7 @@ LBGame.prototype.createMovementMap = function (h, h0) {
     var map = [],
         zeroY = this.world.height - h0 - (h * this.movementGridSize);
 
-    for (var column = 0; column <= Math.floor(this.world.width / this.movementGridSize); column++) {
+    for (var column = 0; column < Math.floor(this.world.width / this.movementGridSize); column++) {
         map[column] = [];
         for (var row = 0; row < h ; row++) {
             map[column][row] = { G: { x: (column + 1) * this.movementGridSize - (this.movementGridSize / 2), y: zeroY + (row + 1) * this.movementGridSize - (this.movementGridSize / 2) }, weight: 1 };

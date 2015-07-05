@@ -69,8 +69,7 @@ gameInstance = new LBGame(
                 otherPlayersManager.spawn(params.posTable);
             }
         }
-    ],
-    5);
+    ]);
 
 function preload() {
     //TODO: spostare il caricamento delle immagini all'interno dei vari states
