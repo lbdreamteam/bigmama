@@ -13,10 +13,11 @@ GameState.prototype.preload = function () {
             ['player', 'assets/player.png']
         ],
         function () {
+
             gameInstance.phaserGame.world.setBounds(0, 0, gameInstance.world.width, gameInstance.world.height);
             gameInstance.phaserGame.stage.backgroundColor = '#1B7B0C';
 
-            this.add.existing(gameInstance.cDepth.depthGroup);
+            gameInstance.phaserGame.add.existing(gameInstance.cDepth.depthGroup);
 
             gameInstance.phaserGame.time.advancedTiming = true;
 

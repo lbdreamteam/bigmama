@@ -78,10 +78,7 @@ function preload() {
             ['font_table_small', 'assets/font_small/font.png'],
             ['font_table_medium', 'assets/font_medium/font.png'],
             ['font_table_large', 'assets/font_large/font.png']
-        ],
-        function () {
-            console.log('Load fonts completed');
-        }
+        ]        
     );
 }
 

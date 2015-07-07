@@ -100,19 +100,21 @@ LBGame.prototype.createMovementMap = function (h, h0) {
 }
 
 LBGame.prototype.loadFonts = function (fonts, callback) {
+    console.log('--> LOADING FONTS <--');
     callback = callback || null;
     var queue = fonts.slice();
     for (var iFont in fonts) {
         var currentFont = fonts[iFont];
         gameInstance.phaserGame.load.image(currentFont[0], currentFont[1]);
-        console.log('Enqueued ' + currentFont[0]);
+        console.log('++ Enqueued ' + currentFont[0]);
         gameInstance.phaserGame.load.onLoadComplete.add(function () {
-            console.log('Completed loading font ' + queue[0][0]);
+            console.log('-- Completed loading font ' + queue[0][0]);
             queue.splice(0, 1);
-            if (queue.length != 0) console.log('Remaining ' + queue.length + ' fonts to load')
-            else if (queue.length == 0) {
-                if (callback) callback()
-                else return true;
+            if (queue.length == 0) {
+                console.log('--> FINISHED LOADING FONTS <--');
+                gameInstance.phaserGame.load.onLoadComplete.removeAll();
+                if (!callback) return true;
+                callback();
             }
         });
     }
