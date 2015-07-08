@@ -40,23 +40,27 @@ LBText.prototype.stringHandler = function (txt) {
 
 LBText.prototype.textDrawer = function (txt) {
 
-    var ycount = 0;
-    var xcount= 0;
+    
     var count = 0;
+    var currx = 0;
+    var curry = 0;
 
     for (var i = 0; i < txt.length; i++) {
         if (this.ASCII[i-1] == 47 && this.ASCII[i] ==114 ) {
+
+            curry = this.sprites[count - 1].y + this.sprites[count - 1].height + this.t_Hspacing;         // se la stringa contiente un / azzera il contatore delle x e aggiorna quello delle y
+            currx = 0;
             this.sprites[count - 1].kill();
-            ycount += this.t_Hspacing;            // se la stringa contiente un / azzera il contatore delle x e aggiorna quello delle y
-            xcount = 0;
+           
         }
         else {
-            this.sprites[count] = gameInstance.phaserGame.add.sprite( xcount * this.t_Wspacing, ycount, gameInstance.phaserGame.cache.getBitmapData(this.ASCII[i]));
+            this.sprites[count] = gameInstance.phaserGame.add.sprite(currx, curry, gameInstance.phaserGame.cache.getBitmapData(this.ASCII[i]));
             this.sprites[count].tint = this.color;
-            xcount++; //aggiorna il contatore delle x
+            currx = this.sprites[count].x + this.sprites[count].width+this.t_Wspacing;
             count++;
         }
     }
+    this.alignChars();
     this.MergeText(count);
 
  }
@@ -101,4 +105,15 @@ LBText.prototype.MergeText = function (count) {  //trasforma l'insieme di sprite
 
     Phaser.Sprite.call(this, gameInstance.phaserGame, this.t_x, this.t_y, this.t_Texture);
     gameInstance.phaserGame.add.existing(this);
+}
+
+LBText.prototype.alignChars = function () {
+
+    var maxHeight = Math.max.apply(Math, this.sprites.map(function (o) { return o.height; }));
+
+    for (var i = 0; i < this.sprites.length; i++) {
+
+        this.sprites[i].y +=maxHeight- this.sprites[i].height;
+    }
+
 }

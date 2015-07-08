@@ -1,7 +1,6 @@
 ﻿LBButton = function (style, text, x, y, callback) {
 
-    if (callback == null) { callback = function () { };}
-
+    if (callback == null) { callback = function () { }; }
 
     this.b_style = style;
    
@@ -19,6 +18,8 @@
    
     this.b_text = new LBText(text.text_font, text.text, text.t_x, text.t_y, text.t_Wspacing, text.t_Hspacing, text.color);   // riistanzia il testo per farlo apparire sopra il bottone
     text.kill();                                                                                                 // da eliminare una volta gestito il Depth group                                                                                                                           
+
+   
 
     this.create();
 }
@@ -59,6 +60,7 @@ LBButton.prototype.textHandler = function () {
     }
 
     this.centerText(this.b_text);
+
 }
 
 
