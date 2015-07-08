@@ -31,10 +31,10 @@ GameState.prototype.create = function () {
     var gameFont = new LBFont('medium',false,false);
 
     //Aggiunge al game una stringa di prova,il /r fa andare a capo il testo
-    var gmText = new LBText(gameFont, 'Testo/rDi/rProva', 300, 100, 5, 15, 0x9966FF);
+    var gmText = new LBText(gameFont, 'Testo/rDi/rProva', 100, 100, 5, 15, 0xFFFFFF);
     var count = 0;
 
-    var btt = new LBButton('tree', gmText, 100, 100, function () { alert('clicked');});
+   var btt = new LBButton('tree', gmText, 100, 100, function () { alert('clicked');});
 
 }
 

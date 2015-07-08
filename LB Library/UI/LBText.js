@@ -9,6 +9,7 @@
     this.t_y = y;
     this.text_font = baseFont;
     this.ASCII = []; //contiene le singole lettere della stringa
+    this.realASCII = []; // contiene le lettere singole della stringa senza contare i caratteri speciali per andare a capo
     this.color = color;
 
     this.t_Texture;
@@ -46,9 +47,10 @@ LBText.prototype.textDrawer = function (txt) {
     var curry = 0;
 
     for (var i = 0; i < txt.length; i++) {
+
         if (this.ASCII[i-1] == 47 && this.ASCII[i] ==114 ) {
 
-            curry = this.sprites[count - 1].y + this.sprites[count - 1].height + this.t_Hspacing;         // se la stringa contiente un / azzera il contatore delle x e aggiorna quello delle y
+            curry = this.sprites[count - 1].y + this.sprites[count - 1].height + this.t_Hspacing;  // se la stringa contiente un / azzera il contatore delle x e aggiorna quello delle y
             currx = 0;
             this.sprites[count - 1].kill();
            
@@ -56,12 +58,14 @@ LBText.prototype.textDrawer = function (txt) {
         else {
             this.sprites[count] = gameInstance.phaserGame.add.sprite(currx, curry, gameInstance.phaserGame.cache.getBitmapData(this.ASCII[i]));
             this.sprites[count].tint = this.color;
+            this.realASCII[count] = this.ASCII[i];
+            this.sprites[count].anchor.setTo(0, 1);
             currx = this.sprites[count].x + this.sprites[count].width+this.t_Wspacing;
             count++;
         }
     }
-    this.alignChars();
-    this.MergeText(count);
+   this.alignChars();
+   this.MergeText(count);
 
  }
 
@@ -90,15 +94,14 @@ LBText.prototype.getMax = function () { // ricava la lettera con la coordinata x
 
 LBText.prototype.MergeText = function (count) {  //trasforma l'insieme di sprite delle lettere in un unico sprite che le comprende tutte
 
-
     var maxSprite = this.getMax();
 
-    this.t_Texture = gameInstance.phaserGame.add.renderTexture(maxSprite.x + maxSprite.width, this.sprites[count - 1].y + this.sprites[count - 1].height + 10);
+    this.t_Texture = gameInstance.phaserGame.add.renderTexture(maxSprite.x + maxSprite.width, this.sprites[count - 1].y + this.sprites[count - 1].height+this.t_Hspacing);
 
     this.t_Texture.clear();
 
     for (var i = 0; i < this.sprites.length; i++) {  
-
+        this.sprites[i].y += Math.max.apply(Math, this.sprites.map(function (o) { return o.height; }));
         this.t_Texture.render(this.sprites[i], this.sprites[i].position, false);
         this.sprites[i].kill();
     }
@@ -107,13 +110,15 @@ LBText.prototype.MergeText = function (count) {  //trasforma l'insieme di sprite
     gameInstance.phaserGame.add.existing(this);
 }
 
-LBText.prototype.alignChars = function () {
-
-    var maxHeight = Math.max.apply(Math, this.sprites.map(function (o) { return o.height; }));
+LBText.prototype.alignChars = function () { // gestisce l'allineamento delle lettere che vanno sotto la linea di fondo del testo
+    var minHeight = Math.min.apply(Math, this.sprites.map(function (o) { return o.height; }));
 
     for (var i = 0; i < this.sprites.length; i++) {
+        if (this.realASCII[i] == 103 || this.realASCII[i] == 106 ||
+        this.realASCII[i] == 112 || this.realASCII[i] == 113 || this.realASCII[i] == 121) {
 
-        this.sprites[i].y +=maxHeight- this.sprites[i].height;
+            this.sprites[i].y += this.sprites[i].height-minHeight;
+        }
     }
 
 }
