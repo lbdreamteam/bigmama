@@ -4,7 +4,7 @@
             eurecaInstance;
         return new LBServer(port, movementGridSize, spawnPoint, pHandlers, onInit, extraPackages);
     },
-    version: 'v0.0.0.0'
+    version: 'v0.0.3.2'
 }
 
 LBServer = function (port, movementGridSize, spawnPoint, pHandlers, onInit, extraPackages) {

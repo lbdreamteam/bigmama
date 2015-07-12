@@ -33,6 +33,14 @@ LBCLientsManager.prototype.start = function () {
     console.log(this.serverInstance.nodeSettings.modules['cli-color'].blue.bgWhite('LB csMan ' + module.exports.version));
 };
 
+LBCLientsManager.prototype.onSetup = function (id) {
+    var firstPos = { Tx: this.serverInstance.spawnPoint.sTx, Ty: this.serverInstance.spawnPoint.sTy };
+    this.posTable.nowPos[id] = firstPos;
+
+    this.callRemoteHandler(id, { event: 'createGame', params: { Tx: firstPos.Tx, Ty: firstPos.Ty, port: this.serverInstance.port } });
+    console.log(id + ' created game');
+};
+
 LBCLientsManager.prototype.onReady = function (id) {
     this.ids.joined.push(id);
     this.nowConnected.push(id);
@@ -44,14 +52,12 @@ LBCLientsManager.prototype.onReady = function (id) {
 LBCLientsManager.prototype.onConnect = function (conn) {
     console.log('Connected new client --ID ' + conn.id + ' --Origin ' + conn.remoteAddress.ip);
 
-    var remote = eurecaInstance.getClient(conn.id),
-        firstPos = {Tx: this.serverInstance.spawnPoint.sTx, Ty: this.serverInstance.spawnPoint.sTy};
+    var remote = eurecaInstance.getClient(conn.id);
 
     this.ids.online.push(conn.id);
     this.info[conn.id] = { remote: remote, connInfo: { id: conn.id, ip: conn.remoteAddress }, joined: false};
-    this.posTable.nowPos[conn.id] = firstPos;
 
-    this.callRemoteHandler(conn.id, { event: 'createGame', params: { id: conn.id, Tx: firstPos.Tx, Ty: firstPos.Ty, port: this.serverInstance.port } });
+    this.callRemoteHandler(conn.id, { event: 'onConnect', params: { id: conn.id, port: this.serverInstance.port } });
 };
 
 LBCLientsManager.prototype.onDisconnect = function (conn) {

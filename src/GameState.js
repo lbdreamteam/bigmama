@@ -27,17 +27,6 @@ GameState.prototype.preload = function () {
 
             //Aggiunge al game una stringa di prova,il / fa andare a capo il testo
             //var gmText = new LBText(gameFont, 'LB /rDEATH /rPIXEL', 300, 100, 60, 60, 0x9966FF);
-
-            for (var iColumn in gameInstance.mapMovementMatrix) {
-                labels[iColumn] = [];
-                for (var iRow in gameInstance.mapMovementMatrix[iColumn]) {
-                    labels[iColumn][iRow] = gameInstance.phaserGame.add.text(gameInstance.mapMovementMatrix[iColumn][iRow].G.x - (gameInstance.movementGridSize / 2), gameInstance.mapMovementMatrix[iColumn][iRow].G.y - (gameInstance.movementGridSize / 2), gameInstance.mapMovementMatrix[iColumn][iRow].weight.toString());
-                    //var temp = new LBText(gameFont, '1', gameInstance.mapMovementMatrix[iColumn][iRow].G.x - (gameInstance.movementGridSize / 2), gameInstance.mapMovementMatrix[iColumn][iRow].G.y - (gameInstance.movementGridSize / 2));
-                }
-            }
-
-            eurecaServer.clientHandler({ 'event': 'ready', 'params': { 'id': myId } });
-            console.log('Joining...');
         }
     );
 }
@@ -53,6 +42,16 @@ GameState.prototype.create = function () {
     fpsText.fixedToCamera = true;
     var testAI = new LBBaseAI(gameInstance, 8, 1, 'player');
 
+    //for (var iColumn in gameInstance.mapMovementMatrix) {
+    //    labels[iColumn] = [];
+    //    for (var iRow in gameInstance.mapMovementMatrix[iColumn]) {
+    //        labels[iColumn][iRow] = gameInstance.phaserGame.add.text(gameInstance.mapMovementMatrix[iColumn][iRow].G.x - (gameInstance.movementGridSize / 2), gameInstance.mapMovementMatrix[iColumn][iRow].G.y - (gameInstance.movementGridSize / 2), gameInstance.mapMovementMatrix[iColumn][iRow].weight.toString());
+    //        //var temp = new LBText(gameFont, '1', gameInstance.mapMovementMatrix[iColumn][iRow].G.x - (gameInstance.movementGridSize / 2), gameInstance.mapMovementMatrix[iColumn][iRow].G.y - (gameInstance.movementGridSize / 2));
+    //    }
+    //}
+
+    eurecaServer.clientHandler({ 'event': 'ready', 'params': { 'id': myId } });
+    console.log('Joining...');
 }
 
 var fpsText;

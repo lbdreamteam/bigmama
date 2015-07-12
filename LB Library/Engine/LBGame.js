@@ -66,7 +66,7 @@
 
     //Worker
     this.clientsList = {};
-    this.otherPlayersW = new LBOtherPlayerWorkerClass('LB Library/Engine/Connections/LBOtherPlayersWorker.js', null, null);
+    this.otherPlayersW = new LBOtherPlayersWorkerModule(null, null);
 
     //Griglia per lo spostamento
     this.mapMovementMatrix = this.createMovementMap(this.mapMovementH, this.mapMovementH0);
@@ -100,18 +100,18 @@ LBGame.prototype.createMovementMap = function (h, h0) {
 }
 
 LBGame.prototype.loadFonts = function (fonts, callback) {
-    console.log('--> LOADING FONTS <--');
+    console.log('%c--> LOADING FONTS <--', 'background: #99CDC9');
     callback = callback || null;
     var queue = fonts.slice();
     for (var iFont in fonts) {
         var currentFont = fonts[iFont];
         gameInstance.phaserGame.load.image(currentFont[0], currentFont[1]);
-        console.log('++ Enqueued ' + currentFont[0]);
+        console.log('%c++', 'color: #FF030D', 'Enqueued ' + currentFont[0]);
         gameInstance.phaserGame.load.onLoadComplete.add(function () {
-            console.log('-- Completed loading font ' + queue[0][0]);
+            console.log('%c--', 'color: #7FFF00	', 'Completed loading font ' + queue[0][0]);
             queue.splice(0, 1);
             if (queue.length == 0) {
-                console.log('--> FINISHED LOADING FONTS <--');
+                console.log('%c --> FINISHED LOADING FONTS <--', 'background: #99CDC9');
                 gameInstance.phaserGame.load.onLoadComplete.removeAll();
                 if (!callback) return true;
                 callback();

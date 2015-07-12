@@ -2,7 +2,7 @@
     create : function(serverInstance, pHandlers) {
         return new LBServerPrivateHandlersModule(serverInstance, pHandlers);
     },
-    version : 'v0.0.0.0'
+    version : 'v0.0.0.2'
 }
 
 LBServerPrivateHandlersModule = function (serverInstance, pHandlers) {

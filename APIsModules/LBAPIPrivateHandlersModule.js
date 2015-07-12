@@ -2,12 +2,12 @@
     create : function() {
         return new LBPrivateHandlersModule();
     },
-    version: 'v0.0.1.3'
+    version: 'v0.0.2.2'
 }
 
 LBPrivateHandlersModule = function () {
+    //PROPS
     this.modules = {};
-
     this.params = {};
     this.phs = {};
     this.actions = {};

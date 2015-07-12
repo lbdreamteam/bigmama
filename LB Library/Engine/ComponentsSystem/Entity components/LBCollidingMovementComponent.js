@@ -18,7 +18,8 @@
     this.h = h;
     this.deltaT;
 
-
+    //TODO: aggiungere listenere allo startMoving per far occupare 
+    //tutte le tile all'oggetto in movimento
     this.sendDelegate('endMoving', function (params) {
         this.translateOfVector(params['direction']);
     }.bind(this));

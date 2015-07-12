@@ -4,6 +4,14 @@ require('./LBServerModule.js').create(
     null,
     [
         {
+            'event': 'setup',
+            'params': ['id'],
+            'function': function (params, serverInstance) {
+                console.log(params.id + ' is ready to create game');
+                serverInstance.clients.onSetup(params.id);
+            }
+        },
+        {
             'event': 'ready',
             'params': ['id'],
             'function': function (params, serverInstance) {
