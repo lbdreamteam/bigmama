@@ -18,7 +18,7 @@ var onInit = function (params) {
     movementGridSize = params.movementGridSize;
     self.postMessage({
         event: 'onInit',
-        message: 'Worker Initialized: ', params
+        message: 'Worker Initialized: ' + params
     });
 };
 
@@ -94,11 +94,11 @@ var onRequestPosition = function (id) {
     if (positions[id].isPending) {
         var newPosCounter = positions[id].lastPosition.id + 1;
         self.postMessage({
-            event: 'pushPosition',
+            event: 'onPushPosition',
             params: {
                 client: id, pointer: { x: positions[id].pendingPositions[newPosCounter].x, y: positions[id].pendingPositions[newPosCounter].y },
             },
-            message: '->EXTRACTED FROM PENDINGS<- --New last positions: id: ' + newPosCounter + '; x: ' + positions[id].newPosCounter.x + '; y: ' + positions[id].newPosCounter.y
+            message: '->EXTRACTED FROM PENDINGS<- --New last positions: id: ' + newPosCounter + '; x: ' + positions[id].pendingPositions[newPosCounter].x + '; y: ' + positions[id].pendingPositions[newPosCounter].y
         });
         positions[id].lastPosition.id++;
         positions[id].lastPosition.x = positions[id].pendingPositions[positions[id].lastPosition.id].x;

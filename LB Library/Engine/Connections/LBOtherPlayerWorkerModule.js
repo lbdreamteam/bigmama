@@ -7,21 +7,9 @@
 
     //Definizione degli handler dei messaggi
     if (typeof handlers === 'undefined' || !handlers) this.handlers = {
-        'onPushPositions': function (params) {
-            if (!params.client || !params.pointer) return console.log('ERROR at onPushPosition: params are not set correctly.')
-            gameInstance.clientsList[params.client].cMovement.move(
-                { x: params.pointer.x, y: params.pointer.y },
-                175,
-                function (_agent, input) {
-                    gameInstance.otherPlayersW.worker.postMessage({ event: 'startMoving', params: params.client });
-                },
-                function (_agent) {
-                    console.log('WorkerModule:  New currentTile for ' + params.client + ' --Values: ' + params.pointer.x + ';' + params.pointer.y + ' --Pixels: ' + gameInstance.clientsList[params.client].x + ';' + gameInstance.clientsList[params.client].y);
-                    gameInstance.otherPlayersW.worker.postMessage({ event: 'requestPosition', params: params.client });
-                },
-                null,
-                Phaser.Easing.Linear.None,
-                false);
+        'onPushPosition': function (params) {
+            if (!params.client || !params.pointer) return console.log('ERROR at onPushPosition: params are not set correctly.');
+            gameInstance.clientsList[params.client].cServerDrivenMovement.onPushPosition(params);
         },
         'onInit': function (params) {
             eurecaServer.clientHandler({ event: 'setup', params: { id: myId } });

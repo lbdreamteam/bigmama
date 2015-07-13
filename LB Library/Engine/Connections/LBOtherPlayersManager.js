@@ -23,7 +23,7 @@
                 console.log(posTable);
                 gameInstance.clientsList[client] = new LBOtherPlayer(gameInstance, posTable.oldPos[client].Tx, posTable.oldPos[client].Ty, 'player', client);
                 console.log('Manager Said: --ONSPAWN --New OtherPlayer --Spawn: ' + posTable.oldPos[client].Tx + ';' + posTable.oldPos[client].Ty + ' --NowPos: ' + posTable.nowPos[client].Tx + ';' + posTable.nowPos[client].Ty);
-                gameInstance.otherPlayersW.worker.postMessage({ event: 'connect', params: { id: client, oldPos: { x: posTable.oldPos[client].Tx, y: posTable.oldPos[client].Ty }, nowPos: { x: posTable.nowPos[client].Tx, y: posTable.nowPos[client].Ty } } });
+                gameInstance.otherPlayersW.worker.postMessage({ event: 'connect', params: { id: client, oldPos: { Tx: posTable.oldPos[client].Tx, Ty: posTable.oldPos[client].Ty }, nowPos: { Tx: posTable.nowPos[client].Tx, Ty: posTable.nowPos[client].Ty } } });
             }
         }
     };

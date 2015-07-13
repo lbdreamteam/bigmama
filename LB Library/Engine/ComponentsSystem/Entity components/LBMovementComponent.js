@@ -73,10 +73,8 @@ LBMovementComponent.prototype.move = function (target, duration, onStartFunction
     //    tween.start();
     //}
 
-    console.log(this.agent, target);
-
     var component = this;
-    if (typeof (target.x) === 'undefined' || typeof (target.y) === 'undefined') return console.log('target is null')
+    if (typeof (target.x) === 'undefined' || typeof (target.y) === 'undefined') return console.log('target is null for ' + this.agent)
     else var pixelTarget = gameInstance.mapMovementMatrix[target.x][target.y].G;
     
     //Definizione parametri opzionali

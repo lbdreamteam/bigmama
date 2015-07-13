@@ -40,15 +40,15 @@ GameState.prototype.create = function () {
 
     fpsText = gameInstance.phaserGame.add.text(10, 10, 'FPS: ' + gameInstance.phaserGame.time.fps);
     fpsText.fixedToCamera = true;
-    var testAI = new LBBaseAI(gameInstance, 8, 1, 'player');
+    //var testAI = new LBBaseAI(gameInstance, 8, 1, 'player');
 
-    //for (var iColumn in gameInstance.mapMovementMatrix) {
-    //    labels[iColumn] = [];
-    //    for (var iRow in gameInstance.mapMovementMatrix[iColumn]) {
-    //        labels[iColumn][iRow] = gameInstance.phaserGame.add.text(gameInstance.mapMovementMatrix[iColumn][iRow].G.x - (gameInstance.movementGridSize / 2), gameInstance.mapMovementMatrix[iColumn][iRow].G.y - (gameInstance.movementGridSize / 2), gameInstance.mapMovementMatrix[iColumn][iRow].weight.toString());
-    //        //var temp = new LBText(gameFont, '1', gameInstance.mapMovementMatrix[iColumn][iRow].G.x - (gameInstance.movementGridSize / 2), gameInstance.mapMovementMatrix[iColumn][iRow].G.y - (gameInstance.movementGridSize / 2));
-    //    }
-    //}
+    for (var iColumn in gameInstance.mapMovementMatrix) {
+        labels[iColumn] = [];
+        for (var iRow in gameInstance.mapMovementMatrix[iColumn]) {
+            labels[iColumn][iRow] = gameInstance.phaserGame.add.text(gameInstance.mapMovementMatrix[iColumn][iRow].G.x - (gameInstance.movementGridSize / 2), gameInstance.mapMovementMatrix[iColumn][iRow].G.y - (gameInstance.movementGridSize / 2), gameInstance.mapMovementMatrix[iColumn][iRow].weight.toString());
+            //var temp = new LBText(gameFont, '1', gameInstance.mapMovementMatrix[iColumn][iRow].G.x - (gameInstance.movementGridSize / 2), gameInstance.mapMovementMatrix[iColumn][iRow].G.y - (gameInstance.movementGridSize / 2));
+        }
+    }
 
     eurecaServer.clientHandler({ 'event': 'ready', 'params': { 'id': myId } });
     console.log('Joining...');

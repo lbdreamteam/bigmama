@@ -6,6 +6,7 @@
     //Componenti
     if(gameInstance.overlap) this.cOverlap = new LBOverlapComponent(this);
     this.cMovement = new LBMovementComponent(this);
+    this.cServerDrivenMovement = new LBServerDrivenMovementComponent(this);
     this.cSnapping = new LBSnappingComponent(this);
     this.cCollidingMovement = new LBCollidingMovementComponent(this);
 }
