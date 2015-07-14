@@ -4,10 +4,15 @@ LBKeyboardInputComponent = function (agent) {
     this.targetPoint = { x: agent.x, y: agent.y };
     this.inputString = null;
     this.increment = { x: 0, y: 0 };
+    this.cursors = gameInstance.phaserGame.input.keyboard.createCursorKeys();
+
+    if (!this.componentsManager.Components[LBLibrary.ComponentsTypes.Movement])
+        this.agent.cMovement = new LBMovementComponent(this.agent);
+    this.cMovement = this.componentsManager.Components[LBLibrary.ComponentsTypes.Movement];
 
     this.isGridEnabled = gameInstance.mapMovementMatrix ? true : false;
     this.createParameters( { direction: this.increment } );
-    //this.sendUpdate(function() { console.log('KeyboardInput Component'); }, [], ['direction']);
+    this.sendUpdate( this.update.bind(this), [], ['direction']);
 }
 
 LBKeyboardInputComponent.prototype = Object.create(LBBaseComponent.prototype);
@@ -118,4 +123,28 @@ LBKeyboardInputComponent.prototype.switchFunction = function(input) {
     else if (this.isGridEnabled && !gameInstance.mapMovementMatrix[this.agent.currentTile.y + increment.y][this.agent.currentTile.x + increment.x]) increment = { x: 0, y: 0 };
     //console.log(increment);
     return increment;
+}
+
+LBKeyboardInputComponent.prototype.update = function () {
+    if (!this.componentsManager.Parameters['isMoving']) {
+        if (this.detectInput(this.cursors) != 'null' && (this.increment.x != 0 || this.increment.y != 0)) {
+            this.cMovement.move(
+                this.targetPoint,
+                175,
+                function (context, increment) {
+                    if (context.calls.counter >= 2500) context.calls.counter = 0;
+                    context.calls.counter++;
+                    context.calls.calls.setItem(context.calls.counter, { id: context.calls.counter, input: context.cKeyboardInput.inputString });
+
+                    eurecaServer.clientHandler({ event: 'sendInput', params: { increment: increment, clientId: myId, callId: context.calls.counter } });
+                    if (gameInstance.overlap) context.cOverlap.findCollidableObject(context.increment);
+                },
+                function (context) {
+                    if (gameInstance.overlap && context.cOverlap) context.cOverlap.checkOverlap(true);
+                },
+                this.increment,
+                Phaser.Easing.Linear.None
+           );
+        };
+    }
 }

@@ -12,10 +12,11 @@ LBBaseAI.prototype.constructor = LBBaseAI;
 LBBaseAI.prototype.update = function () {
 
     //Qualche volta vi è un errore con le y (sovrapposizione)
+    //TODO: fare in modo che ricalcoli il percorso una volta arrivato ad una certa percentuale di quello vecchio
 
+    this.createIter();
     if (this.path.length > 0) {
         if (!this.cMovement.isMoving) {
-            this.createIter();
             console.log(this.currentTile);
             console.log(gameInstance.clientsList[myId].currentTile);
             console.log('PATH: ');
@@ -30,7 +31,6 @@ LBBaseAI.prototype.update = function () {
             );
         }
     }
-    else this.createIter();
 }
 
 //Probabilmente da convertire in componente

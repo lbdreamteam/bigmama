@@ -2,7 +2,7 @@
     LBBaseComponent.call(this, agent, LBLibrary.ComponentsTypes.Overlap);
 
     this.collidableObject = [];
-    //devo fargli arrivare la direzione
+
     this.sendDelegate('startMoving', this.findCollidableObject.bind(this));
     this.sendDelegate('endMoving', this.lastCheck.bind(this));
     this.sendUpdate(this.update.bind(this), ['isMoving'], []);

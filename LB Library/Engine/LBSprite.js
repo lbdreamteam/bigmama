@@ -18,3 +18,7 @@
 
 LBSprite.prototype = Object.create(Phaser.Sprite.prototype);
 LBSprite.prototype.constructor = LBSprite;
+
+LBSprite.prototype.update = function () {
+    this.componentsManager.update();
+}

@@ -3,15 +3,14 @@
 
     //Props
     this.calls = { counter: 0, calls: new LBHashTable() }; //--> DA RIVEDERE TUTTA LA RECONCILIATION <--
-    this.cursors = gameInstance.phaserGame.input.keyboard.createCursorKeys(); // --> CERCARE DI INSERIRE NEL COMPONENTE <--
     //Controllo dello ZDepth
     this.zDepth = 0.6;
     //Componenti
-    this.cKeyboardInput = new LBKeyboardInputComponent(this);
     this.cSnapping = new LBSnappingComponent(this);
     this.cCollidingMovement = new LBCollidingMovementComponent(this);
     if (gameInstance.overlap) this.cOverlap = new LBOverlapComponent(this);
     this.cMovement = new LBMovementComponent(this);
+    this.cKeyboardInput = new LBKeyboardInputComponent(this);
     this.cShooting = new LBShootingComponent(this);
     this.weapon = new LBWeapon('gun', 5, 12, 150, 150, 10, 'tree');
 }
@@ -20,31 +19,11 @@ LBPlayer.prototype = Object.create(LBSprite.prototype);
 LBPlayer.prototype.constructor = LBPlayer;
 
 LBPlayer.prototype.update = function () {
+    //da mettere sull'update dello shootingComponent
     if (gameInstance.phaserGame.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && this.weapon !== undefined) {
         this.cShooting.shoot();
     }
 
-    if (!this.cMovement.isMoving) {
-        if (this.cKeyboardInput.detectInput(this.cursors) != 'null' && (this.cKeyboardInput.increment.x != 0 || this.cKeyboardInput.increment.y != 0)) {
-            this.cMovement.move(
-                this.cKeyboardInput.targetPoint,
-                175,
-                function (context, increment) {
-                    if (context.calls.counter >= 2500) context.calls.counter = 0;
-                    context.calls.counter++;
-                    context.calls.calls.setItem(context.calls.counter, { id: context.calls.counter, input: context.cKeyboardInput.inputString });
-
-                    eurecaServer.clientHandler({ event: 'sendInput', params: { increment: increment, clientId: myId, callId: context.calls.counter } });
-                    if (gameInstance.overlap) context.cOverlap.findCollidableObject(context.cKeyboardInput.increment);
-                },
-                function (context) {
-                    if (gameInstance.overlap) context.cOverlap.checkOverlap(true);
-                },
-                this.cKeyboardInput.increment,
-                Phaser.Easing.Linear.None
-           );
-        };
-    }
     this.componentsManager.update();
 }
 

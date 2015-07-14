@@ -22,6 +22,7 @@ LBBaseComponent.prototype.createSignal = function (signalName) {
     this.componentsManager.addSignal(signal);
 }
 
+//aggiunge uno o più parametri al manager. Da passare come oggetto { 'nome parametro': valore del parametro, ...}
 LBBaseComponent.prototype.createParameters = function (parameters) {
     //console.log('Adding parameters...');
     this.componentsManager.addParameters(parameters);
