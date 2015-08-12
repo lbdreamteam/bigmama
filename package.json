@@ -1,13 +1,19 @@
 {
-  "name": "Prova",
+  "name": "LBLibrary",
   "version": "0.0.1",
   "private": true,
+  "description": "LB Library",
   "scripts": {
     "start": "node app"
   },
+  "repository": {
+    "type": "git"
+  },
   "dependencies": {
-    "express": "*",
-    "engine.io": "*",
-    "eureca.io": "*"
-  }
+    "cli-color": "^1.0.0",
+    "engine.io": "^1.5.2",
+    "eureca.io": "^0.6.41",
+    "express": "^4.13.3"
+  },
+  "preferGlobal": "true"
 }
